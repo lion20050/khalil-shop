@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<!-- saved from url=(0187)file:///C:/Users/ala20/Downloads/%D9%85%D8%AD%D9%84%D8%A7%D8%AA_%D8%AE%D9%84%D9%8A%D9%84_%D9%84%D9%84%D8%AA%D8%AF%D9%81%D8%A6%D8%A9_%D9%88%D8%A7%D9%84%D8%AA%D8%B1%D8%B5%D9%8A%D8%B5_5.html -->
+<html lang="ar" dir="rtl"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>محلات خليل للتدفئة والترصيص</title>
+<style>
+  :root{
+    --bg:#0f1714;
+    --panel:#16201c;
+    --panel2:#1c2823;
+    --line:#2a3a33;
+    --steel:#7fb3a3;
+    --steel-dim:#3f5a51;
+    --amber:#e2a23b;
+    --amber-dim:#7a5a26;
+    --paid:#3fa56b;
+    --paid-bg:#16271d;
+    --text:#eef3ef;
+    --text-dim:#9ab3a8;
+    --danger:#d9614f;
+    --mono: 'Courier New', monospace;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:'Segoe UI','Tahoma',sans-serif;height:100%;}
+  body{display:flex;flex-direction:column;height:100vh;overflow:hidden;}
+
+  header{
+    padding:12px 14px 8px;
+    background:linear-gradient(180deg,var(--panel2),var(--panel));
+    border-bottom:1px solid var(--line);
+    flex-shrink:0;
+  }
+  .brand{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px;}
+  .brand h1{font-size:14.5px;margin:0;font-weight:700;display:flex;align-items:flex-start;gap:6px;line-height:1.4;}
+  .brand h1 .tag{width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber);margin-top:5px;flex-shrink:0;}
+  .reset-btn{flex-shrink:0;background:transparent;border:1px solid var(--line);color:var(--text-dim);padding:5px 9px;border-radius:7px;font-size:11px;cursor:pointer;}
+
+  .stats{display:flex;gap:6px;margin-bottom:8px;}
+  .stat{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:6px 8px;text-align:center;}
+  .stat .n{font-size:16px;font-weight:700;font-family:var(--mono);line-height:1.1;}
+  .stat .l{font-size:10px;color:var(--text-dim);margin-top:1px;}
+  .stat.paid .n{color:var(--paid);}
+  .stat.left .n{color:var(--amber);}
+
+  .search-wrap{position:relative;margin-bottom:8px;}
+  #search{width:100%;padding:10px 36px 10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:14px;outline:none;}
+  #search:focus{border-color:var(--steel);}
+  .search-wrap::before{content:"⌕";position:absolute;right:12px;top:50%;transform:translateY(-50%) scaleX(-1);color:var(--text-dim);font-size:15px;pointer-events:none;}
+
+  .chiprow{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch;}
+  .chiprow::-webkit-scrollbar{display:none;}
+  .chip{flex-shrink:0;padding:7px 12px;border-radius:20px;font-size:12.5px;background:transparent;border:1px solid var(--line);color:var(--text-dim);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+  .chip.active{background:var(--steel-dim);color:var(--text);border-color:var(--steel);}
+  .chip .cnt{font-family:var(--mono);font-size:10.5px;opacity:.75;}
+
+  .filterbar{display:flex;gap:6px;margin-top:6px;}
+  .filterbar select{
+    flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--text);
+    padding:7px 8px;border-radius:8px;font-size:12.5px;outline:none;
+  }
+
+  main{flex:1;overflow-y:auto;padding:8px 12px 90px;}
+  .empty-hint{text-align:center;color:var(--text-dim);font-size:13px;margin-top:40px;line-height:1.8;}
+  .empty-hint b{color:var(--text);}
+
+  .row{display:flex;align-items:center;gap:10px;padding:11px 12px;margin-bottom:7px;border-radius:10px;background:var(--panel);border:1px solid var(--line);cursor:pointer;user-select:none;transition:transform .08s;}
+  .row:active{transform:scale(0.985);}
+  .row.is-paid{background:var(--paid-bg);border-color:var(--paid);}
+  .row .check{width:22px;height:22px;border-radius:50%;border:2px solid var(--steel-dim);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:transparent;}
+  .row.is-paid .check{background:var(--paid);border-color:var(--paid);color:#0f1714;}
+  .row .info{flex:1;min-width:0;}
+  .row .ref{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);}
+  .row .name{font-size:13.5px;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .row .catbadge{font-size:9.5px;color:var(--steel);margin-top:2px;}
+  .row .price{font-family:var(--mono);font-size:13px;color:var(--amber);white-space:nowrap;}
+  .row.is-paid .price{color:var(--paid);}
+
+  .more-hint{text-align:center;color:var(--text-dim);font-size:12px;padding:10px;}
+
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;z-index:50;opacity:0;pointer-events:none;transition:opacity .15s;}
+  .overlay.show{opacity:1;pointer-events:auto;}
+  .alert-card{background:var(--panel2);border:1px solid var(--danger);border-radius:14px;padding:20px;width:84%;max-width:340px;text-align:center;box-shadow:0 0 30px rgba(217,97,79,.25);}
+  .alert-card .icon{font-size:34px;margin-bottom:6px;}
+  .alert-card h2{margin:0 0 6px;font-size:17px;color:var(--danger);}
+  .alert-card p{margin:0 0 4px;font-size:14px;color:var(--text);}
+  .alert-card .sub{color:var(--text-dim);font-size:12px;margin-bottom:14px;}
+  .alert-actions{display:flex;gap:8px;}
+  .alert-actions button{flex:1;padding:10px;border-radius:9px;border:none;font-size:13px;cursor:pointer;}
+  .btn-ok{background:var(--steel-dim);color:var(--text);}
+  .btn-undo{background:var(--danger);color:#fff;}
+
+  .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--paid);color:#0f1714;padding:9px 18px;border-radius:30px;font-size:13px;font-weight:600;opacity:0;transition:all .25s;z-index:40;white-space:nowrap;}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:60;opacity:0;pointer-events:none;transition:opacity .15s;}
+  .confirm-overlay.show{opacity:1;pointer-events:auto;}
+  .confirm-card{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:20px;width:84%;max-width:340px;text-align:center;}
+  .confirm-card p{font-size:14px;margin:0 0 14px;}
+  .confirm-actions{display:flex;gap:8px;}
+  .confirm-actions button{flex:1;padding:10px;border-radius:9px;border:none;font-size:13px;cursor:pointer;}
+  .btn-cancel{background:var(--steel-dim);color:var(--text);}
+  .btn-danger{background:var(--danger);color:#fff;}
+
+  .install-banner{
+    display:none;align-items:center;gap:8px;background:var(--amber-dim);color:var(--text);
+    font-size:11.5px;padding:7px 10px;border-radius:8px;margin-top:8px;
+  }
+  .install-banner.show{display:flex;}
+  .install-banner button{margin-right:auto;background:var(--amber);color:#231505;border:none;border-radius:6px;padding:5px 10px;font-size:11px;cursor:pointer;flex-shrink:0;}
+
+  /* ---------- login screen ---------- */
+  #loginScreen{
+    position:fixed;inset:0;background:radial-gradient(circle at 50% 20%, #1c2823, var(--bg) 70%);
+    display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;
+  }
+  #loginScreen.hidden{display:none;}
+  .login-card{width:100%;max-width:330px;text-align:center;}
+  .login-card .tag-big{width:10px;height:10px;border-radius:50%;background:var(--amber);box-shadow:0 0 14px var(--amber);margin:0 auto 14px;}
+  .login-card h1{font-size:17px;margin:0 0 4px;font-weight:700;}
+  .login-card .sub{color:var(--text-dim);font-size:12.5px;margin-bottom:26px;}
+  .login-card label{display:block;text-align:right;font-size:12px;color:var(--text-dim);margin-bottom:6px;}
+  .login-card input{
+    width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);font-size:15px;outline:none;margin-bottom:14px;
+    text-align:right;font-family:inherit;
+  }
+  .login-card input:focus{border-color:var(--steel);}
+  .login-card input#loginPass{font-family:var(--mono);letter-spacing:3px;text-align:center;}
+  .login-card button{
+    width:100%;padding:13px;border-radius:10px;border:none;background:var(--steel);
+    color:#0f1714;font-size:14.5px;font-weight:700;cursor:pointer;margin-top:4px;
+  }
+  .login-card button:active{transform:scale(0.98);}
+  .login-err{color:var(--danger);font-size:12px;margin-top:10px;min-height:16px;}
+  .login-foot{color:var(--text-dim);font-size:10.5px;margin-top:26px;opacity:.7;}
+
+  /* ---------- top tabs ---------- */
+  .tabbar{display:flex;gap:6px;margin-top:8px;}
+  .tabbtn{
+    flex:1;text-align:center;padding:9px 6px;border-radius:9px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text-dim);font-size:12.5px;cursor:pointer;font-weight:600;
+  }
+  .tabbtn.active{background:var(--steel-dim);color:var(--text);border-color:var(--steel);}
+  .who-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:8px;}
+  .who-badge{
+    display:flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);
+    border-radius:8px;padding:6px 10px;font-size:11px;color:var(--text-dim);flex-shrink:0;
+  }
+  .who-badge b{color:var(--steel);}
+  .logout-link{background:none;border:none;color:var(--text-dim);font-size:11px;cursor:pointer;text-decoration:underline;flex-shrink:0;}
+
+  /* ---------- invoice tab ---------- */
+  #invoiceView{display:none;flex:1;overflow-y:auto;padding:10px 12px 90px;}
+  #invoiceView.show{display:block;}
+  #mainListWrap.hidden{display:none;}
+  .inv-search-wrap{position:relative;margin-bottom:10px;}
+  .inv-search-wrap input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font-size:14px;outline:none;}
+  .inv-results{max-height:200px;overflow-y:auto;border:1px solid var(--line);border-radius:10px;margin-bottom:12px;background:var(--panel);}
+  .inv-result-row{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:13px;}
+  .inv-result-row:last-child{border-bottom:none;}
+  .inv-result-row:active{background:var(--panel2);}
+  .inv-result-row .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .inv-result-row .pr{color:var(--amber);font-family:var(--mono);font-size:12px;flex-shrink:0;margin-right:8px;}
+  .inv-empty{color:var(--text-dim);font-size:12px;text-align:center;padding:14px;}
+
+  .cart-section h3{font-size:12.5px;color:var(--text-dim);margin:14px 0 8px;font-weight:600;}
+  .cart-row{display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:9px 10px;margin-bottom:6px;}
+  .cart-row .cnm{flex:1;min-width:0;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cart-row .cqty{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+  .cart-row .cqty button{width:24px;height:24px;border-radius:6px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+  .cart-row .cqty span{font-family:var(--mono);font-size:13px;min-width:22px;text-align:center;}
+  .cart-row .csub{font-family:var(--mono);font-size:12.5px;color:var(--amber);min-width:62px;text-align:left;flex-shrink:0;}
+  .cart-row .crm{background:none;border:none;color:var(--danger);font-size:16px;cursor:pointer;flex-shrink:0;padding:0 2px;}
+  .cart-empty{color:var(--text-dim);font-size:12.5px;text-align:center;padding:18px;border:1px dashed var(--line);border-radius:10px;}
+
+  .inv-client{margin-top:14px;}
+  .inv-client input{width:100%;padding:10px 12px;border-radius:9px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:13.5px;outline:none;text-align:right;margin-bottom:8px;}
+  .inv-total{display:flex;justify-content:space-between;align-items:center;background:var(--paid-bg);border:1px solid var(--paid);border-radius:10px;padding:13px 14px;margin-top:14px;}
+  .inv-total .lbl{font-size:13px;color:var(--text-dim);}
+  .inv-total .amt{font-family:var(--mono);font-size:19px;color:var(--paid);font-weight:700;}
+
+  .inv-actions{display:flex;gap:8px;margin-top:14px;}
+  .inv-actions button{flex:1;padding:12px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;}
+  .btn-generate{background:var(--steel);color:#0f1714;}
+  .btn-clear{background:transparent;border:1px solid var(--line);color:var(--text-dim);}
+
+  /* ---------- invoice preview overlay ---------- */
+  .inv-preview-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:70;opacity:0;pointer-events:none;transition:opacity .15s;padding:16px;}
+  .inv-preview-overlay.show{opacity:1;pointer-events:auto;}
+  .inv-preview-card{background:#fdfcf8;color:#1a1a1a;border-radius:12px;padding:0;width:100%;max-width:380px;max-height:88vh;overflow-y:auto;}
+  .inv-doc{padding:22px 20px;}
+  .inv-doc-head{text-align:center;border-bottom:2px solid #1a1a1a;padding-bottom:12px;margin-bottom:14px;}
+  .inv-doc-head h2{margin:0 0 4px;font-size:16px;}
+  .inv-doc-head .d{font-size:11px;color:#555;}
+  .inv-doc-meta{display:flex;justify-content:space-between;font-size:11.5px;color:#333;margin-bottom:12px;}
+  .inv-doc table{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:12px;}
+  .inv-doc th{text-align:right;border-bottom:1.5px solid #1a1a1a;padding:5px 3px;font-size:11px;}
+  .inv-doc td{border-bottom:1px solid #ddd;padding:6px 3px;text-align:right;}
+  .inv-doc td.num{font-family:'Courier New',monospace;text-align:left;}
+  .inv-doc-total{display:flex;justify-content:space-between;border-top:2px solid #1a1a1a;padding-top:10px;font-size:15px;font-weight:700;}
+  .inv-doc-foot{text-align:center;font-size:10px;color:#888;margin-top:16px;}
+  .inv-preview-actions{display:flex;gap:8px;padding:14px 20px;border-top:1px solid #e5e2d8;}
+  .inv-preview-actions button{flex:1;padding:11px;border-radius:9px;border:none;font-size:13px;font-weight:600;cursor:pointer;color:#fff;}
+  .btn-whatsapp{background:#25D366;}
+  .btn-telegram{background:#229ED9;}
+  .inv-preview-print{display:block;width:calc(100% - 40px);margin:0 20px 10px;padding:10px;border-radius:9px;border:1px solid #1a1a1a;background:#1a1a1a;color:#fff;font-size:13px;font-weight:600;cursor:pointer;}
+  .inv-preview-close{display:block;width:calc(100% - 40px);margin:0 20px 14px;padding:10px;border-radius:9px;border:1px solid #ddd;background:none;color:#555;font-size:12.5px;cursor:pointer;}
+
+  /* ---------- print ---------- */
+  @media print{
+    body *{ visibility:hidden; }
+    #invDocContent, #invDocContent *{ visibility:visible; }
+    #invDocContent{
+      position:absolute; top:0; right:0; left:0; width:100%;
+      padding:0; margin:0;
+    }
+    .inv-doc-head h2{ font-size:20px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="tag-big"></div>
+    <h1>محلات خليل للتدفئة والترصيص</h1>
+    <div class="sub">دخول مخصص للعمال</div>
+    <label for="loginName">اسمك</label>
+    <input id="loginName" type="text" placeholder="مثال: خليل" autocomplete="off">
+    <label for="loginPass">كلمة السر</label>
+    <input id="loginPass" type="password" inputmode="numeric" placeholder="••••" autocomplete="off" maxlength="10">
+    <button id="loginBtn">دخول</button>
+    <div class="login-err" id="loginErr"></div>
+    <div class="login-foot">البيانات محفوظة ومشتركة بين كل العمال</div>
+  </div>
+</div>
+
+<header>
+  <div class="brand">
+    <h1><span class="tag"></span> محلات خليل للتدفئة والترصيص</h1>
+    <button class="reset-btn" id="resetBtn">تصفير اليوم</button>
+  </div>
+  <div class="who-row">
+    <div class="who-badge">👤 <b id="whoName"></b></div>
+    <button class="logout-link" id="logoutBtn">خروج</button>
+  </div>
+  <div class="tabbar">
+    <button class="tabbtn active" id="tabStock">📦 تخليص السلع</button>
+    <button class="tabbtn" id="tabInvoice">📋 طلبية كوموند</button>
+  </div>
+  <div id="stockHeaderExtra">
+    <div class="stats">
+      <div class="stat total"><div class="n" id="statTotal">0</div><div class="l">المجموع</div></div>
+      <div class="stat paid"><div class="n" id="statPaid">0</div><div class="l">خلاصت</div></div>
+      <div class="stat left"><div class="n" id="statLeft">0</div><div class="l">ماخلاصتش</div></div>
+    </div>
+    <div class="search-wrap">
+      <input id="search" type="text" placeholder="بحث بالاسم أو المرجع..." autocomplete="off">
+    </div>
+    <div class="chiprow" id="catChips"></div>
+    <div class="filterbar">
+      <select id="priceFilter">
+        <option value="all">السعر: الكل</option>
+        <option value="0">رخيص (أقل من 500)</option>
+        <option value="1">متوسط (500 - 2000)</option>
+        <option value="2">غالي (2000 - 8000)</option>
+        <option value="3">مرتفع (+8000)</option>
+      </select>
+      <select id="statusFilter">
+        <option value="all">الحالة: الكل</option>
+        <option value="unpaid">ماخلاصتش</option>
+        <option value="paid">خلاصت</option>
+      </select>
+    </div>
+  </div>
+  <div class="install-banner" id="installBanner">
+    📲 ثبّت التطبيق على شاشتك الرئيسية لإستعماله كأيقونة عادية
+    <button id="installBtn">تثبيت</button>
+  </div>
+</header>
+
+<main id="list"></main>
+
+<div id="invoiceView">
+  <div class="inv-search-wrap">
+    <input id="invSearch" type="text" placeholder="بحث عن سلعة لإضافتها لطلبية الكوموند..." autocomplete="off">
+  </div>
+  <div class="inv-results" id="invResults"><div class="inv-empty">دقق إسم أو مرجع السلعة...</div></div>
+
+  <div class="cart-section">
+    <h3>السلع المطلوبة <span id="cartCount"></span></h3>
+    <div id="cartList"><div class="cart-empty">لم تختار أي سلعة بعد</div></div>
+  </div>
+
+  <div class="inv-client">
+    <input id="orderNote" type="text" placeholder="ملاحظة على الطلبية (اختياري)" autocomplete="off">
+  </div>
+
+  <div class="inv-actions">
+    <button class="btn-clear" id="cartClearBtn">تفريغ</button>
+    <button class="btn-generate" id="genInvoiceBtn">إنشاء الطلبية</button>
+  </div>
+</div>
+
+<div class="overlay" id="alertOverlay">
+  <div class="alert-card">
+    <div class="icon">⚠️</div>
+    <h2>راهي خلاصت !</h2>
+    <p id="alertName"></p>
+    <div class="sub" id="alertSub">هذه السلعة مسجلة كمخلصة من قبل</div>
+    <div class="alert-actions">
+      <button class="btn-ok" id="alertOk">حسنا</button>
+      <button class="btn-undo" id="alertUndo">إلغاء التخليص</button>
+    </div>
+  </div>
+</div>
+
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-card">
+    <p>هل تريد تصفير جميع السلع المخلصة لبدء يوم جديد؟</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" id="confirmCancel">إلغاء</button>
+      <button class="btn-danger" id="confirmYes">تصفير</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="inv-preview-overlay" id="invPreviewOverlay">
+  <div class="inv-preview-card">
+    <div class="inv-doc" id="invDocContent"></div>
+    <div class="inv-preview-actions">
+      <button class="btn-whatsapp" id="sendWhatsapp">إرسال واتساب</button>
+      <button class="btn-telegram" id="sendTelegram">إرسال تيليغرام</button>
+    </div>
+    <button class="inv-preview-print" id="printInvoice">🖨️ طباعة</button>
+    <button class="inv-preview-close" id="closeInvPreview">إغلاق</button>
+  </div>
+</div>
+
+<script>
+const ARTICLES = [[".....","MAIN D'OUVRE",10.0,77],[".......","PEX SERT APLIQUE 16° /TM",950.0,2],[".........","PPR TUBE 90 RESINE",7800.0,0],["..........","LAMOUSE",850.0,77],[".......10","PPR TUBE 90 S",6800.0,0],[".......6....","COUDE 90° PPRC DIA 50",0.0,77],["...0","MANCHO PPRC 90",550.0,77],["..123","REGELATEUR DE PRETION",4200.0,77],["..698..","LAX BINOIR",500.0,77],[".3","POIGNET MET",550.0,23],[".3.","VANNE COLONE DOCH",1550.0,13],[".3332","ROZACE 20°",85.0,77],["0.0.01","VANNE PVC 33/42°",250.0,13],["000","AXESSOIR \"ESPECE\"",1.0,77],["000.0","AXESSOIR \"MANDEIVRE\"",1.0,77],["0000","AXESSOIR \"CREDITR MOAKET\"",1.0,77],["00002222","PORTE MANTO  A5 / INOX SAN-WATER",1100.0,19],["001","VANNE PVC 50/60°",500.0,13],["00879","GOTE VANNE 20 RACCORD",23.0,22],["008791","GOTE VANNE 20 RACCORD /ITALY",35.0,22],["008792","GOTE VANNE 20 VILTAGE /ITALY",50.0,22],["012589","MECANIZME CHASSE MONO BLOC",1500.0,60],["0432","PHD ROLO 25°",7000.0,4],["0433","PHD ROLO 32°",8200.0,4],["0434","PHD ROLO CHIALI 63°",22500.0,4],["04341","BRZ MANCHO 15°/CROMI",160.0,3],["04342","PHD ROLO CHIALI 50°",15700.0,4],["04343","PHD ROLO /25° PN10.",5800.0,4],["0437","PHD RACCORD  25° M",100.0,4],["0438","PHD RACCORD  25° F",120.0,4],["0439","PHD RACCORD  32° M",130.0,4],["0440","PHD RACCORD  32° F",150.0,4],["0441","PHD RACCORD  40° M",250.0,4],["0442","PHD RACCORD  40° F",250.0,4],["0443","PHD RACCORD  50°/50 M",380.0,4],["0444","PHD RACCORD  50° F",350.0,4],["04441","PHD RACCORD 50° M",400.0,4],["0445","PHD RACCORD  63° M",400.0,4],["0447","PHD RACCORD  63° F",450.0,4],["0470","PHD RACCORD 75° F",850.0,4],["04701","PHD RACCORD 75°M",750.0,4],["0471","PHD RACCORD 90° M",1000.0,4],["04711","PHD RACCORD 110° M",1400.0,4],["04712","PHD RACCORD 63/40 M",462.0,4],["04713","PHD COUDE  110° M",2000.0,4],["0472","PHD RACCORD  90° F",1100.0,4],["0473","PHD MANCHO 25°",150.0,4],["0474","PHD MANCHO 32°",220.0,4],["0475","PHD MANCHO 40°",320.0,4],["0476","PHD MANCHO 50°",520.0,4],["0477","PHD MANCHO 63°",600.0,4],["0478","PHD MANCHO 75°",1150.0,4],["0479","PHD MANCHO 90°",1600.0,4],["0480","PHD MANCHO 110°",2250.0,4],["0481","PHD MANCHO RED 90°/75°",1300.0,4],["04811","PHD MANCHO RED 110°/90°",2000.0,4],["0482","PHD MANCHO RED 90°/63°",1250.0,4],["0483","PHD MANCHO RED 75°/63°",1050.0,4],["0484","PHD MANCHO RED 63°/50°",630.0,4],["0485","PHD MANCHO RED 63°/40°",650.0,4],["0486","PHD MANCHO RED 63°/32°",550.0,4],["0487","PHD MANCHO RED 50°/40°",600.0,4],["0488","PHD MANCHO RED 50/32°",500.0,4],["0489","PHD MANCHO RED 40°/32°",350.0,4],["0490","PHD MANCHO RED 40/25°",350.0,4],["0491","PHD MANCHO RED 32°/25°",240.0,4],["0492","PHD TES 25°",250.0,4],["0493","PHD TES 32°",330.0,4],["0494","PHD TES 40°",550.0,4],["0495","PHD TES 50°",780.0,4],["0496","PHD TES 63°",1250.0,4],["0497","PHD TES 75°",1700.0,4],["0498","PHD TES 90°",2100.0,4],["0499","PHD TES 25°/20 F",250.0,4],["0500","PHD TES 32°/26 F",280.0,4],["0501","PHD TES 40°/33 F",480.0,4],["0502","PHD TES 50° F",800.0,4],["0503","PHD TES 63°/50 F",950.0,4],["0504","PHD TES 75°/63 F",1650.0,4],["0505","PHD TES 90°/66 F",2300.0,4],["0506","PVC COUDE 80*90 /BLAND",200.0,1],["0507","ATTACHE 40",6.0,77],["0508","BRZ RACCORIGNOM 40/49° MF 1ER CHOIX",2800.0,3],["0509","PHD BOUCHON 25°",110.0,4],["0510","PHD BOUCHON 32°",130.0,4],["0511","PHD BOUCHON 40°",250.0,4],["0512","PHD BOUCHON 50°",300.0,4],["0513","PHD BOUCHON 63°",500.0,4],["0514","PHD BOUCHON 75°",720.0,4],["0515","PHD BOUCHON 90°",880.0,4],["0516","PHD COUDE 25°",160.0,4],["0517","PHD COUDE 32°",250.0,4],["0518","PHD COUDE 40°",350.0,4],["0519","PHD COUDE 50°",550.0,4],["0520","PHD COUDE 63",750.0,4],["0521","PHD COUDE 75°",1150.0,4],["0522","PHD COUDE 90°",1750.0,4],["0523","PHD COUDE 25° M",120.0,4],["0524","PHD COUDE 32° M",180.0,4],["0525","PHD COUDE 40° M",300.0,4],["0526","PHD COUDE 50° M",430.0,4],["0527","PHD COUDE 63° M",650.0,4],["0528","PHD COUDE 75° M",850.0,4],["0529","PHD COUDE 90° M",1400.0,4],["0530","PHD COUDE 25° F",200.0,4],["0531","PHD COUDE 32° F",200.0,4],["0532","PHD COUDE 40° F",380.0,4],["0533","PHD COUDE 50° F",400.0,4],["0534","PHD COUDE 63° F",650.0,4],["0535","PHD COUDE 75° F",1050.0,4],["0536","PHD COUDE 90° F",1550.0,4],["0537","PHD CLE PLST PM",300.0,4],["0538","PHD CLES PLST GM",650.0,4],["0539","PHD BRIDE 32/20",120.0,4],["0540","PHD BRIDE 40/20",100.0,4],["0541","PHD BRIDE 50°/20",120.0,4],["05411","PHD BRIDE 50°/26",150.0,4],["05412","PHD BRIDE 50°/33-40",130.0,4],["0542","PHD BRIDE 63°/20",150.0,4],["0543","PHD BRIDE 63°/26",140.0,4],["0544","PHD BRIDE 63°/33-40",170.0,4],["0545","PHD BRIDE 63°/40-50",170.0,4],["0546","PHD BRIDE 75/20",230.0,4],["0547","PHD BRIDE 75/26",230.0,4],["0548","PHD BRIDE 75/40-50",220.0,4],["05481","PHD BRIDE 75/33-40",220.0,4],["0549","PHD BRIDE 90/20",380.0,4],["0550","PHD BRIDE 90/26",350.0,4],["0551","PHD BRIDE 90/60",350.0,4],["0552","NOIR TUBE GALVA 15°",2750.0,5],["0553","NOIR TUBE GALVA 20°",1330.0,5],["0554","NOIR TUBE GALVA 26°",1750.0,5],["0555","NOIR TUBE GALVA 33/42°",2250.0,5],["0556","NOIR TUBE GALVA 40/49°",6200.0,5],["0557","NOIR TUBE GALVA 50/60°",3400.0,5],["0558","NOIR TUBE GALVA 66/75°",4400.0,5],["0559","NOIR TUBE GALVA 80/90°",5500.0,5],["0560","NOIR COUDE 15° FF",80.0,5],["05601","NOIR COUDE 15° FF /DRG",85.0,5],["0561","NOIR COUDE 20° FF",90.0,5],["0562","NOIR COUDE 26° FF",120.0,5],["0563","NOIR COUDE 33/40° FF",550.0,5],["0564","NOIR COUDE 40/49° FF",1150.0,5],["0565","NOIR COUDE 50/60° FF",480.0,5],["0567","NOIR COUDE 66/75° FF",650.0,5],["0568","NOIR COUDE 80/90° FF",750.0,5],["0569","NOIR COUDE 15° MF",90.0,5],["05691","NOIR COUDE 15° MF /DRG",100.0,5],["0570","NOIR COUDE 20° MF",100.0,5],["0571","NOIR COUDE 26° MF",150.0,5],["0572","NOIR COUDE 33/40° MF",380.0,5],["0573","NOIR COUDE 40/49° MF",200.0,5],["0574","NOIR COUDE 50/60° MF",480.0,5],["0575","NOIR MAMLO 15°",60.0,5],["0576","NOIR MAMLO 20°",80.0,5],["0577","NOIR MAMLO 26°",150.0,5],["0578","NOIR MAMLO 33/40°",350.0,5],["0579","NOIR MAMLO 40/49°",520.0,5],["0580","NOIR MAMLO 50/60°",650.0,5],["0581","NOIR MAMLO 66/75°",600.0,5],["0582","NOIR MAMLO 80/90°",600.0,5],["0583","NOIR MANCHO GALVA 15°",70.0,5],["0584","NOIR MANCHO GALVA 20°",80.0,5],["0585","NOIR MANCHO GALVA 26°",150.0,5],["0586","NOIR MANCHO GALVA 33/40°",250.0,5],["0587","NOIR MANCHO GALVA 40/49°",280.0,5],["0588","NOIR MANCHO GALVA 50/60°",430.0,5],["0589","NOIR MANCHO GALVA 80/90°",750.0,5],["05891","NOIR MANCHO 80/90° NOIR",480.0,5],["05892","NOIR MANCHO 66/75° NOIR",400.0,5],["05893","NOIR MANCHO 40/49° NOIR",350.0,5],["05894","NOIR MANCHO 33/42° NOIR",80.0,5],["0590","NOIR TES 15°",250.0,5],["05901","NOIR TES 15° /DRG",120.0,5],["0591","NOIR TES 20°",140.0,5],["0592","NOIR TES 26°",250.0,5],["0593","NOIR TES 33/40°",300.0,5],["0594","NOIR TES  50/60°",1500.0,5],["0599","NOIR TES 66/75°",980.0,5],["05PH","PHD VANE 63° DOBLE RACCORD",1400.0,4],["0600","NOIR TES 80/90°",620.0,5],["0601","NOIR RACCORIGNOM 15° FF",370.0,5],["06011","NOIR RACCORIGNOM 15° FF /DRG",250.0,5],["0602","NOIR RACCORIGNOM 20° FF",380.0,5],["0603","NOIR RACCORIGNOM 26° FF",380.0,5],["0604","NOIR RACCORIGNOM 33/42° FF",680.0,5],["0605","NOIR RACCORIGNOM 40/49° FF",750.0,5],["0606","NOIR RACCORIGNOM 50/60° FF",1300.0,5],["0607","NOIR RACCORIGNOM 66/75° FF",1300.0,5],["0608","NOIR RACCORIGNOM 15° MF",250.0,5],["0609","NOIR RACCORIGNOM 20° MF",380.0,5],["0610","NOIR RACCORIGNOM 26° MF",480.0,5],["0611","NOIR RACCORIGNOM 33/42° MF",1400.0,5],["0612","NOIR RACCORIGNOM 40/49° MF",1550.0,5],["0613","NOIR RACCORIGNOM 50/60° MF",780.0,5],["0614","NOIR RED 20°/15°",55.0,5],["0615","NOIR RED 26°/20°",80.0,5],["0616","NOIR RED 26/15",70.0,5],["0617","NOIR RED 33°/26°",200.0,5],["0618","NOIR RED 33°/20°",200.0,5],["0619","NOIR RED 33°/15°",200.0,5],["0620","NOIR RED 40°/33°",250.0,5],["0621","NOIR RED 40/26",250.0,5],["0622","NOIR RED 40/20",250.0,5],["0623","NOIR RED 40/15",250.0,5],["0624","NOIR RED 50°/40°",380.0,5],["0625","NOIR RED 50/33",380.0,5],["0626","NOIR RED 50/26",380.0,5],["0627","NOIR RED 50/20",330.0,5],["0628","NOIR RED 50/15",350.0,5],["0629","NOIR RED 66°/50-60°",650.0,5],["06291","NOIR RED 66°/40-50°",1000.0,5],["0630","NOIR RED 80°/66°",950.0,5],["0631","NOIR RED 80/50",300.0,5],["06311","NOIR RED 102/80",600.0,5],["0632","NOIR MANCHETTE 1V  15°  PM",70.0,5],["0633","NOIR MANCHETTE 1V  20°  PM",55.0,5],["0634","NOIR MANCHETTE 1V  26°  PM",60.0,5],["0635","NOIR MANCHETTE 1V  33/42°  PM",75.0,5],["0636","NOIR MANCHETTE 1V  40/49°  PM",90.0,5],["0637","NOIR MANCHETTE 1V  50/60°  PM",250.0,5],["0638","NOIR MANCHETTE 1V  66/75°  PM",300.0,5],["0639","NOIR MANCHETTE 1V  80/90°  PM",400.0,5],["0640","NOIR MANCHETTE 2V  15°  PM",90.0,5],["0641","NOIR MANCHETTE 2V  20°  PM",120.0,5],["0642","NOIR MANCHETTE 2V  26°  PM",180.0,5],["0643","NOIR MANCHETTE 2V  33/42°  PM",300.0,5],["0644","NOIR MANCHETTE 2V  40/49°  PM",300.0,5],["0645","NOIR MANCHETTE 2V  50/60°  PM",330.0,5],["0646","NOIR MANCHETTE 2V  66/75°  PM",400.0,5],["0647","NOIR MANCHETTE 2V  80/90°  PM",500.0,5],["0648","NOIR MANCHETTE 1V  50/60°  GM",350.0,5],["0649","NOIR MANCHETTE 1V  66/75°  GM",470.0,5],["0650","NOIR MANCHETTE 1V  80/90°  GM",620.0,5],["0651","NOIR MANCHETTE 2V 50/60  °  GM",800.0,5],["0652","NOIR MANCHETTE 2V  66/75°  GM",1100.0,5],["0653","NOIR MANCHETTE 2V  80/90°  GM",1500.0,5],["0654","NOIR MANCHO BOTEIL 20/15",0.0,5],["0655","NOIR MANCHO BOTEIL 26/20",0.0,5],["0656","NOIR MANCHO BOTEIL 26/15",0.0,5],["0657","NOIR MANCHO BOTEIL 33/26",85.0,5],["0658","NOIR MANCHO BOTEIL 33/20",0.0,5],["0659","NOIR MANCHO BOTEIL 40/33",100.0,5],["0660","NOIR MANCHO BOTEIL 40/26",0.0,5],["0661","NOIR BOUCHON  M 15°",45.0,5],["0662","NOIR BOUCHON  M 20°",60.0,5],["0663","NOIR BOUCHON M  26°",100.0,5],["0664","NOIR BOUCHON M 33/42°",180.0,5],["0665","NOIR BOUCHON M 40/49°",250.0,5],["0666","NOIR BOUCHON  M 50/60°",280.0,5],["0667","NOIR BOUCHON  M 66/75°",0.0,5],["0668","NOIR BOUCHON M 80/90°",0.0,5],["0669","NOIR TES 40/49°",400.0,5],["0670","NOIR MANCHO GALVA 66°/75",650.0,5],["0680","PHD BRIDE 110/26°",450.0,4],["06800","PHD BRIDE 110/20°",350.0,4],["0681","PHD BRIDE 110/63",450.0,4],["0683","PHD BRIDE 125/20",950.0,4],["06830","PHD BRIDE 125/50",950.0,4],["06831","PHD BRIDE 125/26°",950.0,4],["0684","PHD BRIDE  160/20",1750.0,4],["06841","PHD BRIDE  160/26",1700.0,4],["0685","PHD BRIDE  160/60",1700.0,4],["0686","PHD BRIDE  200/20",2000.0,4],["0687","PHD BRIDE  200/60",2000.0,4],["0688","PVC CHIT/M 250° 6BAR",1100.0,1],["0689","PHD MAILL BLUE \"CHABAK\"",950.0,4],["0695","PPR TUBE 25 S",500.0,0],["0696","PPR TUBE 32 S",900.0,0],["0697","PPR TUBE 40 S",1600.0,0],["0698","PPR TUBE 50 S",2200.0,0],["06PH","PHD VANE 63° RACORD \"M\"",1180.0,4],["0700","PPR TUBE 25 R",600.0,0],["0701","PPR TUBE 32 R",1400.0,0],["0702","PPR TUBE 40 R",1700.0,0],["0703","PPR TUBE 50 R",2400.0,0],["0705","PPR TUBE 25 ALM",700.0,0],["0706","PPR TUBE 32 ALM",1200.0,0],["0707","PPR TUBE 40 ALM",1900.0,0],["0708","PPR TUBE 50 ALM",3100.0,0],["0710","PPR CHITE /M 25° S",160.0,0],["0712","PPR CHITE /M 25 R",195.0,0],["07121","PPR CHITE /M 25 AL",190.0,0],["07122","PPR CHITE /M 40 S",400.0,0],["071221","PPR CHITE /M 40 R",470.0,0],["071222","PPR CHITE /M 40 AL",450.0,0],["071223","PPR CHITE /M 50 AL",780.0,0],["07123","PPR CHITE /M 32 ALM",350.0,0],["07124","PPR CHITE /M 50R",620.0,0],["07125","PPR CHITE /M 50S",550.0,0],["0714","PPR COUDE 25° *90",25.0,0],["0715","PPR COUDE 32° *90",60.0,0],["0717","PPR COUDE 50° *90",160.0,0],["0719","PPR COUDE 25° *45",25.0,0],["0720","PPR COUDE 32° *45",60.0,0],["0721","PPR COUDE 40° *45",70.0,0],["0722","PPR COUDE 50° *45",170.0,0],["0724","PPR COUDE 25° *45 MF",30.0,0],["0726","PPR COUDE 25° *90 MF",30.0,0],["0728","PPR COUDE 25°/15 M",200.0,0],["0729","PPR COUDE 25°/20 M",200.0,0],["0731","PPR COUDE + RAC 25°",250.0,0],["0732","PPR COUDE + RAC 32°",500.0,0],["0734","PPR MANCHO 25°",25.0,0],["0735","PPR MANCHO 32°",40.0,0],["0736","PPR MANCHO 40°",60.0,0],["0737","PPR MANCHO 50°",90.0,0],["0738","PPR MANCHO RED 25°/20°",25.0,0],["07380","PPR MANCHO RED 32°/20°",70.0,0],["07381","PPR MANCHO RED 40°/25°",70.0,0],["073810","PPR MANCHO RED 40°/32°",70.0,0],["07382","PPR MANCHO RED 32°/25°",50.0,0],["07384","PPR MANCHO RED 50°/25°",90.0,0],["07385","PPR MANCHO RED 50°/32°",90.0,0],["0740","PPR TES 25°",30.0,0],["0741","PPR TES 32°",90.0,0],["0742","PPR TES 40°",150.0,0],["0743","PPR TES 50°",220.0,0],["0744","PPR TES  RED  25°/20°",45.0,0],["0745","PPR TES  RED  32°/25°",70.0,0],["0746","PPR TES  RED  32°/20°",85.0,0],["0747","PPR TES  RED  40°/32°",110.0,0],["0748","PPR TES  RED  40°/25°",120.0,0],["0749","PPR TES  RED  40°/20°",120.0,0],["0750","PPR TES  RED  50°/40°",220.0,0],["0751","PPR TES  RED 50°/32°",250.0,0],["0752","PPR TES  RED  50°/25°",220.0,0],["0753","PPR TES  RED  50°/20°",220.0,0],["0755","PPR TES  25°/15 F",180.0,0],["0756","PPR TES 25°/20 F",180.0,0],["0758","PPR TES 25°/15 M",175.0,0],["0759","PPR TES 25°/20 M",195.0,0],["0761","PPR ADABT 25°/15 F",150.0,0],["0762","PPR ADABT  25°/20 F",180.0,0],["0763","PPR ADABT 32° F",300.0,0],["0764","PPR ADABT 40° F",800.0,0],["0765","PPR ADABT 50° F",1050.0,0],["0767","PPR ADABT 25°/15 M",200.0,0],["0768","PPR ADABT 25°/20 M",180.0,0],["0769","PPR ADABT 32° M",380.0,0],["0770","PPR ADABT 40° M",820.0,0],["0771","PPR ADABT 50° M",1250.0,0],["0773","PPR ADABT + RAC 25°",280.0,0],["07730","PPR ADABT + RAC 25°/15",250.0,0],["0774","PPR ADABT + RAC 32°",500.0,0],["0778","PPR APLIQUE 25°/15",160.0,0],["0779","PPR APLIQUE 25°/20",180.0,0],["0784","PPR CHAPO 25°",70.0,0],["0786","PPR DODANE 25°",80.0,0],["0788","PPR TES CHAPO 25°",120.0,0],["0790","PPR TES BIPASSE 25/20°",170.0,0],["0792","PPR VANNE 25°",400.0,0],["0793","PPR VANNE 32°",680.0,0],["0794","PPR VANNE 40°",1200.0,0],["0795","PPR VANNE 50°",1400.0,0],["0797","PPR VANINGOM 25°M",1400.0,0],["07970","VANINGOM 15° PVC",200.0,77],["079701","PPR VANINGOM  25°",1600.0,0],["0798","PPR VANINIGOM 32°",2200.0,0],["07PH","PHD VANE 50° DOBLE RACCORD",1100.0,4],["0800","PPR RACCORIGNOM 25° F",380.0,0],["0801","PPR RACCORGNIOM 32° F",550.0,0],["0802","PPR RACCORGNIOM 40° F",1050.0,0],["0803","PPR RACCORGNIOM 50° F",1700.0,0],["0805","PPR RACCORGNIOM 25° M",380.0,0],["08051","PPR RACCORGNIOM 25° /15M",320.0,0],["0806","PPR RACCORGNIOM 32° M",580.0,0],["0807","PPR RACCORIGNOM 40° M",1100.0,0],["08071","PPR RACCORGNIOM 25° /DOBLE",450.0,0],["08072","PPR RACCORGNIOM 32° -DOUBLE",500.0,0],["0808","PPR RACCORGNIOM 50° M",1700.0,0],["0809","PPR RED 25°/20°",25.0,0],["0810","PPR RED 32°/25°",25.0,0],["0811","PPR RED 32°/20°",35.0,0],["0812","PPR RED 40/32",70.0,0],["0813","PPR RED 40/25",50.0,0],["0814","PPR RED 40/20",50.0,0],["0815","PPR RED 50/40",80.0,0],["0816","PPR RED 50/32",80.0,0],["0817","PPR RED 50/25",65.0,0],["0818","PPR RED 50/20",70.0,0],["0820","PPR BOUCHON 25°",25.0,0],["0821","PPR BOUCHON 32°",50.0,0],["0822","PPR BOUCHON 40°",90.0,0],["0823","PPR BOUCHON 50°",150.0,0],["0830","SYPHO AVABO RESSEUR / ANI  40°",600.0,35],["0831","AXESSOIRE FREE TRANSPORT",1.0,77],["0832","GOTE TUYO 20°/100M",1150.0,22],["08321","GOTE BACH CHAKWA",5900.0,22],["08322","GOTE SIROM 06°/500M",4000.0,22],["0833","GOTE TUYO 20°/200M",2200.0,22],["08331","GOTE ROLO 16° ITALY /400M",10800.0,22],["0834","GOTE VANNE 20 PRISE",35.0,22],["0835","GOTE VANNE 20 S",35.0,22],["08351","GOTE VANNE 20 PRISE /ITALY",50.0,22],["08352","GOTE VANNE 16 /20-27M",35.0,22],["0836","GOTE VANNE 20°/20 VILTAGE",60.0,22],["0837","GOTE BOCHON 08",4.0,22],["0838","GOTE MANCHO 20",13.0,22],["0839","GOTE TES 20",25.0,22],["0840","GOTE TITINE 06",2.0,22],["0841","GOTE TITINE 08°",2.5,22],["0842","GOTE SIROM 06°/200M",800.0,22],["0843","GOTE SIROM 08°/200M",880.0,22],["0844","GOTE PRISE 16°",10.0,22],["0845","GOTE PRISE 20°",18.0,22],["0846","GOTE BOUCHON 20°",13.0,22],["08465","GOTE BOUCHON  PRISE",10.0,22],["0847","GOTE RACORD 20/20M",20.0,22],["0848","FLEXIBLE GAZ 150 CM /BAULGHARI 1ER",2300.0,16],["08480","PLACK NOIR",950.0,77],["08481","FLEXIBLE GAZ 50 CM",750.0,16],["0849","SERPENTIN JINKER 11L DRG",12000.0,77],["08491","FLEXIBLE GAZ 60 CM",720.0,16],["0850","FLEXIBLE GAZ 50 CM /BAULGHARI 1ER",1250.0,16],["0851","RACCORD GAZ-ANP  20-16",850.0,44],["08511","FLEXIBLE GAZ 120-200 CM",1350.0,16],["0852","GÉNIRATEUR 1200 L",240000.0,77],["08521","FLEXIBLE GAZ 150 CM",1200.0,16],["08522","FLEXIBLE GAZ 120 CM",1000.0,16],["0853","FLEXIBLE GAZ 70 CM",800.0,16],["08531","RACCORD GAZ-ANP  20-22°",850.0,44],["08533","FLEXIBLE GAZ 200 CM",1450.0,16],["0855","FLEXIBLE GAZ EXPANDABL 30-60 CM",950.0,16],["08550","FLEXIBLE GAZ EXPANDABL 50-90CM",1100.0,16],["08551","RACCORD GAZ-ANP  40-22",3600.0,44],["08552","VENTOUSE RALLONGE",5500.0,77],["085520","FLEXIBLE GAZ EXPANDABL 100-200 CM /FRANCE",1800.0,16],["085521","METEGEUR  AVABO /NOIR +BLOND",7300.0,10],["0858","FLEXIBLE DOCHE 1M+  /EJIM",600.0,16],["0863","PPR COLLIER 25° S",14.0,0],["0864","PPR COLLIER 32 S",17.0,0],["0865","PPR COLLIER 40° S",22.0,0],["0866","PPR COLLIER 50° S",50.0,0],["08661","PPR COLLIER 20°S ATACH",13.0,0],["0869","PPR COLLIER 25°D",23.0,0],["0870","PPR COLLIER 32° D",30.0,0],["0872","PPR COUDE 25°/20 F",180.0,0],["08721","PPR COUDE 25°/15 F",180.0,0],["0873","PPR TUBE JAUNE 25°",650.0,0],["0874","PPR TUBE MEBRATE 40°",900.0,0],["0875","VERT 40° FROID",750.0,7],["0876","VERT TUBE 50° FROID",1850.0,7],["0877","GOTE GOTLEITE 06°",5.0,22],["0878","GOTE GOTLEITE 08°",10.0,22],["0879","FLEXIBLE D'EAU FF 20 CM",350.0,16],["0880","FLEXIBLE D'EAU FF 30 CM",300.0,16],["0881","FLEXIBLE D'EAU FF 40 CM",350.0,16],["0882","FLEXIBLE D'EAU FF 50 CM",400.0,16],["0883","FLEXIBLE D'EAU FF 60 CM",450.0,16],["0884","FLEXIBLE D'EAU FF 80 CM",650.0,16],["08841","FLEXIBLE D'EAU FF 20 CM /MF",350.0,16],["08842","FLEXIBLE D'EAU FF 30 CM /MF",350.0,16],["08843","FLEXIBLE D'EAU FF 40 CM /MF",380.0,16],["08844","FLEXIBLE D'EAU FF 100 CM",600.0,16],["08845","FLEXIBLE D'EAU FF 120 CM",450.0,16],["08846","FLEXIBLE D'EAU FF 150 CM",700.0,16],["0885","FLEXIBLE MELANGER 30 CM /FLR+SLR",200.0,16],["08851",".........................01",1.0,77],["08852","FLEXIBLE MELANGER 30 CM",300.0,16],["08856","FLEXIBLE 50CM MF",450.0,16],["0886",".0254811",180.0,77],["0887","FLEXIBLE MELANGEUR 40 CM",300.0,16],["08870",".125870",150.0,77],["08871","FLEXIBLE MELANGEUR 40 CM / G-TIGE",200.0,16],["0888","FLEXIBLE MELANGEUR 50 CM",350.0,16],["0890","FLEXIBLE 20/27° FF 50CM",600.0,16],["08901","FLEXIBLE 20/27° LEUR CODI  FF 60CM",1350.0,16],["0891","FLEXIBLE COUDI 26° D RACCORD",1050.0,16],["0894","VISSE /L CUMINIS",80.0,77],["0897","FLEXIBLE DOCHETTE 1M /BLAND",500.0,16],["0898","FLEXIBLE DOCHETTE 1M  / CROMI",850.0,16],["08981","FLEXIBLE DOCHE 1.5M  / PROFEX",750.0,16],["0899","FLEXIBLE DOCHE 1.5M NOIR",1150.0,16],["08PH","PHD VANNE EN FANTE 40",4200.0,4],["0900","FLEXIBLE DOCHE 1.5M PLS /",550.0,16],["09001","FLEXIBLE DOCHE 1.5M /WASSER",750.0,16],["09002","FLEXIBLE DOCHEETTE ROLI",650.0,16],["0901","FLEXIBLE DOCHE 1.2M /CROMI",500.0,16],["0929","ROBINI 0000",850.0,77],["0930","ROBINET AVABO GB /FLR",2000.0,11],["09301","ROBINET AVABO \"SUS 304",3200.0,11],["09302","FICHE M ELCTR",20.0,77],["0931","PAPIER VER",60.0,77],["0932","ROBINET AVABO /NOIR BARED",2200.0,11],["0964","VANNE VOLA  20°      /PN20",1450.0,13],["0965","VANNE VOLA   33°          /PN20",3300.0,13],["09650","VANNE VOLA   66-75°          /PN20",10500.0,13],["09651","VANNE VOLA  26°      /PN20",2150.0,13],["09652","VANNE VOLA 50°          /PN20",6800.0,13],["09653","VANNE VOLA   40°         /PN20",4850.0,13],["09661","VANNE SFIRIQUE 15° FF /1ER",700.0,13],["0967","PPR RACCORIGNOM 63°M",2850.0,0],["0968","VANNE SFIRIQUE 26° /ENERG",1800.0,13],["0969","VANNE SFIRIQUE 33° /TASAN",1500.0,13],["09691","MATRICE PPRC DIA 90°",2000.0,77],["0970","VANNE SFIRIQUE 40/49° /TASAN",1950.0,13],["0971","VANNE SFIRIQUE 50/60° /TASAN",4900.0,13],["0972","VANNE SFIRIQUE 66/75° /TASAN",10800.0,13],["0973","VANNE SFIRIQUE 80/90° /TASAN",15000.0,13],["0974","TGR RACCORIGNOM 66/75° FF",750.0,6],["0975","VANNE SFIRIQUE 20° MF / ENERG",980.0,13],["0976","VANNE PVC 26°",180.0,13],["0977","VANNE SFIRIQUE 33/42° ENERG",2500.0,13],["0978","VANNE SFIRIQUE 33/42°",2050.0,13],["0979","VANNE SFIRIQUE 50/60° /ENERG",4500.0,13],["0980","VANNE VOLAND 15° /FDH",320.0,13],["0981","VANNE VOLAND 20° /FDH",500.0,13],["0982","VANNE VOLAND 26°     /FDH",900.0,13],["0983","VANNE VOLAND 33/40° /FDH",1100.0,13],["0984","VANNE VOLAND 40/49° /FDH",1600.0,13],["0985","VANNE VOLAND 50/60° /FDH",3600.0,13],["0986","VANNE VOLAND 66/75° /FDH",4500.0,13],["0987","VANNE VOLAND 80/90° /FDH",5300.0,13],["0988","VANNE VOLAND 110° /FDH",3850.0,13],["0989","POMPE SELANCE PROMEGA /3 TRB",17800.0,14],["0990",".........12450",500.0,77],["0990A",".....................",350.0,55],["0990TT",".3644",430.0,77],["0990TTT","BAGITE A SOUDI PVC",20.0,77],["0991","VANNE SFIRIQUE",700.0,13],["09910","VANNE SEIRIQ 15 MF ENERJICAL",750.0,13],["09911","VANNE SFIRIQUE 15° MM /ENERG",750.0,13],["099111","VANNE SFIRIQUE 15° MM /1ER",700.0,13],["09912","VANNE SFIRIQUE 15° MF / ITALY",850.0,13],["099120","VANNE SFIRIQUE 15° MF",800.0,13],["09913","VANNE SFIRIQUE 15°FF / ENERG",750.0,13],["0992","VANNE SFIRIQUE 20° FF",850.0,13],["0993","VANNE SFIRIQUE 20° MF /SL",850.0,13],["09930","VANNE SFIRIQUE 20° MF",850.0,13],["0994","VANNE SFIRIQUE 20° MM /SLR",750.0,13],["09940","VANNE SFIRIQUE 20° MM /",850.0,13],["0995","VANINIOM 15°",650.0,77],["0996","VANINIGNOM 20°",1550.0,61],["09960","VANINIGNOM 20° /TIEMME",1950.0,61],["099601","VANINIGNOM 26° /TIEMME",3150.0,61],["099602","VANINIGNOM 26° +THERMOMETRE /TIEMME",2850.0,61],["099603","VANINIGNOM 15° /TIEMME",1100.0,61],["09961","VANINIGNOM 26°",2250.0,61],["09962","VANNE 20° COMPTEUR D'EAU",1650.0,13],["0997","VALVE 15° /",550.0,51],["0998","VALVE 20°",1550.0,51],["09981","VALVE 20° /PEX",2100.0,51],["0999","VALVE 26° /BNB",1450.0,51],["09991","VALVE 26° /TIEMME",4200.0,51],["09992","VALVE 20° /TIEMME",2800.0,51],["09993","VALVE 26° /BNB       /PEX 26",2400.0,51],["09994","VALVE 20° /TIEMME  /PEX 20",1850.0,51],["09PH","PHD VANNE EN FANTE 63",5600.0,4],["1","MEROIRE PLST / RONG \"O\"",1150.0,36],["10","BRZ RACCORD MIXTE 2CM /CROMI",180.0,3],["100","PHD TUYO 25°/M",75.0,4],["1000","VANNE PVC 15°",80.0,13],["1001",".............222222222",90.0,77],["1002","0000001111111",150.0,77],["1003","VANNE COMPTEUR D EAU 20/15°",1550.0,13],["1004","VANNE PVC 40/50°",350.0,13],["1005",".........3334444444444",400.0,77],["10051","00000002222222.....",400.0,77],["1006","VANNE PVC 75°",1900.0,13],["1007","VANNE PVC 80/90°",2600.0,13],["10071","VANNE PVC 50/60° M",950.0,13],["1008","JUBA JOIN ITALY",400.0,77],["10100","VANE PVC 3 VOIS 63°",1000.0,67],["1070","POMPE+SERVE 80",14800.0,77],["10700","POMPE CHOFO AXELERATEUR",9200.0,14],["10702","POMPE VERTICAL 45.5M /DAB .220V",32200.0,14],["10703","POMPE+SERVE 60",12800.0,77],["10704","POMPE VERTICAL 4 HP-220 V / MARQUIS",66000.0,14],["1071","POMPE  VD3 100GM /LEO",16500.0,14],["1072","POMPE MARQUIS",4800.0,14],["10720","POMPE  HD37",6200.0,14],["10721","POMPE LINZ",11300.0,14],["1073","POMPE PEDROLO /ITALY",11000.0,14],["1074","POMPE PENTAX 1 CHOFO",23800.0,14],["1075","POMPE ACM ITALI",10300.0,14],["1076","POMPE PROMEGA 60 PM",7200.0,14],["1077","POMPE GM LEO",19300.0,14],["10771","POMPE PROTHERM",7300.0,14],["1078","POMPE SELANCE PROMEGA/ 4 TRB",20500.0,14],["10781","POMPE SELENCIEUX  3T / WASSER ISPANE",26500.0,14],["107810","POMPE SELENCIEUX  4T /ESPA ISPANE",26000.0,14],["107811","POMPE SELENCIEUX STRANGE  2T /MODE ISPANE",18800.0,14],["107812","POMPE SELENCIEUX STRANGE  3T /MODE ISPANE",21800.0,14],["10782","POMPE SELENCIEUX  2T /WASSER ISPANE",21000.0,14],["10783","POMPE SHIMGE GM",8200.0,14],["10784","POMPE SELANCE PROMEGA / 2TRB",16800.0,14],["10785","POMPE SHIMGE VD3",11500.0,14],["10786","POMPE SELANCE/ 3 TRB -PEDROLO",23000.0,14],["10787","POMPE SELANCE/5 TRB PEDROLO",37800.0,14],["1079","VID KAFE+ FLOTEUR MARQUIS",6500.0,77],["1080","POMPE VECONTRE",4500.0,14],["10801","POMPE GANDFAR 37",5200.0,14],["1081","BRZ RACCORD MIXTE 1CM CROMI",150.0,3],["1082","POMPE IDEAL",5300.0,14],["10820","POMPE LEO GM/100",18600.0,14],["1083","POMPE ENGLAND",8200.0,14],["10831","POMPE  VD3 1 CHOFO /MASTER",16500.0,14],["10832","POMPE VALLEDE /FRANCE",7300.0,14],["10835","POMPE  MANS",6900.0,14],["1084","POMPE 50/60 PENTAX 2.2 CHOFO",32500.0,14],["1085","POMPE PANTEX",10700.0,14],["1086","POMPE VD3 PROMEGA 100 P",16800.0,14],["10861","POMPE SHIMGE MM",4500.0,14],["10862","POMPE SELANCIEUX  5 T / LEO",25300.0,14],["1087","POMPE WINDY",4000.0,14],["1090","SERVEAU BEETRO",3600.0,26],["1091","SERVEAU REGELATEUR PRESSION",4400.0,26],["1092","SERVEAU LEO",6600.0,26],["1093","SERVEAU ARTHERMO PC19",4000.0,26],["1094","SERVEAU MARQUIS /NV 1ER",4200.0,26],["1095","SERVEAU MATIC WINNER",4400.0,26],["1096","SERVEAU MANS",5600.0,26],["1097","SERVEAU / ENERPRESS -ITALY",4500.0,26],["1098","SERVEAU LOGIC-PRESS /ITALY",5400.0,26],["1099","SERVEAU CROWN",4700.0,26],["10PH","PHD VANNE EN FANTE 100",8200.0,4],["1101","POMPE LEO APM37",7300.0,14],["1102","POMPE  LEO 3TURBUNE",17500.0,14],["1111","PPR CLAPI 25°",400.0,0],["11PH","BONDE / 9 CM PLST",680.0,52],["1214","PPR COLLIER 20° D",15.0,0],["12354","CHAUDIERE 125 KW /SIM ITALY",440000.0,17],["12PH","SYPHON DE SOL 20D ZIAMA",950.0,8],["1310","FLOTEUR 15° / ITALY",1600.0,30],["13101","FLOTEUR 15° /PLAST",750.0,30],["13102","FLOTEUR 20° /PLAST",1200.0,30],["1311","FLOTEUR 20° / ITALY",1600.0,30],["1312","FLOTEUR 26° ITALY",2500.0,30],["1313","FLOTEUR 15/ SMART",980.0,30],["1314","FLEXIBLE GAZ EXPANDABL 70-150 CM",1250.0,16],["13141","FLOTEUR 33/42",6800.0,30],["1315","FLOTEUR 40/49°",8500.0,30],["1316","FLOTEUR 50/60°",5800.0,30],["1317","FLOTEUR 15°+20° JAUN REGLABLE /TURKI",750.0,30],["13170","ROBINET CROMI  /LINGES",750.0,11],["13171","FLOTEUR 26° /ITALY",2500.0,30],["1318","ROBINET 15 PLS ORANGE",220.0,11],["13180","PPR ADABTEUR 63 F",1400.0,0],["13181","FLOTEUR 20 SMART",1100.0,30],["13182","FLOTEUR ELECTR",2850.0,30],["1319","VANE VOLA 15° PN20",1200.0,67],["13PH","PHD BRIDE RACCORD VANNE 110",800.0,4],["15","CVR CHITE/M 16°",1200.0,9],["1502","SUPORT PUMPE PLS",250.0,21],["1503","SUPORT PUMPE METAL PM",350.0,21],["15031","SUPORT PUMPE METAL CLEMATIZEUR/ REGENT",750.0,21],["1504","SUPORT PUMPE METAL LEGER",450.0,21],["15PH","PHD BOUTEAU D'ENSEND 100°",16000.0,4],["18","PVC CHITE/M 200°  4BAR",550.0,1],["2","TABLETE INOX QUOIN A 3",1900.0,31],["2100","EVIER INOX 2BAG  50CM /BCR",4850.0,32],["2101","EVIER INOX 2BAG 60CM /BCR",9800.0,32],["2102","EVIER DOPHIN + MOSS",7300.0,32],["2103","EVIER INOX 2BAG  50CM ISIS /DOPHIN",9800.0,32],["21031","EVIER INOX 2BAG  50CM CARRE/ ZE +AXESSOIR",7500.0,32],["21032","EVIER INOX 1 BAG  /FLR",4200.0,32],["2104","EVIER INOX 50CM 2BAG /FLR DOBL RONG",5700.0,32],["2105","EVIER INOX 50CM 1BAG -ARTHERMO /ROND",4600.0,32],["2106","EVIER INOX 50CM 1BAG /BCR",2600.0,32],["2107","EVIER DOPHIN",7300.0,32],["2108","POMPE AXERATEUR 50° / CHIMGE",62000.0,14],["21081","EVIER INOX 2 BAG  LUX (92*43)",24000.0,32],["2109","PLAK POLISTER /NOIR  140-80",1900.0,77],["21091","EVIER LUX  3 BAG",18500.0,32],["2110","EVIER INOX 50CM 1BAG / ZE",6200.0,32],["2111","EVIER DOPHEIN-HDMD /S ++",17800.0,32],["2112","EVIER DOPHEIN-HDMD /S+",19500.0,32],["21121","REDUCTION PPRC 90/50",750.0,77],["4013","FLEXIBLE 20/27° FF 40CM",1000.0,16],["4020","BRZ TITINE RACCORD LIBRE",250.0,3],["4021","BRZ FILTER 20/27",1300.0,3],["4033","FILTER CRISTEL GM ITALY BLEU",4200.0,29],["4321","REGELATEUR EAU CHAUDE",9200.0,77],["4400","CARTOUCHE FILTER /CRISTAL GM",2000.0,77],["44000","CARTOUCHE FILTER /CRISTEL PM",900.0,77],["4401","CARTOUCHE FILTER /FILLE",1000.0,77],["4402","CARTOUCHE FILTER /TAMI",1200.0,77],["4403","FILTER CRISTEL GM ITALY",4200.0,29],["4403.","FILTER CRISTEL GM ITALY / TAMI",3800.0,29],["44031","FILTER CRISTEL ITALY /CHAUFF-EAU",1850.0,29],["44032","FILTER CRISTEL GM (CRIST+TAMI)  ITALY",4200.0,29],["4404","FILTER-BRZ ANTI CALCAIRE 20°",3400.0,77],["4405","FILTER CRISTEL MM /ITALY",2800.0,29],["44051","FILTER -BEK METEGEUR",50.0,29],["44052","FILTER BEK MELANGEUR",40.0,29],["4406","FILTER CRISTEL GM DOBLI /ITALY",6800.0,29],["4408","FILTER CHAUDIERE 20° /TIEM",5400.0,29],["4409","FILTER CHAUDIERE 26° / TIEM",8500.0,29],["4420","MECANIZME MET /GM",300.0,60],["4421","MECANIZME MET /PM",250.0,60],["4422","MECANIZME MET POINTÉ /35 MM",500.0,60],["4425","GRATTOIR DE TUBE PPRC 50/63",2000.0,77],["44251","SILICON",350.0,77],["4426","PATCH BANDA",30.0,77],["5","CVR RACCORD A SEDI 22°",280.0,9],["555","CHASSE D'EAU /UNIFLON",1200.0,68],["5551","BARE CHASSE D'EAU /TGR",600.0,77],["5554","CHASSE D'EAU / TGR",1700.0,68],["5555","CHASSE D'EAU / EJIM",5000.0,68],["5556","CHASSE D'EAU SMILE /",4500.0,68],["7","PPR COUDE 40° *90",80.0,0],["8322","GOTE GANNE 1200 M",8500.0,22],["848","GOTE FILTER  63° GM",3400.0,22],["877","PPR APLIQUE ABLITION 10CM",380.0,0],["879","PPR FILTER 25°",280.0,0],["9750","VANNE SFIRIQUE 20° FF / ENERG",950.0,13],["9751","VANNE SFIRIQUE 20 MM / ENERG",980.0,13],["AQ001","VERT COLLIER 20 S",13.0,7],["AQ002","VERT COLLIER 25° S",10.0,7],["AQ003","VERT COLLIER 32°S",20.0,7],["AQ004","VERT COLLIER 40°S",30.0,7],["AQ0041","VERT COLLIER 40°D",45.0,7],["AQ005","VERT COLLIER 20D",20.0,7],["AQ006","VERT COLLIER 25 D",25.0,7],["AQ007","VERT COLLIER 32 D",35.0,7],["AQ008","VERT COLLIER 50 S",40.0,7],["AQ01","AQUAT TUBE 20° /ALMAND",950.0,15],["AQ02","AQUAT TUBE 25° /ALMAND",1480.0,15],["AQ03","AQUAT TUBE 32° /ALMAND",2400.0,15],["AQ04","AQUAT TUBE 40° /ALMAND",3500.0,15],["AQ05","AQUAT TUBE 50° /ALMAND",5400.0,15],["AQ051","AQUAT TUBE 63° /ALMAND",8000.0,15],["AQ06","AQUAT VANNE 20°",112.0,15],["AQ07","AQUAT VANNE 25°",1220.0,15],["AQ08","AQUAT VANNE 32°",2150.0,15],["AQ09","AQUAT VANNE 40°",3400.0,15],["AQ10","AQUAT VANNE 50°",0.0,15],["AQ11","AQUAT COUDE 20°*90",60.0,15],["AQ12","AQUAT COUDE 20°*45",60.0,15],["AQ13","AQUAT  COUDE 25°*90",80.0,15],["AQ14","AQUAT COUDE 25°*45",80.0,15],["AQ15","AQUAT  COUDE 32°*90",150.0,15],["AQ16","AQUAT COUDE 32°*45",150.0,15],["AQ17","AQUAT  COUDE 40°*90",240.0,15],["AQ18","AQUAT  COUDE 40°*45",240.0,15],["AQ19","AQUAT COUDE 50°*90",400.0,15],["AQ191","AQUAT COUDE 63",0.0,15],["AQ193","ITALY- COUDE RAC 32°",980.0,77],["AQ196","ITALY- COUDE 25°/20M",450.0,77],["AQ20","AQUAT  COUDE 50°*45",370.0,15],["AQ21","AQUAT TES 20°",85.0,15],["AQ22","AQUAT TES 25°",110.0,15],["AQ23","AQUAT TES 32°",190.0,15],["AQ24","AQUAT TES 40°",210.0,15],["AQ25","AQUAT TES 50°",650.0,15],["AQ251","AQUAT TES 63°",100.0,15],["AQ26","AQUAT MANCHO 20°",55.0,15],["AQ260",".....................",75.0,55],["AQ261","ITALY- MANCHO RED 50/40",220.0,77],["AQ262","ITALY-MANCHO RED 40/32",160.0,77],["AQ27","AQUAT MANCHO 25°",70.0,15],["AQ28","AQUAT MANCHO 32°",95.0,15],["AQ29","AQUAT MANCHO 40°",150.0,15],["AQ30","AQUAT MANCHO 50°",260.0,15],["AQ301","VERT MANCHO RED 25/20°",35.0,7],["AQ302","VERT MANCHO RED 32/20°",45.0,7],["AQ303","VERT MANCHO RED 32/25°",45.0,7],["AQ304","VERT MANCHO RED 40/25°",90.0,7],["AQ3040","VERT MANCHO RED 50/40°",220.0,7],["AQ3041","VERT MANCHO RED 50/30°",220.0,7],["AQ3042","VERT MANCHO RED 40/32°",90.0,7],["AQ305","AQUAT MANCHO 63°",500.0,15],["AQ31","AQUAT ADABT 20°/15 M",370.0,15],["AQ32","AQUAT ADABT  20°/15 F",320.0,15],["AQ33","AQUAT ADABT 25°/20 M",480.0,15],["AQ34","AQUAT ADABT 25°/20 F",470.0,15],["AQ345","AQUAT RACORIGNOM 25",800.0,15],["AQ35","AQUAT ADABT 32°/26 M",1220.0,15],["AQ36","AQUAT ADABT 32°/20 F",1270.0,15],["AQ37","AQUAT ADABT 40°/33 F",1590.0,15],["AQ38","AQUAT ADABT 40°/33 M",1650.0,15],["AQ39","AQUAT ADABT 50°/40 M",2100.0,15],["AQ40","AQUAT ADABT  50°/40 F",1950.0,15],["AQ41","AQUAT TES RED 25°/20°",130.0,15],["AQ42","AQUAT TES RED 32°/20°",195.0,15],["AQ43","AQUAT TES RED 32°/25°",195.0,15],["AQ44","AQUAT TES RED 40°/20°",270.0,15],["AQ45","AQUAT TES RED 40°/25°",270.0,15],["AQ46","AQUAT TES RED 40°/32°",280.0,15],["AQ47","AQUAT TES RED 50°/20°",510.0,15],["AQ48","AQUAT TES RED 50°/25°",510.0,15],["AQ49","AQUAT TES RED 50/32",650.0,15],["AQ50","AQUAT  TES RED 50°/40°",650.0,15],["AQ51","ITALY- RED 25/20",75.0,77],["AQ52","AQUAT RED 32/20",90.0,15],["AQ53","AQUAT RED 32/25",90.0,15],["AQ54","AQUAT RED 40/32",160.0,15],["AQ56","AQUAT RED 40/25",140.0,15],["AQ561","AQUAT RED 40/20",140.0,15],["AQ57","RIACHA POMPE",100.0,77],["AQ58","AQUAT RED 50/20",210.0,15],["AQ59","AQUAT RED 50/25",210.0,15],["AQ60","AQUAT RED 50/32",280.0,15],["AQ61","AQUAT RED 50/40",280.0,15],["AQ615","AQUAT RED 63",400.0,15],["AQ62","AQUAT TES 20°/15 F",580.0,15],["AQ63","AQUAT TES 25°/15 F",640.0,15],["AQ64","AQUAT TES 25°/20 F",640.0,15],["AQ68","AQUAT APLIQUE 20°/15",350.0,15],["AQ69","AQUAT APLIQUE 25°/15",400.0,15],["AQ70","AQUAT APLIQUE 25°/20",390.0,15],["AQ71","AQUAT DODANE 20°",180.0,15],["AQ72","AQUAT DODANE 25°",290.0,15],["AQ73","AQUAT DODANE 32°",540.0,15],["AQ78","VERT ADABT RACCORD 20°",230.0,7],["AQ79","VERT ADABT RACCORD 25°",320.0,7],["AQ80","VERT ADABT RACCORD 32°",600.0,7],["AQ81","VERT COUDE  RACCORD 20°",270.0,7],["AQ82","VERT COUDE  RACCORD 25°",340.0,7],["AQ83","VERT COUDE  RACCORD 32°",780.0,7],["AQ84","VERT ADABT 50° F",950.0,7],["AQ85","VERT ADABT 50 M",980.0,7],["AQ851","VERT ADABT 32 M",450.0,7],["AQ86","VERT COUDE 20/15M",170.0,7],["AQ87","VERT COUDE 25/15M",220.0,7],["AQ871","VERT COUDE 25/20M",280.0,7],["AQ88","VERT RACCORIOM 20° M",250.0,7],["AQ89","VERT RACCORIOM 25° M",450.0,7],["AQ90","VERT RACCORIGOM 32° M",600.0,7],["AQ91","VERT RACCORIGNOM 40 M",980.0,7],["AQ92","VERT RACCORIGOM 50 M",1600.0,7],["AQ93","VERT RACCORIGOM 20° F",270.0,7],["AQ94","VERT RACCORIGOM 25° F",400.0,7],["AQ95","VERT RACCORIGOM 32° F",600.0,7],["AQ96","VERT RACCORIGOM 40° F",900.0,7],["AQ97","VERT RACCORIGOM 50° F",1580.0,7],["AQ98","AQUAT ADABT 25/15F",470.0,15],["AQ99","AQUA BOUCHON 32",100.0,77],["AZ","MEROIR PLS AZIZA",1100.0,77],["BO","BOUTON POUSSOIR CHASSE D EAU",380.0,77],["BRZ","BRZ BOUCHON 33/42",400.0,3],["BZ001","BRZ MAMLO 12°",80.0,3],["BZ0010","BRZ MAMLO 8CM 15°",300.0,3],["BZ0012","BRZ MAMLO RED 15/08°",90.0,3],["BZ0013","BRZ MAMLO RED 12/08°",80.0,3],["BZ002","BRZ MAMLO 15°",90.0,3],["BZ003","BRZ MAMLO 20°",150.0,3],["BZ004","BRZ MAMLO 26°",220.0,3],["BZ005","BRZ MAMLO 33°",450.0,3],["BZ006","BRZ MAMLO 40/49°",750.0,3],["BZ007","BRZ MAMLO 50/60°",1200.0,3],["BZ008","BRZ MAMLO RED 15/12°",90.0,3],["BZ0080","BRZ MAMLO RED 12/10°",80.0,3],["BZ0081","BRZ MAMLO RED 15/10°",100.0,3],["BZ009","BRZ MAMLO RED 20/15°",130.0,3],["BZ010","BRZ MAMLO RED 26/20°",220.0,3],["BZ011","BRZ MAMLO RED 26°/15°",220.0,3],["BZ011.","BRZ MAMLO RED 33°/26°",400.0,3],["BZ012","BRZ MANCHO 15°",140.0,3],["BZ012.","BRZ MAMLO RED 33°/20°",500.0,3],["BZ013","BRZ MANCHO 20°",180.0,3],["BZ013.","BRZ MAMLO RED 33°/15°",450.0,3],["BZ014","BRZ MANCHO 26°",230.0,3],["BZ015","BRZ MANCHO 33°",550.0,3],["BZ016","BRZ MANCHO 40/49°",550.0,3],["BZ017","BRZ MANCHO 50/60°",600.0,3],["BZ018","BRZ MANCHO RED 20/15°",280.0,3],["BZ019","BRZ MANCHO RED 26/20°",380.0,3],["BZ020","BRZ MANCHO RED 26/15°",450.0,3],["BZ021","BRZ MANCHO RED 33°/26°",350.0,3],["BZ0210","BRZ MANCHO RED 33°/20°",350.0,3],["BZ022","BRZ MANCHO RED 33°/15°",380.0,3],["BZ023","BRZ MANCHO RED 40°/33°",580.0,3],["BZ024","BRZ MANCHO RED 40/26°",550.0,3],["BZ025","BRZ MANCHO RED 50°/26°",380.0,3],["BZ026","BRZ TES 15°",200.0,3],["BZ027","BRZ TES 20°",240.0,3],["BZ028","BRZ TES 26°",480.0,3],["BZ029","BRZ TES 33°",700.0,3],["BZ030","BRZ TES 40/49°",850.0,3],["BZ031","BRZ TES 50/60°",1450.0,3],["BZ032","BRZ RACCORD MIXTE 12°",100.0,3],["BZ0320","BRZ RACCORD MIXTE 12/10°",80.0,3],["BZ033","BRZ RACCORD MIXTE 15°",100.0,3],["BZ034","BRZ RACCORD MIXTE 20°",120.0,3],["BZ035","BRZ RACCORD MIXTE 26°",220.0,3],["BZ036","BRZ RACCORD MIXTE 15°/12°",100.0,3],["BZ037","BRZ RACCORD MIXTE 20/15°",150.0,3],["BZ038","BRZ RACCORD MIXTE 26°/20°",200.0,3],["BZ039","BRZ RACCORD MIXTE 26°/15°",200.0,3],["BZ040","BRZ TES FILTI 15°M",180.0,3],["BZ041","BRZ COUDE 15° FF",180.0,3],["BZ042","BRZ COUDE 20° FF",280.0,3],["BZ043","BRZ COUDE 26° FF",650.0,3],["BZ044","BRZ COUDE 33°FF",580.0,3],["BZ045","BRZ COUDE 40/49° FF",880.0,3],["BZ046","BRZ COUDE 50/60° FF",2000.0,3],["BZ047","BRZ COUDE 15° MF",200.0,3],["BZ048","BRZ COUDE 20°MF",250.0,3],["BZ049","BRZ COUDE 26° MF",480.0,3],["BZ050","BRZ COUDE 15° MM",120.0,3],["BZ051","BRZ COUDE 20° MM",0.0,3],["BZ052","BRZ RACCORIGNOM 15° FF 1ER CHOIX",400.0,3],["BZ053","BRZ RACCORIGNOM 20° FF 1ER CHOIX",550.0,3],["BZ054","BRZ RACCORIGNOM 26° FF",700.0,3],["BZ055","BRZ RACCORIGNOM 33° FF",2400.0,3],["BZ0550","BRZ RACCORIGNOM 33° MF 1ER",2500.0,3],["BZ0551","BRZ RACCORIGNOM 50/60° FF",2400.0,3],["BZ0553","BRZ RACCORIGNOM 50/60° MF",3900.0,3],["BZ056","BRZ RACCORIGNOM 15° MF 1ER CHOIX",550.0,3],["BZ057","BRZ RACCORIGNOM 20° MF 1ER CHOIX",950.0,3],["BZ058","BRZ RACCORIGNOM 26° MF 1ER CHOIX",1400.0,3],["BZ0581","BRZ RACCORIGNOM 26° MF POMPE",850.0,3],["BZ059","BRZ TETE VANNE BCR",170.0,3],["BZ0591","BRZ CRUE 14°",100.0,3],["BZ060","BRZ CRUE 16°",60.0,3],["BZ0601","BRZ FILTER 15/21 A TAMI",750.0,3],["BZ061","BRZ BOUCHON 15° M",80.0,3],["BZ062","BRZ BOUCHON 20° M",120.0,3],["BZ063","BRZ BOUCHON 26° M",200.0,3],["BZ064","BRZ BOUCHON 15° F",80.0,3],["BZ065","BRZ BOUCHON 20° F",100.0,3],["BZ066","BRZ BOUCHON 26° F",200.0,3],["BZ0661","BRZ BOUCHON 08° M",60.0,3],["BZ067","BRZ RED 15/12",80.0,3],["BZ0671","BRZ RED 15/10",80.0,3],["BZ0672","BRZ RED 15/08",80.0,3],["BZ0673","DETECTOR GAZ /ALARME",1700.0,77],["BZ068","BRZ RED 20/15",90.0,3],["BZ069","BRZ RED 26/20",170.0,3],["BZ070","BRZ RED 26/15",200.0,3],["BZ071","BRZ RED 33/26",350.0,3],["BZ072","BRZ RED 40/33",550.0,3],["BZ073","BRZ RED 40/26",300.0,3],["BZ074","BRZ RED 50/40",1000.0,3],["BZ075","BRZ RED 50/33",580.0,3],["BZ0751","BRZ RED 10/08",80.0,3],["BZ076","BRZ RACCORD D'EAU 15°",180.0,3],["BZ077","BRZ RACCORD D'EAU 20°",250.0,3],["BZ078","BRZ TITINE GAZ",150.0,3],["BZ0780","BRZ TITINE GAZ TABONA",200.0,3],["BZ0781","BRZ TITINE DOBLI A RACCORD GAZ",250.0,3],["BZ0782","BRZ TITINE GAZ TABONA/ COUDI",180.0,3],["BZ079","BRZ COUDIGNON 15°",290.0,3],["BZ080","BRZ COUDIGNON 20°",350.0,3],["BZ081","BRZ COUDE RACCORD 15°",300.0,3],["BZ082","BRZ COUDE RACCORD 20°",550.0,3],["BZ083","BRZ COUDE RACCORD 26°",550.0,3],["BZ085","BRZ CLAPI PAPION 15°",800.0,3],["BZ086","BRZ CLAPI RESSEUR 15°",600.0,3],["BZ087","BRZ CLAPI PAPION 20°",800.0,3],["BZ088","BRZ CLAPI RESSEUR 20°",880.0,3],["BZ089","BRZ CLAPI  PAPION 26°",1450.0,3],["BZ0891","BRZ CLAPI  RESSEUR 26°",850.0,3],["BZ090","BRZ CLAPI PAPION 33°",2500.0,3],["BZ091","BRZ CLAPI PAPION 40/49°",3200.0,3],["BZ092","BRZ CLAPI PAPION 50/60°",4500.0,3],["BZ093","BRZ CLAPI PAPION 66/75°",5900.0,3],["BZ094","BRZ CLAPI PAPION 80/90°",9800.0,3],["BZ095","BRZ CREPINE 15°",650.0,3],["BZ096","BRZ CREPINE 20°",850.0,3],["BZ097","BRZ CREPINE 26°",1200.0,3],["BZ098","BRZ CREPINE 33°",1650.0,3],["BZ099","BRZ CREPINE 40/49°",2600.0,3],["BZ100","BRZ CREPINE 50/60°",4200.0,3],["BZ101","BRZ CREPINE 66/75°",3100.0,3],["BZ102","BRZ CREPINE 80/90°",4500.0,3],["BZ105","PVC CHIT 160° / 6 BAR",550.0,1],["BZ106","APLIQUE 15 / GLR",280.0,77],["BZ107","APLIQUE 15 /CHINE",100.0,77],["BZ108","APLIQUE MELANGER 20M/ FLR",300.0,77],["BZ109","APLIQUE MELANGER 20M/ SLR",360.0,77],["BZ112","BRZ RED 33/20",350.0,3],["BZ1120","BRZ RED 33/15",380.0,3],["BZ115","BRZ MAMLO 10°",80.0,3],["BZ116","BRZ MAMLO 08°",70.0,3],["BZ117","BRZ RED 12/10",80.0,3],["BZ118","BRZ RED 12/08",80.0,3],["BZ119","BRZ RACORIGOM 40/49 FF",1270.0,3],["BZ120","BRZ RACCORD MIXT CROMI 20/20 RACORD 5CM",470.0,3],["BZ122","BRZ MAMLO RED 40/26+20+15",500.0,3],["BZ123","BRZ MANCHO RED 50°/33°",780.0,3],["BZ124","BRZ MANCHO RED 50°/40°",780.0,3],["BZ126","BRZ RACCORD MIXTE 5CM /CROMI",300.0,3],["BZ1260","BRZ RACCORD MIXTE 3CM /CROMI",280.0,3],["BZ1261","BRZ RACCORD MIXTE 4CM /CROMI",330.0,3],["BZ22","BRZ RACCORD 2 PIECE 15° M/RAC",280.0,3],["BZ220","BRZ RACCORD 3 PIECE 15° RAC/RAC",280.0,3],["BZ2201","BRZ RACCORD 3 PIECE 20° RAC/RAC",300.0,3],["BZ221","BRZ RACCORD 2 PIECE 20° M/RAC",400.0,3],["BZ222","BRZ RACCORD 2 PIECE 26° M/RAC",700.0,3],["BZ223","BRZ RACCORD 3 PIECE 26° RAC/RAC",550.0,3],["CAN0","CANIVEAU PLS 30D",1000.0,20],["CAN1","CANIVEAU PLS 40 D",1150.0,20],["CAN10","CANIVEAU INOX 30 CM /MAREBR",3550.0,20],["CAN11","CANIVEAU INOX /9*40C",0.0,20],["CAN12","CANIVEAU INOX /9*50C",2200.0,20],["CAN15","CANIVEAU PLS PROPHEX 30D",1000.0,20],["CAN16","CANIVEAU PLS PROPHEX 30C",1000.0,20],["CAN17","CANIVEAU PLS PROPHEX 40D",1150.0,20],["CAN18","CANIVEAU PLS PROPHEX 40C",1150.0,20],["CAN19","CANIVEAU PLS PROPHEX 50D",1300.0,20],["CAN2","CANIVEAU PLS 50 D",1250.0,20],["CAN20","CANIVEAU PLS PROPHEX 50C",1300.0,20],["CAN21","CANIVEAU INOX PROPHEX30D",2200.0,20],["CAN22","CANIVEAU INOX PORPHEX 30C",3300.0,20],["CAN23","CANIVEAU INOX PROPHEX40D",2400.0,20],["CAN24","CANIVEAU INOX PORPHEX 40C",3800.0,20],["CAN25","CANIVEAU INOX PROPHEX50D",4300.0,20],["CAN26","CANIVEAU INOX PROPHEX50C",2900.0,20],["CAN3","CANIVEAU PLS 20 D",900.0,20],["CAN4","CANIVEAU PLS 20 C",750.0,20],["CAN5","CANIVEAU PLS 30  C",1100.0,20],["CAN6","CANIVEAU PLS 40 C",1050.0,20],["CAN7","CANIVEAU PLS 50 D",0.0,20],["CAN8","CANIVEAU PLS 50  C",1200.0,20],["CAN9","CANIVEAU INOX /9*20C",1600.0,20],["CH 93","CHAUDIERE28/KAL /ENERGICAL-VENTEUSE",138000.0,77],["CH001","THERMOSTATIQUE /TIEMME",7600.0,77],["CH0010","THERMOSTA /FORNO",780.0,77],["CH002","KIT POMPE AXELERATEUR 26° /TIEMME",25700.0,33],["CH003","KIT COLLECTEUR AVEC DEBEMETRE 26° A 3 /TIEMME",19800.0,33],["CH004","KIT COLLECTEUR AVEC DEBEMETRE 26° A 4 /TIEMME",23200.0,33],["CH005","KIT COLLECTEUR AVEC DEBEMETRE 26° A 5 /TIEMME",25400.0,33],["CH006","KIT COLLECTEUR AVEC DEBEMETRE 26° A 6 /TIEMME",28800.0,33],["CH007","KIT COLLECTEUR AVEC DEBEMETRE 26° A 7 /TIEMME",26000.0,33],["CH008","KIT COLLECTEUR AVEC DEBEMETRE 26° A 8 /TIEMME",34700.0,33],["CH009","KIT COLLECTEUR AVEC DEBEMETRE 26° A 8 /TIEMME",34700.0,33],["CH01","CHAUF CHAUDIERE 25KCAL /SONY DYVEL",64500.0,77],["CH010","KIT COLLECTEUR AVEC DEBEMETRE 26° A 10 /TIEMME",34800.0,33],["CH011","KIT DE SECURITÉ  3 BAR /TIEMME",3750.0,33],["CH0111","CHAUDIERE 24KCAL /UNICAL-ITALY",69000.0,17],["CH0112","CHAUDIERE 32KCAL /UNICAL-ITALY",94000.0,17],["CH0113","CHAUDIERE 24 KCAL /JINKERS",90000.0,17],["CH0114","CHAUDIERE 24KCAL /BAXI-ITALY",114000.0,17],["CH02","CHAUDIERE 30KCAL /SONY DYVEL",127500.0,17],["CH020","CHAUDIERE 25 KCAL /SONY DYVEL",172000.0,17],["CH03","CHAUDIERE 35KCAL /SONY DYVEL",187000.0,17],["CH04","CHAUDIERE 40KCAL /SONY DYVEL",122000.0,17],["CH05","CHAUDIERE 50KCAL /SONY DYVEL",170000.0,17],["CH06","CHAUDIERE 60KCAL /SONY DYVEL",199000.0,17],["CH07","CHAUDIERE 35 KCAL / BERETA",157000.0,17],["CH071","CHAUDIERE 24KCAL /BERETA",62000.0,17],["CH0711","CHAUDIERE 24KCAL VANTEUSE /BERETA",72000.0,17],["CH072","CHAUDIERE 28KCAL /BERETA",118000.0,17],["CH073","CHAUDIERE 45KCAL /BERETA",130000.0,17],["CH074","CHAUDIERE 55KCAL /BERETA",158000.0,17],["CH075","CHAUDIERE 64KCAL /BERETA",170000.0,17],["CH0751","CHAUDIERE 71KCAL /BERETA",249000.0,17],["CH0752","CHAUDIERE 90KCAL /BERETA",369000.0,17],["CH08","CHAUDIERE 30KCAL   /JINKERS",146000.0,17],["CH09","CHAUDIERE 32KCAL   /FERROLI",90000.0,17],["CH10","CHAUDIERE 36KCAL   /FERROLI",145000.0,17],["CH11","CHAUDIERE 51KCAL    /FERROLI",225000.0,17],["CH12","CHAUDIERE 68KCAL    /FERROLI",278000.0,17],["CH13","CHAUDIERE 85KCAL    /FERROLI",322000.0,17],["CH14","CHAUDIERE 24KCAL   /IMERGEZ",128000.0,17],["CH15","CHAUDIERE 28KCAL /IMERGEZ-VENTEUSE",139000.0,17],["CH150","CHAUDIERE 28KCAL /IMERGEZ",154000.0,17],["CH151","CHAUDIERE 32KCAL /IMERGEZ-VEUNTEUZ",158000.0,17],["CH152","CHAUDIERE 24 KCAL /IMERGEZ-VENTEUSE",122000.0,17],["CH16","CHAUDIERE 36KCAL   /SAIN ROCH _BELGIC",129000.0,17],["CH17","CHAUDIERE SIME 30 KW VENTEUSE",149000.0,17],["CH18","CHAUDIERE 44KCAL   /SAIN ROCH",0.0,17],["CH19","CHAUDIERE 48/50KCAL   /SIM ITALY",345000.0,17],["CH20","CHAUDIERE 68KCAL    /SAIN ROCH",189000.0,17],["CH200","VASE 100 L",24500.0,77],["CH201","VASE D'EXPANS 35 L",12400.0,77],["CH202","VASE D'EXPANS 50 L /ITALY",14500.0,77],["CH203","VASE D'EXPANS 80 L",23300.0,77],["CH21","CHAUDIERE 36KCAL /ENERJIQAL",145000.0,17],["CH22","CHAUDIERE 42KCAL /CHAPPEE",0.0,17],["CH23","CHAUDIERE 53KCAL /CHAPPEE",0.0,17],["CH2350","CLAPI SYFON BRZ",450.0,62],["CH24","CHAUDIERE 64KCAL /CHAPPEE",0.0,17],["CH25","CHAUDIERE 80KCAL /CHAPPEE",278000.0,17],["CH251","CHAUDIERE 110KCAL /CHAPPEE",520000.0,17],["CH26","RADIATEUR EN FANTE    /TURK",1590.0,45],["CH27","RADIATEUR ALUMNUIM  /GLOBEL \"NEW\"",2200.0,45],["CH28","RADIATEUR EN FANTE    IDIEL CLEMENT 3 BANDE",1430.0,45],["CH29","RADIATEUR ALUMINUM LOUCAL",1350.0,45],["CH30","RADIATEUR ALUMINUM \"GLOBAL\"/ITALY",2120.0,45],["CH300","RADIATEUR 180CM 5 ELEMENT \"ROVAL\" /ITALY",28000.0,45],["CH301","RADIATEUR ALUMINUM  /ROVAL -FARAL ITALY",2220.0,45],["CH302","RADIATEUR ALUMINUM \"FANDITAL\" /ITALY",1450.0,45],["CH31","POMPE AXERATEUR 33° /WILO",19500.0,14],["CH32","POMPE AXERATEUR 33° /DAP",19500.0,14],["CH33","POMPE AXERATEUR 40° /DAP",41000.0,14],["CH331","POMPE AXERATEUR 40° /DAP PUISSANSE 56",21300.0,14],["CH34","POMPE AXERATEUR 33° /DAP PUISSANSE",13300.0,14],["CH341","POMPE AXERATEUR 66/75° -CHIMG",47500.0,14],["CH35","POMPE AXERATEUR 40° /DAP PUISSANSE",42000.0,14],["CH36","POMPE AXERATEUR 50° /DAP",45000.0,14],["CH361","POMPE AXERATEUR 50° /DAP PUISSANTE 120",51000.0,14],["CH37","POMPE AXERATEUR 26° /DAB",17000.0,14],["CH38","POMPE AXERATEUR 40° /WILO IMAS",28300.0,14],["CH381","POMPE AXERATEUR 40° / 250 KW",26000.0,14],["CH41","COLLECTEUR 110° /NOIR",3900.0,46],["CH42","COLLECTEUR PPR /63°-33°",8200.0,46],["CH43","COLLECTEUR 33° /INOX",9800.0,46],["CH430","COLLECTEUR PPR /90°-33°",9300.0,46],["CH431","COLLECTEUR 40° /INOX",13500.0,46],["CH44","BRIDE POMPE AXELERATEUR",800.0,77],["CH45","BALON DE CHAUDE 300L /LOCAL",55000.0,39],["CH451","BALON PRESSION GALVA 500L /LOCAL",19000.0,39],["CH452","BALON PRESSION GALVA 180 L",27500.0,39],["CH454","BALON PRESSION GALVA 200L / ITALY",23500.0,39],["CH46","BALON DE CHAUDE 500L RGHAIA/LOCAL",29800.0,39],["CH461","BALON DE CHAUDE 500L /LOCAL",52500.0,39],["CH462","BRIDE",800.0,77],["CH463","BALON D'EXPANSION 150L /ITALY",19500.0,39],["CH47","BALON DE CHAUDE 500L / ISOLATION  ECHANGEUR ITALY",122000.0,39],["CH470","BALON  ISOLATION  ECHANGEUR 300L  ITALY",81000.0,39],["CH471","BALON ISOLATION JAQUETT 500L / LOCAL 1ER",105000.0,39],["CH480","...3",7200.0,77],["CH4800","SECHE LINGE 80 -COUDI /BLAND-ITALY",11500.0,40],["CH481","SECHE LINGE 80 CM /CROMI-ITALY",15400.0,40],["CH4811","SECHE LINGE 1 M /CROMI",15500.0,40],["CH4812","CALIBREUR PEX PLS",180.0,77],["CH4813","SECHE LINGE 1 M /CROMI-ITALY",17500.0,40],["CH4814","SECHE LINGE 1.2 M /NOIR",18300.0,40],["CH49","....2",13700.0,77],["CH490","BRZ MAMLO 10°/08",80.0,3],["CH4900","SECHE LINGE 120CM BLAND/COUDI",16500.0,40],["CH4901","SECHE LINGE 120CM CROMI /ITALY",19500.0,40],["CH491","SECHE LINGE FORNO",300.0,40],["CH492","SECHE LINGE 1 M /BLAND -ITALY",13900.0,40],["CH493","SECHE LINGE 1.7 M /BLAND -ITALY",14500.0,40],["CH50","ROBINET RADIATEUR REN",2250.0,11],["CH51","ROBINET RADIATEUR / GIACOMINI",2200.0,11],["CH512","ROBINET RADIATEUR  ICMA ITALY",2550.0,11],["CH52","ROBINET SECH-LING /BLAND",3200.0,11],["CH520","ROBINET SECH-LING /CROMI",3200.0,11],["CH521","ROBINET SECH-LING /PEX-BLAND",4300.0,11],["CH522","ROBINET SECH-LING /PEX -CROMI",4300.0,11],["CH523","ROBINET LUX 15°  /FO BRANZ",1100.0,11],["CH53","ROBINET RADIATEUR  ARCCOTHERM",1850.0,11],["CH531","ROBINET RADIATEUR FORNARA  -PEX-",2300.0,11],["CH532","ROBINET RADIATEUR ....",1550.0,11],["CH5321","ROBINET RADIATEUR COCTAL",1750.0,11],["CH533","ROBINET RADIATEUR / ITALY  -PEX-",2650.0,11],["CH54","ROBINET RADIATEUR 15° GICO  /MINI TERM",4200.0,11],["CH541","ROBINET RADIATEUR  TIEMME",2550.0,11],["CH55","NIPLE 1ER CHOIX",100.0,77],["CH555","VANNE REMPLISSAGE+MANO /ITALY",5800.0,13],["CH556","VANNE REMPLISSAGE / TIEMME",8600.0,13],["CH56","PERGEUR RADIATEUR 08°",80.0,77],["CH57","PERGEUR RADIATEUR 15°",65.0,77],["CH571","PERGEUR RADIATEUR AUTOMATIC KAS",350.0,77],["CH58","POCHETTE RADIATEUR",550.0,77],["CH581","POCHETTE RADIATEUR + SUPORT",350.0,77],["CH59","BOCHON RADIATEUR",50.0,77],["CH60","JOIN RADIATEUR FANTE /ITALY",10.0,25],["CH61","JOIN RADIATEUR ALUMIUM",15.0,25],["CH62","JOIN RADIATEUR /PLS",10.0,25],["CH64","BOTEIL DE PERGE DROIT /GM",1050.0,63],["CH641","BOTEIL DE PERGE DROIT /TIEMME",1600.0,63],["CH6410","BOTEIL DE PERGE DROIT",1300.0,63],["CH642","BOTEIL DE PERGE COUDI /ITALY",1600.0,63],["CH643","BOTEIL DE PERGE COUDI /TIEMME",1900.0,63],["CH650","BOTEIL DE PERGE COUDI",900.0,63],["CH66","SOUPAPE 3BAR /ITALY",830.0,56],["CH661","SOUPAPE 7BAR /ITALY",1300.0,56],["CH67","SOUPAPE 6BAR /ITALY",800.0,56],["CH671","SOUPAPE 6BAR +RACCORD /ITALY",900.0,56],["CH68","SOUPAPE 6BAR + MANO /ITALY",2000.0,56],["CH69","SOUPAPE 3BAR + MANO /ITALY",2100.0,56],["CH70","THERMOMEITRE MANO GGM",1350.0,77],["CH71","THERMOMEITRE COUDI",1220.0,77],["CH72","MANO PRESSION 16 BAR  /OIL",1150.0,77],["CH721","MANO PRESSION 10BAR  /CODI",750.0,77],["CH7211","THERMOMETRE MANO ROND /D 120°",1300.0,77],["CH73","MANO PRESSION OIL",1450.0,77],["CH730","MANO PRESSION + THERMIQUE",2200.0,77],["CH74","MANOMETRE 6 BAR /TEDA C PM",650.0,69],["CH740","PATCH PLS",70.0,77],["CH7400","MANOMETRE 10 BAR /D",700.0,69],["CH7401","MANOMETRE / TIEMME 10 BAR",850.0,69],["CH741","MANOMETRE 6 BAR D /CRITHERM",550.0,69],["CH745","MANOMETRE 4 BAR  C \"/ITALY",850.0,69],["CH75","SUPOR RADIATEUR /CONSOL",60.0,64],["CH76","SUPOR RADIATEUR /CHEVI",120.0,64],["CH760","SUPOR RADIATEUR /REGLABLE",550.0,64],["CH77","SUPOR RADIATEUR /LOCAL",180.0,64],["CH78","SUPOR RADIATEUR /FRAP",250.0,64],["CH781","SUPOR RADIATEUR / 3 VISSE",200.0,64],["CH80","ROMPLISSAG CHAUDIER IT",3650.0,77],["CH81","CHAUDIERE 24KCAL   /ENERGICAL -VENTEUSE",105000.0,17],["CH82","CHAUDIERE 24KCAL /CHAPPEE",69500.0,17],["CH821","CHAUDIERE 28KCAL /ENERGICAL VENTEUSE",120000.0,17],["CH84","RADIATEUR EN FANTE  FEROLI  /ITALY",1880.0,45],["CH85","PLAK POLISTER",600.0,77],["CH850","PLAK POLISTER VERT /LOCAL",950.0,77],["CH91","CHAUDIERE 32/KCAL  /ENERGICAL-VENTEUSE",162000.0,17],["CHA","CHAUFFE EAU ENERGICAL 12L SMART",28500.0,53],["CHO114","CHAUDIERE /ENZEGICAL 45 KW VENTOS",194000.0,17],["CLA","CLAPI SYFON",250.0,62],["CO01","..............",10.0,70],["CO02","COLLIER 16° /ATLASS",12.0,18],["CO03","COLLIER 22° /ATLASS",15.0,18],["CO031","COLLIER  26° /ATLASS",15.0,18],["CO04","COOLIER 26° ATLASS",15.0,77],["CO05","COLLIER 28° /ATLASS",20.0,18],["CO06","COLLIER 32° /ATLASS",30.0,18],["CO07","COLLIER 40° ATLASS",30.0,18],["CO08","COLLIER 42° ATLASS",30.0,18],["CO09","COLLIER 50° /ATLASS",30.0,18],["CO10","COLLIER  63° /ATLASS",45.0,18],["CO11","COLLIER  14° D /ATLASS",20.0,18],["CO12","COLLIER  16° D /ATLASS",20.0,18],["CO13","COLLIER 16° A JOIN",45.0,18],["CO15","COLLIER 22° A JOIN",45.0,18],["CO16","COLLIER LEUR AJOIN 25°",60.0,18],["CO161","..........",35.0,54],["CO17","COLLIER LEUR AJOIN 28°",70.0,18],["CO18","COLLIER LEUR AJOIN 35°",90.0,18],["CO19","COLLIER LEUR AJOIN 40°",90.0,18],["CO20","COLLIER LEUR AJOIN 48°",100.0,18],["CO21","COLLIER LEUR AJOIN 60°",120.0,18],["CO210","COLLIER LEUR AJOIN 75°",85.0,18],["CO211","COLLIER LEUR AJOIN 110°",130.0,18],["CO212",".............",50.0,47],["CO213","COLLIER LEUR  40°",45.0,18],["CO214","COLLIER LEUR  20°-25",900.0,18],["CO215","COLLIER LEUR  26°-32",35.0,18],["CO22","COLLIER LARGE 63°",75.0,18],["CO23","COLLIER LARGE 83°",90.0,18],["CO24","COLLIER LARGE 90°",70.0,18],["CO241","TES BALAN  DE CHAUDE",700.0,77],["CO25","COLLIER LARGE 110°",100.0,18],["CO26","COLLIER LARGE 125°",80.0,18],["CO27","COLLIER LARGE 160°",150.0,18],["CO271","COLLIER LARGE 100°",70.0,18],["CO28","COLLIER LARGE 200°",150.0,18],["CO29","ROZESS PLAS",3.5,71],["CO30","ROZESS DB",10.0,71],["CO301","ROZESS GB",5.0,71],["CO35","CHEVI PLS SAC 1000PS /08°",800.0,57],["CO36","CHEVI PLS SAC 500PS /10°",800.0,57],["CO37","CHEVI COULEUR 08",3.0,57],["CO371","CHEVI 08/PLS",2.0,57],["CO372","CHEVI 10/PLS",2.0,57],["CO38","CHEVI COULEUR 10",3.0,57],["CO39","CHEVI COULEUR 12",3.0,57],["CO40","COLLIER DE CIRAGE 10/16 MM 1ER",30.0,18],["CO41","COLLIER DE CIRAGE 12/22 MM 1ER",45.0,18],["CO411","COLLIER DE CIRAGE 25/40",50.0,18],["CO42","COLLIER DE CIRAGE 50",60.0,18],["CO421","COLLIER LARGE 110° BLAND",140.0,18],["CO43","COLLIER COLONE DOCH",60.0,18],["CO44","COLLIER DE CIRAGE 48-51 /GM",90.0,18],["CO440","COLLIER 28° AJOIN /ATLASS",40.0,18],["CO441","COLLIER LARGE 83° BLAND",130.0,18],["CO442","COLLIER DE CIRAGE 86-91 /LEUR",160.0,18],["CO45","BATA VISE  7/40",3.0,77],["CO46","BATA VISE  8/50",5.0,77],["CO47","BATA VISE  7/60",5.0,77],["CO48","VISE  4/30",742.0,48],["CO482","VISE  7/40",5.0,48],["CO483","VISE  7/50",5.0,48],["CO485","VISE TIRFOND 6.3*60",15.0,48],["CO4850","VISE TIRFOND 6.3*38",15.0,48],["CO486","VISE  + CHEVI 08",4.0,48],["CO49","VISE  \"L\" GM",15.0,48],["CO490","VISE  +CHEVI 10",4.0,48],["CO491","VISE  \"L\" PM",10.0,48],["CO50","CHERTETAND SAMETAX PM*06",50.0,58],["CO51","CHERTETAND SAMETAX PM *10",50.0,58],["CO510","CHERTETAND GM",150.0,58],["CO52","CHERTETAND SAMETAX DOBLI",100.0,58],["CO53","CHERTETAND LARGE GM",100.0,58],["CO54","CHERTETAND GGM",200.0,58],["CO55","CHERTETAND PVC GM",250.0,58],["CO555","CORDE 15M",130.0,77],["CO58","FIXE MELANJEUR",120.0,77],["CO59","CVR ROBINET /DOBLI 16 FLR",2050.0,9],["CO591","CVR ROBINET 16 /FLR",850.0,9],["CO60","FIXE AVABO ROGE /13",250.0,77],["CO61","FIXE QUVETTE",150.0,77],["CO62",".......................................",250.0,77],["CO63","FIXE AVABO GM /17",180.0,77],["CO65","TETE BCR /DRG",80.0,24],["CO66","TETE FLR COMPLET",500.0,24],["CO661","TETE FLR DRG",280.0,24],["CO662","TETE FLR",250.0,24],["CO67","LAXE BCR-1ER",300.0,77],["CO68",".......................................",150.0,77],["CO69","0000211455",130.0,77],["CO691","LAXE FLR \"1ER\"",300.0,77],["CO692","LAXE FLR \"2EM\"",250.0,77],["CO70","GÉNIRATEUR 1800 L",310000.0,77],["CO71","ROZESS /COMPLET",200.0,71],["CO72","TEFLON  PM ARTHERMO",60.0,49],["CO721","TEFLON  MGM",200.0,49],["CO74","FORO PEX 20 /M",30.0,77],["CO75","DOUILLE DE SOUDRE 20 PPR",450.0,77],["CO76","TEFLON JAUNE /MM",50.0,49],["CO761","TEFLON LIQUIDE 50 ML",750.0,49],["CO77","DOUILLE DE SOUDRE 25 PPR",500.0,77],["CO771","TEFLON CODITAL 20M FRANCE",130.0,49],["CO78","FILTER MACHINE LAVI 15",1850.0,29],["CO781","FILTER MAGNITIQUE /ENERGICAL",7000.0,29],["CO79","TEFLON GM 1ER",280.0,49],["CO791","TEFLON LIQUIDE 250 ML",2700.0,49],["CO80","ROZESS BLAND TIEMME",120.0,71],["COL01","COLLIER PLST",6.0,18],["COLIC","COLLECTEUR 63 INOX",16000.0,46],["CP05","COLLIER PLST 110°",100.0,18],["CR01","CERAMIQUE AVABO SANILUX",5200.0,27],["CR02","CERAMIQUE LAVE MAIN /PM",2300.0,27],["CR021","COUDE 45° PPRC DIA 90",1100.0,77],["CR03","CERAMIQUE LAVE MAIN QUOIN",2400.0,27],["CR04","CERAMAIQUE AVABO 55     /GRAVENA",4300.0,77],["CR041","CERAMAIQUE AVABO 52     /GRAVENA",3900.0,77],["CR042","CERAMAIQUE AVABO 58     /GRAVENA",5800.0,77],["CR05","CERAMIQUE AVABO  /FIVE STAR",6400.0,27],["CR051","CERAMIQUE AVABO  /VENUS 52",3600.0,27],["CR06","CERAMIQUE LAVE MAIN        /GRAVENA",2100.0,27],["CR07","CERAMIQUE SIEGE TURKE /GM",3800.0,27],["CR08","CERAMIQUE SIEGE TURKE /PM",3000.0,27],["CR09","CERAMIQUE SIEGE WC",2300.0,27],["CR10","CERAMIQUE SIEGE WC /INDIA",1900.0,27],["CR11","CERAMIQUE RECEVEUR DOCH    /QUOIN",7500.0,27],["CR13","CERAMIQUE QUIVETTE MONO BLOC",19200.0,27],["CR131","CERAMIQUE QUIVETTE / MELIA",4550.0,27],["CR132","CERAMIQUE QUIVETTE / GRAVENA",5600.0,27],["CR134","CERAMIQUE QUIVETTE MONO BLOC /COLEUR",23500.0,27],["CR14","CERAMIQUE AVABO QUOIN",6200.0,27],["CR141","CERAMIQUE EVIER 1 BAG",2800.0,27],["CR15","BRZ CLAPI RESSEUR 33°",1600.0,3],["CR16","LACOL SITAREN",1000.0,77],["CV001","PEX SERT COUDE 20° CRUE 15",650.0,2],["CV002","CVR BARE 22° /BELGIC",9300.0,9],["CV003","CVR BARE  16° /BELGIC",3800.0,9],["CV0030","CVR BARE  16° / LOCAL",6200.0,9],["CV0031","CVR BARE  16° /ALMAND",2950.0,9],["CV0032","CVR BARE  28°/ LOCAL",9500.0,9],["CV004","CVR BARE 16° ITALY+LFT",6800.0,9],["CV005","CVR BARE 22° /LOCAL",6200.0,9],["CV0051","CVR BARE 22° /ITALY",8900.0,9],["CV006","CVR BARE 28° /ALLEMAND",6900.0,9],["CV0061","CVR BARE 28° /ITALY",11800.0,9],["CV007","CVR BARE 38/40°",24500.0,9],["CV008","CVR BARE 40/42°",19500.0,9],["CV009","CVR CHITE/M 14°",340.0,9],["CV0100","PEX FORO-CHIT  20° /M",30.0,2],["CV011","CVR CHITE/M 22° ALLEMAND",800.0,9],["CV0110","MATRICE PPRC DIA 50°",1000.0,77],["CV0111","CVR CHITE/M 22°",1800.0,9],["CV012","CVR CHITE/M 28°",2300.0,9],["CV013","CVR BRANCHMENT 3 VOIE GM",120.0,9],["CV0131","CVR BRANCHMENT 3 VOIE PM",60.0,9],["CV014","CVR CHITE/M 42°",4000.0,9],["CV015","CVR TES 14°",100.0,9],["CV016","CVR TES 16°",250.0,9],["CV017","CVR TES 22°",280.0,9],["CV018","CVR TES 28°",400.0,9],["CV019","CVR TES 40",650.0,9],["CV020","CVR TES 42",750.0,9],["CV021","CVR TES 16/14",80.0,9],["CV022","CVR TES 22/14",250.0,9],["CV023","CVR TES 22/16",260.0,9],["CV024","CVR TES 28/22",450.0,9],["CV0241","CVR TES 28/22/22",330.0,9],["CV0242","CVR TES 22/16/16",180.0,9],["CV025","CVR TES 28/16",300.0,9],["CV026","CVR TES 40/28",750.0,9],["CV029","CVR TES 40/22",750.0,9],["CV0291","CVR TES 42/22",780.0,9],["CV030","CVR TES 42/28",750.0,9],["CV032","CVR MANCHO 14°",40.0,9],["CV033","CVR MANCHO 16",100.0,9],["CV034","CVR MANCHO 22°",90.0,9],["CV035","CVR MANCHO 28°",130.0,9],["CV036","CVR MANCHO 40",0.0,9],["CV037","CVR MANCHO 42",300.0,9],["CV038","CVR MANCHO RED 16/14",70.0,9],["CV039","CVR MANCHO RED 22/14",80.0,9],["CV040","CVR MANCHO RED 22/16",120.0,9],["CV041","CVR MANCHO RED 28/22",250.0,9],["CV042","CVR MANCHO RED 28/16",180.0,9],["CV043","CVR MANCHO RED 40/28",320.0,9],["CV044","CVR MANCHO RED 40/22",320.0,9],["CV045","CVR MANCHO RED 42/28",250.0,9],["CV046","CVR MANCHO RED 42/22",330.0,9],["CV047","CVR RACCORD A SEDI 14°",150.0,9],["CV048","CVR RACCORD A SEDI 16°",180.0,9],["CV0481","CVR MAMLO A SEDI 16°",100.0,9],["CV0491","CVR RACCORD A SEDI 22° LEUR",200.0,9],["CV050","CVR RACCORD A SEDI 28°/20°",220.0,9],["CV051","CVR RACCORD A SEDI 28/26°",380.0,9],["CV052","CVR RACCORD A SEDI 40/40°",420.0,9],["CV0521","CVR RACCORD A SEDI 42/33°",350.0,9],["CV053","CVR RACCORD A SEDI 40/33°",550.0,9],["CV054","CVR COUDE RACCORD  14°",95.0,9],["CV055","CVR COUDE RACCORD 16°",200.0,9],["CV056","CVR COUDE RACCORD 22°",250.0,9],["CV057","CVR COUDE RACCORD 28°",250.0,9],["CV058","CVR COUDE A SEDI 14°",50.0,9],["CV059","CVR COUDE A SEDI 16",100.0,9],["CV060","CVR COUDE A SEDI 22°",200.0,9],["CV061","CVR COUDE A SEDI 28°",280.0,9],["CV062","CVR COUDE A SEDI 40°",350.0,9],["CV063","CVR COUDE A SEDI 42°",700.0,9],["CV064","CVR RACCORD COMPTEUR 6/20",350.0,9],["CV065","CVR RACCORD COMPTEUR 28°. 10/32",850.0,9],["CV066","CVR RACCORD COMPTEUR 40°. 25/40",1600.0,9],["CV070",".2580.....",880.0,77],["CV0701","CVR ROBINET ENERG     /16° BARAGE",950.0,9],["CV072",".....................",600.0,55],["CV073","ATTACHE 25",3.0,77],["CV0730","ATTACHE 30",5.0,77],["CV074",".....01.4.53.0",580.0,77],["CV075","CVR ROBINET GAZ 22° BARAGE /FLR",1800.0,9],["CV0751","CVR ROBNET 22 / BITRO",1100.0,9],["CV076",".............",880.0,47],["CV077","CVR ROBINET ENERG    /22° BARAGE",1650.0,9],["CV078","POIGNET DOCH REGLABLE",500.0,23],["CV079","CVR ROBINET ENERG    /16° DOBLI",2000.0,9],["CV080","CVR ROBINET GAZ 16° DOBLI",2000.0,9],["CV081","CVR VANE TANDEUR 0050",1150.0,9],["CV0810","CVR ROBINET GAZ 16° DOBLI /FILTÉ",2050.0,9],["CV0811","CVR ROBINET /DOUBLE BITANNE",750.0,9],["CV082","CVR ROBINET GAZ 28° BARAGE",2950.0,9],["CV083","CVR ROBINET GAZ 40° BARAGE",4900.0,9],["CV0840","CVR ROBINET ENERG    6/20",1650.0,9],["CV085","METEGEUR ABLUTION STYL BINOIR HP",6300.0,10],["CV0850","CVR ROBINET GAZ COMPTEUR 28°. 10/32",4200.0,9],["CV08500","CVR ROBINET GAZ COMPTEUR 22°. 6/20",1000.0,9],["CV086","CVR ROBINET GAZ COMPTEUR 40°. 25/40",6900.0,9],["CV0861","CVR ROBINET GAZ /RICHAUT",120.0,9],["CV087","CVR BAGUITE ARGANT 20 /SCORPION",650.0,9],["CV0871","CVR BAGUITE ARGANT /GALFLO 30/.",400.0,9],["CV0872","CVR BAGUITE ARGANT 30 /SCORPION",700.0,9],["CV0873","CVR BAGUITE ARGANT 40 /SCORPION",800.0,9],["CV088","CVR BAGITE ARGANT /45 ROJ",800.0,9],["CV089","CVR BAGUITE FOSSE",120.0,9],["CV090","CVR LETEIN /M",150.0,9],["CV0901","CVR LETEIN / ROLO",350.0,9],["CV091","CVR COURBE SERPANTE 22°",350.0,9],["CV092","CVR RACCORD TANDEUR 10-32/42.",850.0,9],["CV0921","CVR RACCORD TANDEUR 10-32/ 28",850.0,9],["CV0922","CVR RACCORD TANDEUR 10-32/ 22",850.0,9],["CV093","CVR RACCORD GAZ A SEDI 42/40°",500.0,9],["CV39","CVR CROSSE TANDEUR GAZ",1300.0,9],["CVRB","TANDEUR B 10 /GAZ",7000.0,77],["CVRB0","TANDEUR B 6 /GAZ",5700.0,77],["CVRB1","TANDEUR B 25 /GAZ",9800.0,77],["CVRR","TANDEUR BOTEIL GAZ",500.0,77],["D003","DOCHETE GALAXY",1200.0,41],["D005","DOCHETE OK /NOIR PROTHERME",2300.0,41],["DO01","DOCHETE CHINOI",500.0,41],["DO015","POIGNET  DOCH FARFARA",1200.0,23],["DO02","DOCHETE WC INOX",2250.0,41],["DO03","PVC COUDE 83°*45 /BLAND",200.0,1],["DO04","DOCHETE CROMI / SLR",1050.0,41],["DO05","DOCHETE COLEUR",1200.0,41],["DO06","DOCHETE CROME SON WATER",1700.0,41],["DO07","PEX MEC COUDE 20 LIBRE",650.0,2],["DO070","PEX MEC COUDE 20 LIBRE/ ITALY",950.0,2],["DO08","PVC Y 83° BLAND",220.0,1],["DO09","DOCHETE PROFEX BLAND",1000.0,41],["DO10","POIGNET D'ABLUTION STIL ALLEMAND",1800.0,23],["DO100","POIGNET D'ABLUTION /CROMI",650.0,23],["DO11","POIGNET",550.0,23],["DO111","POIGNET D'ABLUTION /ON OF",850.0,23],["DO12","POIGNET D'ABLUTION /BLAND",650.0,23],["DO121","...............547821",650.0,77],["DO122","POIGNET D'ABLUTION / ITALY-BLAND",650.0,23],["DO123","POIGNET D'ABLUTION /OAZI PLS+SUPORT",650.0,23],["DO13","DOCHETE ALEMUNIM",1750.0,41],["DO14","DOCHETTE PROFEX CROMI",1250.0,77],["DO15","DOCHETTE + ROBINET PROFEX",3900.0,77],["DO16","DOCHETE ABLUTION ON-OF METROTEK",2000.0,41],["DOU","TUYAU DOU COLOUR",0.0,77],["ECS001","TABLETE DOCH INOX",750.0,31],["ECS002","POIGNET D'ABLUTION /CH",650.0,23],["EX01","MEROIRE /PM",3200.0,36],["EX011","CHASE DOCH PM",5000.0,77],["EX012","CHALIMON BOTAY",950.0,77],["EX02","MEROIRE PLST 6 PIECE",2850.0,36],["EX03","MEROIRE BLUE PM",2700.0,36],["EX031","MEROIRE /GM",5200.0,36],["EX032","MEROIRE / PLST BEHJA",680.0,36],["EX04","MEROIRE PLST /KENZA GM",850.0,36],["EX08","MEROIRE LED 02-50*70 +MONTRE",11300.0,36],["EX080","MEROIRE LED 02-50*70 SIMPLE",10300.0,36],["EX081","MEROIRE MM",3900.0,36],["EX09","MEROIRE  GM/ VERT",4900.0,36],["EX10","MEROIRE PLST SERVICE /TURK",950.0,36],["EX100","TUYO EXPANDABLE HOSE 15M",1150.0,77],["EX101","TUYEAUX GAZ /M",130.0,77],["EX102","TUYEAUX D\"EAU",90.0,77],["EX103","TUYO EXPANDABLE HOSE 7.5-22M",1150.0,77],["EX104","FIXATION  METIJEUR GM",550.0,77],["EX1041","FIXATION  ABATON",120.0,77],["EX105","SUPORT SERVIETTE /FIXATEUR",2900.0,21],["EX11","PORTE ISIS GLOBAL",550.0,19],["EX116","TUBE SODI BLASTIQUE",20.0,77],["EX117","THERMO COUP STANDARE",450.0,77],["EX1171","THERMOCOUP \"JINKERS\" CHINE",650.0,77],["EX1172","THERMOCOUP \"JINKERS\" /DRG",1250.0,77],["EX12","PORTE ISIS GM /COLOUR",900.0,19],["EX13","PORTE ISIS / INOX",850.0,19],["EX14","PORTE ISIS PLST/ LUXWARES",350.0,19],["EX15","PORTE ISIS PLST/ DOLLY",600.0,19],["EX16","PORTE ISIS / PAUSSOIRE",750.0,19],["EX17","PORTE ISIS ENFRAROGE",1100.0,19],["EX18","PORTE ISIS TURCK",750.0,19],["EX20","PORTE SAVONATE PLS /ERA",100.0,19],["EX21","PORTE SAVONATE PLS /2 PIECE",150.0,19],["EX22","PORTE SAVONATE PLS 1ER",300.0,19],["EX222","ELEMENT BOIT PHARMACIE+MEROIR",4900.0,77],["EX2221","ASPERATEUR BLAND PVC",200.0,77],["EX223","ELEMENT ARMOIR /NV",5800.0,77],["EX23","PORTE SAVONATE /INOX",700.0,19],["EX231","PORTE SAVONATE GM /VANTEUSE",450.0,19],["EX232","PORTE SAVONATE CROMI /VANTEUSE",550.0,19],["EX24","PORTE PAPIER GINIQUE /INOX",700.0,19],["EX25","PPR TES RED 75",1000.0,0],["EX251","PORTE PAPIER GINIQUE /BLAND",550.0,19],["EX30","TABLETE PVC A1",450.0,31],["EX301","TABLETE PVC 1M /ASTRA",1100.0,31],["EX302","TABLETE + SUPORT SERV GM",3900.0,31],["EX306","TAPI DOCH",700.0,77],["EX31","TABLETE PLST /SAIMA",350.0,31],["EX32","TABLETE GLACE / PM",950.0,31],["EX33","TABLETE GLACE QUOIN A 2",1850.0,31],["EX331","TABLETE INOX QUOIN A3",1800.0,31],["EX34","TABLETE ALLUMNUIM 3 / FACAD",4700.0,31],["EX340","TABLETE ALLUMNUIM 3 / QUOIN",3700.0,31],["EX3401","TABLETE ALLUMNUIM 2 / QUOIN",2200.0,31],["EX3402","TABLETE INOX 3 / FACAD",4700.0,31],["EX341","TABLETE ALUM 2 ETAGE",1900.0,31],["EX342","ARMOIR QUIN /PM",2400.0,72],["EX343","ARMOIR QUIN /GM-SAIMA",2000.0,72],["EX35","ARMOIR DOCH /BLUE",2500.0,72],["EX36","ARMOIR QUOIN COLEUR",2900.0,72],["EX37","ARMOIR BLAND GLESSIEUR",1300.0,72],["EX38","METEGEUR COSINA / DOPHIN",6300.0,10],["EX40","ABATON /PONGE",700.0,73],["EX400","GRATTOIR DE TUBE PPRC 75/90",1000.0,77],["EX402","GRILASION 154*183",550.0,77],["EX41","ABATON /TUNISS-BATE",800.0,73],["EX42","PPR TUBE 75 AL",7400.0,0],["EX421","ABATON /ENFANT PM",750.0,73],["EX422","PPR ADABT 75 M",3500.0,0],["EX423","ABATON TURC",800.0,73],["EX424","ABATON /RALANTE PROFEX 149",2900.0,73],["EX43","SUPORT SERVIETTE ALUMNUM 1 BRAD /SANITARY",950.0,21],["EX44","CHEMINI INOX CHAPO 83",800.0,12],["EX45","PORTE SAVONETTE INOX DESEIN",650.0,19],["EX46","SUPORT SERVIETTE DOBLI LEGET",850.0,21],["EX47","SUPORT BROSSE A DENT",950.0,21],["EX48","SUPORT SERVIETTE INOX DRG /CARRE",1850.0,21],["EX49","SUPORT SERVIETTE DOBLI CROMI",1900.0,21],["EX50","SUPORT SERVIETTE + TABLT",3300.0,21],["EX51","CASSETTE DE CERVEAUX PROFEX 1834",1850.0,77],["EX52","SUPORT SERVIETTE INOX /TUNIS GM",650.0,21],["EX53","SUPORT SERVIETTE /REGLABLE",3900.0,21],["EX54","SUPORT SERVIETTE INOX \"O\"  SAN-WATER",900.0,21],["EX541","SUPORT SERVIETTE DOBLI \"DORI\"",2800.0,21],["EX55","SUPORT SERVIETTE INOX DESEIN",900.0,21],["EX58","PORTE MANTO  A3 / BLAND",650.0,19],["EX59","PORTE MANTO A3 /CRISTAL",800.0,19],["EX590","PORTE MANTO A4 /CRISTAL",850.0,19],["EX591","PORTE MANTO A5 /CRISTAL",950.0,19],["EX601","PORTE MANTO INOX  A1",340.0,19],["EX6011","PORTE MANTO INOX  A2",550.0,19],["EX602","PORTE MANTO INOX A3",700.0,19],["EX603","PORTE MANTO INOX  A4",800.0,19],["EX604","PORTE MANTO MARON / A4",1150.0,19],["EX61","PORTE MANTO INOX  A5",900.0,19],["EX611","PORTE MANTO ALUMN / A5",1150.0,19],["EX612","PORTE MANTO A4 /BRANZ",1150.0,19],["EX613","PORTE MANTO A3 /BRANZ",900.0,19],["EX6133","PORTE MANTO MILTIPLE 3*1",1250.0,19],["EX614","PORTE MANTO A1 BRANZE",500.0,19],["EX615","PORTE MANTO ALIMUNUIM / A4",1100.0,19],["EX617","PORTE MANTO A4 / BOIE",350.0,19],["EX618","PORTE MANTO A5 / BOIE",400.0,19],["EX65","SERVICE PLS /COLEUR",1000.0,65],["EX66","SERVICE CIRAMIQUE /A4",1650.0,65],["EX67","SERVICE CIRAMIQUE /GM",2600.0,65],["EX68","SERVICE PLSTIQUE MOV /6 PIECE",2800.0,65],["EX69","SERVICE DOCH 6 PIECE /DOCOL",4900.0,65],["EX691","SERVICE DOCH 6 PIECE /BRANZ",4800.0,65],["EX70","RIDO DOCH COLEURI",800.0,77],["EX71","RIDO DOCH /LUX",600.0,77],["EX72","RIDO DOCH / 3D",1000.0,77],["EX74","SUPORT RIDO DOCH CROMI /A2",450.0,21],["EX75","SUPORT RIDO DOCH CROMI /A3",600.0,21],["EX76","SUPORT RIDO DOCH TENDU",600.0,21],["EX77","SUPORT RIDO DOCH BLAND /CODI",750.0,21],["EX79","TOILET BRUCH /PLST",400.0,77],["EX80","TOILET BRUCH /INOX",1000.0,77],["EX81","TETE DOCH /NOIR-BLAND",750.0,24],["EX82","PORTE COMPTEUR D'EAU /LEUR",850.0,19],["EX83","PORTE BINOIR",250.0,19],["EX83.","PORTE BINOIR /YASMINA",650.0,19],["EX831","..............",550.0,70],["EX85","COLONE DOUCH BCR",1500.0,42],["EX851","COLONE DOUCH /GMS",1950.0,42],["EX86","COLONE DOCH / PYANOU FICHER",15500.0,42],["EX87","MEROIR GM 1M/75CM",4900.0,77],["EX871","MEROIR 50*60 MM",3900.0,77],["EX88","COLONE DOCH / VALTEMO-135",7800.0,42],["EX881","COLONE DOCH /PIANOU",13500.0,42],["EX882","COLONE DOCH /ALUM NOIR CD36-3",9900.0,42],["EX883","COLONE DOCH / ALUM GRIS CD36-1",11500.0,42],["EX89","PORTE COMPTEUR D'EAU /ENERG",1300.0,19],["EX891","PORTE COMPTEUR GAZ S400 /BBA",1850.0,19],["EX90","COLONE DOCH / FIVE STAR",1250.0,42],["EX91","ELCECTRIQUE",4500.0,77],["EX92","KIT DOCH PROFEX INOX",19500.0,33],["EX93","KIT DOUCH DD 021 MV",27500.0,33],["EX931","KIT DOUCH +DOCHET",15500.0,33],["EX932","KIT DOUCH COBRA",22500.0,33],["EX94","COLONE DOCH ASTERM 610155",8500.0,42],["EX941","COLONE DOCH / S.WATER CD37-1",11500.0,42],["EX95","KIT DOUCH DD / COBRA SUNVAL",22000.0,33],["EX96","TABLETE QUOIN /COLEUR",2000.0,31],["EX97","PORTE COMPTEUR D'EAU /ORANGE",850.0,19],["EX98","SUPORT DOCHE TEDA /PLST",150.0,21],["EX980","SUPORT DOCHE BLAND PLS /SLR",200.0,21],["EX981","SUPORT DOCHE PROPHEX/INOX",250.0,21],["EX982","SUPORT DOCHE /CROMI",200.0,21],["EX983","SUPORT DOCHE INOX DRG",400.0,21],["EX984","SUPORT DOCHE CROMI /FLR",200.0,21],["EX986","SUPORT POMPE DOCHE",1400.0,21],["EX987","SUPORT ABLUTION",80.0,21],["EX9870","SUPORT POIGNET ABLUTION",100.0,21],["EX99","SAFAYA AVABO /INOX",100.0,77],["EX991","CLAPI WC /GM",90.0,62],["EX992","CLAPI WC /PM",80.0,62],["EX993","COMPTEUR D'EAU /EL ALMA",5900.0,77],["EX9931","COMPTEUR D'EAU /CHINOI",800.0,77],["EX9932","COMPTEUR D'EAU /ALLEMAND",3900.0,77],["EX994","LAME CIAMETO 1 ER",50.0,77],["EX995","LAME CIAMETO /2 ER",30.0,77],["F05","FLEXIBLE GAZ EXPANDABL 100-150",1000.0,16],["FILT","FILTER TRIPEL CRISTAL+TAMI+FIL",8200.0,29],["FLO","FLOTEUR ELECTRIQUE 3M",1800.0,30],["FLO1","FLOTEUR ELECTRIQUE 5M",2100.0,30],["FX0001","CHEMINI 1M TUBE 125°",550.0,12],["FX0002","CHEMINI 1M TUBE 130°",750.0,12],["FX001","CHEMINI 1M TUBE 140°",800.0,12],["FX0010","CHEMINI 1M / COUDE 140°",650.0,12],["FX00100","CHEMINI 1M / COUDE 125°",350.0,12],["FX00101","CHEMINI 1M / COUDE 130°",270.0,12],["FX00102","CHEMINI 1M / COUDE 130° LEUR",750.0,12],["FX00103","CHEMINI 1M / COUDE 140° LEUR",800.0,12],["FX0011","CHEMINI 1M / COUDE 150°",480.0,12],["FX0012","CHEMINI 1M / COUDE 160°",550.0,12],["FX0013","CHEMINI 1M / COUDE 180°",550.0,12],["FX0014","CHEMINI 1M / COUDE 200°",850.0,12],["FX002","CHEMINI 1M TUBE 150°",600.0,12],["FX0020","CHEMINI 1M / CHAPO 140°",550.0,12],["FX00200","CHEMINI 1M / CHAPO 125°",400.0,12],["FX00201","CHEMINI 1M / CHAPO 130°",500.0,12],["FX0021","CHEMINI 1M / CHAPO 150°",1100.0,12],["FX0022","CHEMINI 1M / CHAPO 160°",500.0,12],["FX0023","CHEMINI 1M / CHAPO 180°",1000.0,12],["FX0024","CHEMINI 1M / CHAPO 200°",500.0,12],["FX003","CHEMINI 1M TUBE 160°",700.0,12],["FX004","CHEMINI 1M TUBE 180°",750.0,12],["FX005","CHEMINI 1M TUBE 200°",750.0,12],["FX05","CHEMINI FLEXIBLE 83° /3M",750.0,12],["FX06","CHEMINI FLEXIBLE 83° /PM",500.0,12],["FX07","CHEMINI FLEXIBLE 110° /1.5M",650.0,12],["FX08","CHEMINI TES 80°",350.0,12],["FX10","CHEMINI FLEXIBLE 110° /3M",1000.0,12],["FX11","CHEMINI FLEXIBLE 125° /3M",1300.0,12],["FX12","CHEMINI FLEXIBLE 130° /3M",1400.0,12],["FX13","CHEMINI FLEXIBLE 140° /3M",1400.0,12],["FX14","CHEMINI FLEXIBLE 150° /3M",1550.0,12],["FX15","CHEMINI FLEXIBLE 160° /3M",1500.0,12],["FX16","CHEMINI FLEXIBLE 180° /3M",1800.0,12],["FX17","CHEMINI FLEXIBLE 200° /3M",2100.0,12],["FX18","CHEMINI FLEXIBLE 250° /3M",2400.0,12],["FX19","CHEMINI FLEXIBLE 100° /1.5M",550.0,12],["FX191","CHEMINI FLEXIBLE 120° /3M",1100.0,12],["FX20","CHEMINI GALVA 83°",200.0,12],["FX21","CHEMINI GALVA 90°",330.0,12],["FX211","CHEMINI FLIEXIBEL 90/3M",850.0,12],["FX212","CHEMINI INOX COUDE 83",850.0,12],["FX22","CHEMINI GALVA 100°",160.0,12],["FX23","CHEMINI GALVA 110°",250.0,12],["FX24","CHEMINI GALVA 118°",180.0,12],["FX25","CHEMINI COUDE 83°",130.0,12],["FX26","CHEMINI COUDE 90°",150.0,12],["FX27","CHEMINI COUDE 118°",175.0,12],["FX28","CHEMINI RED 90/80",200.0,12],["FX29","CHEMINI RED 100/80",200.0,12],["FX30","CHEMINI RED 110/80",200.0,12],["FX31","CHEMINI RED 118/80",200.0,12],["FX32","BANDA GAZ",150.0,74],["FX321","BANDA ALUMENIUM /M",25.0,74],["FX322","BANDA ALUMENIUM /ROLO 10M",230.0,74],["FX3221","BANDA ALUMENIUM /ROLO 7M",150.0,74],["FX33",".....................",15.0,55],["FX34","PPR TES RED 63°/20",350.0,0],["FX341","02154",220.0,77],["FX35","CHEMINI COUDE 110°",200.0,12],["FX36","BANDA ALUMENIUM /5M TEDA",80.0,74],["FX4","CHEMINI CODE 180°",1100.0,12],["FX40","CHEMINI GALVA 3M  /150°",4200.0,12],["FX41","CHEMINI GALVA 3M  /180°",4500.0,12],["FX411","CHEMINI CODE 200°",1700.0,12],["FX42","CHEMINI GALVA 3M  /200°",4700.0,12],["FX421","CHEMINI GALVA 3M  /220°",5500.0,12],["FX43","CHEMINI GALVA 3M  /250°",6500.0,12],["FX44","CHEMINI GALVA 1M  /350°",1500.0,12],["FX45","CHEMINI CODE 150°",1400.0,12],["FX47","CHEMINI CODE 220°",2000.0,12],["FX48","CHEMINI CODE 250°",2200.0,12],["FX49","CHEMINI MANCHO 150°",500.0,12],["FX50","CHEMINI MANCHO 180°",550.0,12],["FX51","CHEMINI MANCHO 200°",550.0,12],["FX52","CHEMINI MANCHO 250°",650.0,12],["FX53","CHEMINI MANCHO 220°",600.0,12],["FX55","CHEMINI CHAPEAUX 150°",900.0,12],["FX56","CHEMINI CHAPEAUX 180°",1200.0,12],["FX57","CHEMINI CHAPEAUX 200°",1450.0,12],["FX58","CHEMINI CHAPEAUX 250°",1700.0,12],["FX581","CHEMINI CHAPO 83°",200.0,12],["FX582","CHEMINI CHAPEAUX 220°",1500.0,12],["FX59","CHEMINI CHAPO 90°",130.0,12],["FX591","CHEMINI CHAPO 130°",850.0,12],["FXX01","CHEMINI INOX TUBE 83",880.0,12],["FXX02","CHEMINI INOX TUBE 90",1200.0,12],["FXX03","CHEMINI TUBE 83 LEUR",350.0,12],["FXX05","CHEMINI CODE S 83",600.0,12],["FXX06","CHEMINI COUDE  83*45",150.0,12],["HB","PPR TUBE 75 R",6850.0,0],["HB01",".....................",3200.0,55],["HB03","PPRC VER TUBE 50 R",2100.0,77],["HB04","PPRC VER TUBE 40 R",1450.0,77],["HB06","PPRC VER TUBE 32 AL",1300.0,77],["HB07","PPRC VER TUBE 25 AL",750.0,77],["HB10","PPR COUDE 75*90",400.0,0],["HB11","PPR COUDE 75*45",380.0,0],["HB20",".............",780.0,47],["HB21","PPR T RED 75°/63",780.0,0],["HB22","PPR T RED 75°/25",780.0,0],["HB30","PEX BOCHON",30.0,2],["HB40","PPR MANCHO 75",300.0,0],["HB50","..............",250.0,70],["HB60","..........",2450.0,54],["HB61",".....................",2650.0,55],["HB70",".............",3800.0,47],["HB71","..........",3900.0,54],["JN01","JOIN FIBRE 12°",2.0,25],["JN02","JOIN FIBRE 15° /ITALY",15.0,25],["JN03","JOIN FIBRE 20° /ITALY",15.0,25],["JN04","JOIN FIBRE 26° /ITALY",8.0,25],["JN05","JOIN FIBRE 40° /ITALY",5.0,25],["JN06","JOIN FIBRE 50°",7.0,25],["JN07","JOIN PLST 15°",4.0,25],["JN077","JOIN PLST 32°",10.0,25],["JN08","JOIN PLST 20°",4.0,25],["JN09","JOIN PLST 26°",5.0,25],["JN10","JOIN PLST 40° /PLAT",70.0,25],["JN11","JOIN PLST 40° /CONNIQUE",15.0,25],["JN12","JOIN COMPTEUR 22°. 6/20",7.0,25],["JN13","JOIN COMPTEUR 28°. 10/32",20.0,25],["JN14","JOIN COMPTEUR 40°. 25/40",40.0,25],["JN16","JOIN CHASSE 50/40",150.0,25],["JN160","JOIN CHASSE 40/32",75.0,25],["KHA","POMPE ESPA PM 50",7400.0,14],["KHALIL","POMPE SELANCE /2 TRB LEO",16300.0,14],["MAND","MANDOEIVRE DE TRAVEIL",0.0,77],["MEC","MECANIZME CHASSE MONO BLOC",1750.0,60],["MET","METEGEUR ABLUTION ENEG",6000.0,10],["MET0","METEGEUR LUXERA MURAL",4200.0,10],["MET01","METEGEUR LUXERA DOUCH AMA",4450.0,10],["MET02","METEGEUR LUXERA AVABO",3800.0,10],["MET03","METEGEUR LUXERA BEN DOUCH",5850.0,10],["MET04","METEGEUR LUXERA AVABO GB",4200.0,10],["MET05","METEGEUR LUXERA ABLUTION",4300.0,10],["MET1","METEGEUR ABLUTION NOIR /LINGES",4800.0,10],["ML001","METEGEUR AVABO PM  /SLR-ROSTOM",3200.0,10],["ML0011","METEGEUR AVABO PM  /SLR-ANIS",4200.0,10],["ML002","METEGEUR AVABO GM  /SLR-ROSTOM",3950.0,10],["ML0021","METEGEUR AVABO GM  /SLR ANIS",4300.0,10],["ML0022","METEGEUR DOCH A-MAIN  /SLR ANIS",4100.0,10],["ML003","METEGEUR COSINA          /SLR-ROSTOM",3950.0,10],["ML0031","METEGEUR COSINA          /SLR ANIS",2750.0,10],["ML004","METEGEUR BEIN-DOCH   /SLR-ROSTOM",5600.0,10],["ML0040","METEGEUR AVABO MM   /SLR-ROSTOM",3750.0,10],["ML0041","METEGEUR BEIN-DOCH   /SLR ANIS",5300.0,10],["ML005","BONDE POUSOIRE AVABO INOX GM",1850.0,52],["ML0050","BONDE POUSOIRE AVABO INOX PM",1350.0,52],["ML006","METEGEUR AVABO PM   /DIAMAND",8600.0,10],["ML007","METEGEUR AVABO GM     /FIT",2850.0,10],["ML008","METEGEUR  GB/ TILIP ENERGICAL",8450.0,10],["ML0080","METEGEUR  GB/ ENERGICAL - CONFORT",10800.0,10],["ML009","METEGEUR BEIN DOCH    /DIAMAND",12600.0,10],["ML0090","METEGEUR DOCH A-MAIN    /FIT",3500.0,10],["ML010","METEGEUR AVABO PB     /SAS",4200.0,10],["ML011","METEGEUR AVABO GB  / QOOQ",2300.0,10],["ML012","METEGEUR COSINA          /SAS",4200.0,10],["ML013","METEGEUR BEIN-DOCH     /SAS",5700.0,10],["ML0131","METEGEUR BEDI  /SAS",0.0,10],["ML0132","METEGEUR HITLER / ANIS",4600.0,10],["ML0133","METEGEUR BEDI  /BCR",3700.0,10],["ML014","METEGEUR BEDI /BOET",5200.0,10],["ML015","METEGEUR ROBISAN AVABO PM /ONE",1750.0,10],["ML016","METEGEUR ROBISAN AVABO GB /ONE",2800.0,10],["ML017","METEGEUR COSINA / SANITARY",3000.0,10],["ML018","METEGEUR BEIN-DOCH /ODL",3800.0,10],["ML019","METEGEUR AVABO PM     /ENERGICAL AMEN",5200.0,10],["ML020","METEGEUR MERAL   /ENERGICAL   TILIP",7300.0,10],["ML021","METEGEUR BEIN-DOCH /NV",3000.0,10],["ML022","METEGEUR BEIN-DOCH   /ENERGICAL_NOVA",9800.0,10],["ML0221","METEGEUR BEIN-DOCH   /ENERGICAL TILIP",10300.0,10],["ML0222","METEGEUR MERAL ENERGICAL    /AMEN",6200.0,10],["ML0223","METEGEUR AVABO      /CHELIA BAN DOCHE",8950.0,10],["ML0224","METEGEUR AVABO      /CHELIA AVABO",7850.0,10],["ML02240","METEGEUR AVABO      /CHELIA CUISINE",10300.0,10],["ML02241","METEGEUR AVABO GB TCM",3850.0,10],["ML0225","METEGEUR MERAL     /ENERGICAL    CONF",9300.0,10],["ML0226","METEGEUR BAIGNOIR   /ENERGICAL    CONF",10700.0,10],["ML0227","METEGEUR BAIGNOIR   /ENERGICAL  AMEN",7200.0,10],["ML025","METEGEUR AVABO PB /FLR 35",2900.0,10],["ML0251","METEGEUR BEIN-DOCH /FLR 35",4350.0,10],["ML0252","METEGEUR BEIN-DOCH /FLR DELTA",8500.0,10],["ML0253","METEGEUR COCINA KARI MAT",5700.0,10],["ML02531","METEGEUR COCINA      /FLR 35",3500.0,10],["ML0254","METEGEUR BAIGNOIR NADA",4600.0,10],["ML026","METEGEUR COCINA ROSOR F O",11500.0,10],["ML027","METEGEUR ABLUTION /",4400.0,10],["ML028","METEGEUR AVABO / NOIR-BLAND",6500.0,10],["ML029","METEGEUR ABLUTION / TURCK",5200.0,10],["ML030","PHD ROLO / 50° PN10-2",8000.0,4],["ML0301","PPR TUBE 63 ALM",4600.0,0],["ML0302","METEGEUR COSINA BEK ROSSOR MAT KITCHEN",14200.0,10],["ML031","METEGEUR FAUCET COSIN",3700.0,10],["ML032","METEGEUR BEIN-DOCH     /GRP",3300.0,10],["ML035","MELANGEUR  AVABO        /FLR",3500.0,28],["ML036","MELANGEUR COSINA       /FLR",3900.0,28],["ML037","MELANGEUR DOCH A MAIN /FLR",2950.0,28],["ML0371","MELANGEUR DOCH A MAIN /SLR",1950.0,28],["ML038","MELANGEUR BEIN-DOCH   /FLR",4300.0,28],["ML0381","MELANGEUR BEIN-DOCH \"NV\"  /FLR",2600.0,28],["ML039","MELANGEUR BEDI           /SLR",2200.0,28],["ML040","MELANGEUR  AVABO        /BCR",2300.0,28],["ML041","MELANGEUR COSINA       /BCR",2300.0,28],["ML045","ROBINRT COSINA    /SLR",1850.0,77],["ML047","ROBINRT AVABO PB   /SLR",750.0,77],["ML048","ROBINRT AVABO GB   /PLST",600.0,77],["ML049","ROBINRT AVABO PB   /BLAND",600.0,77],["ML050","BEK MET RESSEUR",800.0,43],["ML0500","BEK MELG GB /FLR 1",480.0,43],["ML0501","BEK MELG GB /FLR 2",250.0,43],["ML051","BEK MELG COSINA /FLR 2 EM",250.0,43],["ML051.","BEK MELG COSINA /FLR 1 ER",200.0,43],["ML052","BEK MET MERAL",550.0,43],["ML053","BEK MET GB \"M\"",550.0,43],["ML054","BEK MET GB   \"F\"",500.0,43],["ML0541","BEK MET REGLABLE 2ER",650.0,43],["ML40","MELANGEUR  AVABO        /DIABLO",900.0,28],["ML41","MELANGEUR  COSINA        /DIABLO",950.0,28],["ML60","POIGNET DOCH \"COLEUR\"",550.0,23],["ML601","POIGNET NOIR MARTOU",2500.0,23],["ML602","0000....33333",350.0,77],["ML603","POIGNET DOCH 3PIECE VSS-610935 /VALTEMO",1400.0,23],["ML604","POIGNET DOCH 3PIECE /BLAND",1250.0,23],["ML605","POIGNET DOCH 3 PIECE ITALIAN /REGLABLE",950.0,23],["ML606","POIGNET DOCH FILTER",700.0,23],["ML61",".............24890....",650.0,77],["ML62","POIGNET DOCH FLR\"",350.0,23],["ML63","POIGNET DOCH 3PIECE  CHINOI",950.0,23],["ML64","...........2548",600.0,77],["ML65","POIGNET DOCH + SUPORT",1400.0,23],["ML651","TETE POMPE DOCH .........",850.0,24],["ML6510","TETE POMPE DOCH.......",120.0,24],["ML6511","POIGNET DOCH GLOBAL ANTI CALCARE",600.0,23],["ML6512","POIGNET DOCH GLOBAL DOUPHIN",650.0,23],["ML66","TETE POMPE DOCH/PROPHEX  REGLABL",550.0,24],["ML661","TETE POMPE DOCH COMERCIEL PLS",350.0,24],["ML67","POIGNET DOCH 3 PIECE /TUNIS",800.0,23],["ML671","POIGNET DOCH 3 PIECE / CHINOIS",650.0,23],["ML672","POIGNET DOCH 3 PIECE /LUX TABLATE BLAND",1250.0,23],["ML673","SOUPAPE CECUR 10 BAR",3800.0,56],["ML68","TETE POMPE DOCH \"NTJ COLONE",150.0,24],["ML681","JOIN SYPHON BOTEIL",60.0,25],["ML682","TETE POMPE DOCH CHINOI",250.0,24],["ML6821","TETE POMPE DOCH INOX 10 CM",750.0,24],["ML684","BRZ CLAPI PAPION 20° /UVW",950.0,3],["ML69","TETE POMPE DOCH COMERCIEL INOX",150.0,24],["ML70","TETE POMPE DOCH INOX 15CM",1650.0,24],["ML71","TETE POMPE DOCH .............",450.0,24],["ML711","TETE POMPE DOCH /PROPHEX",450.0,24],["ML712","TETE POMPE DOCH / GGM",1820.0,24],["ML713","TETE POMPE DOCH.....",550.0,24],["ML715","TETE CARCHER",900.0,24],["ML72","METEGEUR BEIN-DOCH / FB",8800.0,10],["ML73","METEGEUR ABLUTION / TCW",4400.0,10],["ML731","METEGEUR ABLUTION / BEC LIBRE",7200.0,10],["ML732","METEGEUR ABLUTION / ANIS",5200.0,10],["ML74","METEGEUR AVABO GM / FB",8500.0,10],["ML75","METEGEUR BEDI /FGMS",2400.0,10],["ML76","METEGEUR DOCH-COLONE /FGMS",4100.0,10],["ML761","METEGEUR COSINA GRAND BEK / GMS",5300.0,10],["ML80","MELANGEUR  AVABO /FOBCR",2500.0,28],["ML81","MELANGEUR COSINA /FOBCR",1050.0,28],["ML82","MELANGEUR DOCH A MAIN /BCR",3300.0,28],["MLG07","MELANGEUR  AVABO /GMS",0.0,28],["MLG071","MELANGEUR  COSINA MERAL /GMS",2800.0,28],["MLG072","MELANGEUR  BEIN-DOCH /GMS",3500.0,28],["MLG1","METEGEUR AVABO PB / GMS",0.0,10],["MLG2","METEGEUR FAUCET GB",3800.0,10],["MLG3","METEGEUR LUX GLACE",6500.0,10],["MLG4","METEGEUR COSINA MERAL / GMS",5800.0,10],["MLG41","METEGEUR INFRAROGE / GMS",17500.0,10],["MLG5","METEGEUR BEIN-DOCH / GMS",6500.0,10],["MLG6","METEGEUR COSINA A BEC / GMS",5600.0,10],["MLG61","METEGEUR COSINA BEK ROSSOR RETRO FLR",18900.0,10],["MLG62","METEGEUR COSINA MERAL / GMS 2",4200.0,10],["MLG63","METEGEUR AVABO FLR BERBER",8800.0,10],["MLG631","METEGEUR AVABO GB NADA",3450.0,10],["MP01","RACORD RAPIDE 16M",480.0,77],["MP02","RACCORD RAPID 14 M",350.0,44],["MP03","RACCORD RAPID 14 F",350.0,44],["MP04","RACORD EXTENSIBLE REGLABEL",600.0,77],["MP05","RACORD PVC 40M/50",80.0,77],["MP06","RACORD PVC LIBRE 50/60",180.0,77],["MP08","RACCORD RAPID 16 F",380.0,44],["MT001","CHAUFFE EAU JUNKERS 11L",29500.0,53],["MT002","CHAUFFE EAU ENERGICAL 10L",23000.0,53],["MT0021","CHAUFFE EAU ELECTRIC /DRG",3800.0,53],["MT003","CHAUFFE EAU WARM 10L",22000.0,53],["MT004","COUDE 90° PPRC DIA 90",920.0,77],["MT005","CHAUFFE EAU ENERGICAL 06L",15400.0,53],["MT006","CHAUFFE EAU JUNKERS 5L",18000.0,53],["MT0061","CHAUFFE COPIE/ ARISTON  10L",13700.0,53],["MT010","CUMULUS GAZ 50L /ITALY",30800.0,38],["MT011","CUMULUS GAZ 50L /SILVER",35500.0,38],["MT012","CUMULUS GAZ 100L /ITALY",49500.0,38],["MT013","CUMULUS ELEC 50L /ITALY",27500.0,38],["MT014","CUMULUS ELCT 80L /ITALY",29500.0,38],["MT015","CUMULUS ELCT 100L",32500.0,38],["MT016","CUMULUS ELCT 50L /UNIVERT",9200.0,38],["MT017","CUMULUS ELCT 80L /UNIVERT",9800.0,38],["MT018","CUMULUS ELCT 80L /AQUA HOT",28500.0,38],["MTR","CARCHEUR PW 1600 SP",18500.0,77],["MTR001","MACHINE SERTISEUSE 1ER",16500.0,75],["MTR01","RESSEUR PKS 16 /TIEMME",1500.0,77],["MTR02","RESSEUR PKS 20 /TIEMME",1450.0,77],["MTR03","RESSEUR PKS 16 INTERIEUR /TIEMME",1500.0,77],["MTR04","RESSEUR PKS 20 INTERIEUR /TIEMME",1500.0,77],["MTR05","TETE FILIERE 15°",400.0,24],["MTR06","TETE FILIERE 20°",450.0,24],["MTR07","TETE FILIERE 26°",480.0,24],["MTR10","BOITE FILERE 15-20-26 /TGR",550.0,77],["MTR11","MATRISSE PM",500.0,77],["MTR12","MATRISSE GM",2400.0,77],["MTR15","SENTRAZE HYDROLIQUE 14_16-22",14500.0,77],["MTR16","SERTISSEUS MANIEL PEX 16-22",8500.0,77],["MTR17","MACHINE PPR /PM",4200.0,75],["MTR18","MACHINE PPR  GM",8000.0,75],["MTR19","..........",12000.0,54],["MTR191","MACHINE PPR PICAGE",14500.0,75],["MTR201","MACHINE ANTI-CALCAIRE 1000L",46000.0,75],["MTR21",".............",550.0,47],["MTR22","COPE TUBE PPR LUX",900.0,77],["MTR221","COPE TUBE PVC /BLUE",750.0,77],["MTR222","COPE TUBE CVR GM",1500.0,77],["MTR223","COPE TUBE 63°",1900.0,77],["MTR23","BARE MANTAGE RADIATEUR GM",2600.0,77],["MTR231","BARE MANTAGE PM",1900.0,77],["NR01","NOIR COUDE GRAND COURBE 15°FF /BREZIL",250.0,5],["NR011","NOIR COUDE GRAND COURBE 15°MF /BREZIL",250.0,5],["NR02","NOIR COUDE GRAND COURBE 20° /BREZIL",0.0,5],["NR03","NOIR COUDE GRAND COURBE 26° /BREZIL",400.0,5],["NR04","NOIR COUDE GRAND COURBE 33° /BREZIL",600.0,5],["NR05","NOIR COUDE GRAND COURBE 40/49° /BREZIL",750.0,5],["NR06","NOIR COUDE GRAND COURBE 50/60° /BREZIL",1200.0,5],["NR07","NOIR COUDE GRAND COURBE 66/75° /BREZIL",1300.0,5],["NR10","NOIR CODINION 15M /BREZIL",400.0,5],["NR100","NOIR CODINION 20",250.0,5],["PEX 03","PEX SERT RAC  16M /ITALY TM",380.0,2],["PEX COLLECTEUR 20 A6","",450.0,77],["PEX..","PEX SERT VANE 16° ENCASTRE",3500.0,2],["PEX.0.","PEX SERT VANE 20° ENCASTRE",3300.0,2],["PEX01","PEX TUYO ROUGE UNIDELTA ITALI/ROGE",220.0,2],["PHD0010","PHD TUYO 50°/M",160.0,4],["PHD002","PHD TUYO 32°/M",95.0,4],["PHD0021","PHD ROLO / 32° PN10.",8500.0,4],["PHD0022","PHD ROLO / 32° GHARDAYA",5300.0,4],["PHD003","PHD TUYO CHIALI 25°/M",65.0,4],["PHD005","PHD TUYO CHIALI 32°/M",80.0,4],["PHD010","PEX COLLIER 20° D",15.0,2],["PHD011","COMPTEUR D'EAU / ENERGICAL",3900.0,77],["PHD012","PVC TUBE 06 BAR/ 400",13500.0,1],["PHD013","PVC TES 83° /BLAND",240.0,1],["PHD014","CVR BAGITE ARGANT SCORPION SUPER",750.0,9],["PHD015","BRZ MANCHO 20°/CROMI",160.0,3],["PHD016","SUPORT RESERV PLST / 500L",1450.0,21],["PHD017","PLENTE DE SOLE",70.0,77],["PHD018","RESERVOIR  2 COUCH /  200V",6800.0,34],["PHD019","PVC TUBE 06 BAR +JOIN /400°",15500.0,1],["PHD020","PVC RED 50/32",50.0,1],["PHD021","SUPORT PUMPE METAL DOBLE LOCAL",600.0,21],["PHD022","BRZ CLAPI  PAPION 15° /UVW",800.0,3],["PHD023",".......................................",800.0,77],["PHD024","BRZ RACCORIGNOM 26° FF 1ER",1400.0,3],["PHD027","CUMULUS ELCT 50L /AQUA HOT",24800.0,38],["PHD028","SUPORT RESERV PLST / 800L",1500.0,21],["PHD0281","SUPORT RESERV PLST / 1000L",1850.0,21],["PHD029","SYPHON DE SOL  INOX 10C POUSSOIR",1750.0,8],["PHD030","CUMULUS ELCT 100L / AQUA HOT",32000.0,38],["PHD031","RACCORD GAZ-ANP  40-40°",2600.0,44],["PHD0311","RACCORD GAZ-ANP  40-42°",2500.0,44],["PHD032","PPR COLLIER 40° D",45.0,0],["PHD033","SYPHO SOL 15D /FANTE",350.0,35],["PHD035","PPR VANIGNOM 20° /MF",700.0,0],["PHD036","LAX CAR DE TOUR",200.0,77],["PHD037","SUPORT RESERV 1ER / 77 CM",1750.0,21],["PHD038","PEX MEC RACCORD 26 M",780.0,2],["PHD039","PEX MEC RACCORD / 20 LIBRE 20",850.0,2],["PHD040","SUPORT SERVIETTE \"RIZINE\"",2300.0,21],["PHD041","FILTER MM / TAMI",2600.0,29],["PHD050","POMPE LEO 50/60° ACM 150 B2",24500.0,14],["PHD051","METEGEUR ABLUTION / ROSTOM",5200.0,10],["PHD052","PEX MEC COUDE LIBRE 16°/ TDM",650.0,2],["PHD053","PHD ROLO / 50° PN10.",18500.0,4],["PHD054","MECANIZME MET /GM 1ER",400.0,60],["PHD055","PEX MEC APLIQUE 16°-20M /TIEMME",700.0,2],["PHD056","PPR.............",2600.0,77],["PHD057","REPARATION ET RECHANGE",0.0,77],["PHD058","SYPHO SOL 20D /FANTE",550.0,35],["PHD059","PVC Y 83°/50° -BLAND",200.0,1],["PHD060","SYPHO RECEVEUR CODI /EJIM",550.0,35],["PHD061","SYPHON RECEVEUR GM CODI /ANI",1450.0,8],["PHD064","POMPE AXERATEUR 80/90° /CHIMGE",49500.0,14],["PHD0641","PPR ..............",2900.0,0],["PHD070","PHD ROLO / 75° PN 10",39500.0,4],["PHD071","BRZ RACCORD MIXT 15/08",100.0,3],["PHT1","PPR TES  20°/CRUE",250.0,0],["PHT2","PVC SYPHON+BOUCHON 80°",350.0,1],["PIOMP","POMPE SELANCE  /4T LINZE",31500.0,14],["PIOMPE","POMPE SELANCE  /3T LINZE",29000.0,14],["PM","POMPE CROINE NOVO",6800.0,14],["PM0","POMPE AXERATEUR 26  /PROTHERM",11000.0,14],["PM01","POMPE SELANCE  /3T MASTER",17000.0,14],["PM02","POMPE SELANCE  /4T SEAKOO",20200.0,14],["PM03","POMPE SELANCE  /5T SEAKOO",22500.0,14],["PM04","POMPE SELANCE  /5T GRANDFAR",18500.0,14],["PM15","POMPE SELANCE  /3T LEO",18800.0,14],["PM16","POMPE SELANCE  /4T LEO",22400.0,14],["PMP","POMPE GORDON 60PM",7000.0,14],["PMP15","POMPE SELANCE  GRANDFAR 2 TRB",17500.0,14],["POM","POMPE LIBEX ITALI",12000.0,14],["POM05","POMPE MANS APM37",6800.0,14],["POMP","POMPE FORAS PE100: 1CHOFO",18300.0,14],["POMP06","POMPE JET 100L GLR",19800.0,14],["POMP07","POMPE SELANCE  GRANDFAR 3TUR",18800.0,14],["POMPE","POMPE BEETRO PM",5200.0,14],["PPR001","PPR TUBE 20 S",320.0,0],["PPR002","PPR TUBE 20 R",480.0,0],["PPR003","PPR TUBE 20 ALM",500.0,0],["PPR0030","PHD GAZ 20°",120.0,4],["PPR004","PPR CHITE /M 20° S",90.0,0],["PPR005","PPR CHITE /M 20 R",100.0,0],["PPR006","PPR CHITE /M 20 AL",120.0,0],["PPR0061","PPR CHITE /M 32 R",295.0,0],["PPR0062","PPR CHITE /M 32 S",200.0,0],["PPR007","PPR COUDE 20° *90",20.0,0],["PPR008","PPR COUDE 20° *45",20.0,0],["PPR009","PPR COUDE 20° *90 MF",25.0,0],["PPR010","PPR COUDE 20° *45 MF",30.0,0],["PPR0100","PPR COUDE  32 /26 F",350.0,0],["PPR0101","PPR COUDE  32 /26 M",400.0,0],["PPR011","PPR MANCHO 20°",20.0,0],["PPR012","PPR TES 20°",22.0,0],["PPR013","PPR ADABT + RAC 20°",190.0,0],["PPR014","PPR ADABT 20° M",140.0,0],["PPR015","PVC SYPHON+BOUCHON 110°",550.0,1],["PPR016","PPR COUDE + RAC 20°",200.0,0],["PPR017","PPR COUDE  20°/15 M",150.0,0],["PPR0171","PPR COUDE  20°/15 F",130.0,0],["PPR018","PPR ADABT 20° F",120.0,0],["PPR019","PPR APLIQUE 20° S",130.0,0],["PPR020","PPR APLIQ 20 \"MELANGER MM\"",380.0,0],["PPR021","PPR APLIQ 20 \"MELANGER FF\"",380.0,0],["PPR022","PPR APLIQUE 20° BIPASSE",180.0,0],["PPR023","PPR APLIQUE DOBLI 25°_FF",400.0,0],["PPR0231","PPR APLIQ 20 \"MELANGER DROIT\"",380.0,0],["PPR024","PPR TES  20°/15 F",160.0,0],["PPR025","PPR TES 20°/15 M",180.0,0],["PPR026","CANIVEAU PVC BOCHON PM",170.0,20],["PPR0261","PPR VANNE 20°",300.0,0],["PPR027","PPR VANIGNOM 20°",950.0,0],["PPR0271","PPR VANIGNOM 20°/PLS",650.0,0],["PPR0272","PPR VANIGNOM 25°/PLS",880.0,0],["PPR0273","PPR VANIGNOM 32°/PLS",1050.0,0],["PPR028","PPR VANNE 20° ENCASTRÉ",650.0,0],["PPR029","PPR VANNE 20° /VOLLAND",400.0,0],["PPR030","PPR ADABT +RAC 20/27",220.0,0],["PPR031","PPR CLAPI 20°",380.0,0],["PPR032","PPR COLLIER 20°S",10.0,0],["PPR034","PPR BOUCHON 20°",20.0,0],["PPR036","PPR FILTER 20°",250.0,0],["PPR037","PPR RACCORGNIOM 20° F",250.0,0],["PPR038","PPR RACCORGNIOM 20° M",220.0,0],["PPR039","PPR T \"+\" 20°",50.0,0],["PPR040","PPR CHAPO 20°",60.0,0],["PPR041","PPR DODANE 20°",70.0,0],["PPR042","PPR TES 20 CHAPO",100.0,0],["PPR043","PPR TES BIPASSE 20°/20°",120.0,0],["PPR050","PPR CHAPO 32",180.0,0],["PPR231","PPR APLIQ 25 \"MELANGER DROIT\"",400.0,0],["PPRC01","PPR RACCORGNIOM 75 M",5800.0,0],["PPRC02","PPR RACCORGNIOM 75 F",5800.0,0],["PPRC03","PPR ADABT 75 F",2900.0,0],["PPRC04","PPR TES  75",550.0,0],["PPRC05","PPR RED  75/63",350.0,0],["PPRC06","PPR RED  75/40",380.0,0],["PPRC07","..........",300.0,54],["PV001",".............",450.0,47],["PV0011","PVC TUBE 32° /CHIALI",750.0,1],["PV002","PVC TUBE 4BAR /40°",400.0,1],["PV003","PVC TUBE 4BAR /50°",800.0,1],["PV004","PVC TUBE 4BAR /63°",980.0,1],["PV005","PVC TUBE 4BAR /83°",1400.0,1],["PV006","PVC TUBE 4BAR /110°",1100.0,1],["PV007","PVC TUBE 4BAR /160°",1600.0,1],["PV008","PVC TUBE 4BAR /200°",3000.0,1],["PV009","BEK MET REGLABLE",900.0,43],["PV0091","PPR COUDE 63*45",240.0,0],["PV010","PVC TUBE 200° /6BAR",4400.0,1],["PV0102","PVC TUBE 200° /10BAR",5900.0,1],["PV011","PVC TUBE 250° /6BAR",6400.0,1],["PV012","CHAUDIERE /BAXI 28 KCAL",154000.0,17],["PV0121","...14800000000000000",12300.0,77],["PV0122","PVC TUBE 10 BAR /315°",18500.0,1],["PV0123","PVC TUBE 06 BAR A JOIN /315°",9200.0,1],["PV013","PVC TUBE 40° /CHIALI",1000.0,1],["PV014","..025........",800.0,77],["PV0140","PVC TUBE 50° /CHIALI",1350.0,1],["PV015","PVC TUBE 63° /CHIALI",1800.0,1],["PV0150","PPR ADABTEUR 63M",1250.0,0],["PV016","...158700000000000",1250.0,77],["PV0160","PVC TUBE 83° /CHIALI",2000.0,1],["PV017","...14800000000000000",1800.0,77],["PV0170","PVC TUBE 110° /CHIALI",2750.0,1],["PV018","PVC TUBE 160° CHIALI",5500.0,1],["PV019","PVC TUBE 200° /CHIALI",9000.0,1],["PV020","PVC COUDE 32*45",40.0,1],["PV021","PVC COUDE 32*90",40.0,1],["PV022","PVC COUDE 40°*45",55.0,1],["PV023","PVC COUDE 40*90",55.0,1],["PV024","PVC COUDE 50*45",70.0,1],["PV025","PVC COUDE 50*90",70.0,1],["PV026","PVC COUDE 63*45",90.0,1],["PV027","PVC COUDE 63*90",90.0,1],["PV028","PVC COUDE 83*45",150.0,1],["PV029","PVC COUDE 83*90",150.0,1],["PV030","PVC COUDE 110*90",200.0,1],["PV031","PVC COUDE 110°*45",200.0,1],["PV032","PVC COUDE 160*90",600.0,1],["PV033","PVC COUDE 160°*45",550.0,1],["PV034","PVC COUDE 200*90",900.0,1],["PV035","PVC COUDE 200°*45",900.0,1],["PV036","PVC TES 32°",55.0,1],["PV037","PVC TES 40°",70.0,1],["PV038","PVC TES 50°",90.0,1],["PV040","PVC TES 63°",130.0,1],["PV041","PVC TES 83°",200.0,1],["PV042","PVC TES 110°",370.0,1],["PV043","PVC TES 160°",800.0,1],["PV044","PVC TES 200°",1250.0,1],["PV045","PVC Y 32°",60.0,1],["PV046","PVC Y 40°",80.0,1],["PV047","PVC Y 50°",100.0,1],["PV048","PVC Y 83°",250.0,1],["PV049","PVC Y 110°",350.0,1],["PV050","PVC Y 160°",1100.0,1],["PV051","PVC Y 200°",1900.0,1],["PV052","PVC Y RED 80°/40°",250.0,1],["PV053","PVC Y RED 83/50",250.0,1],["PV054","PVC Y RED 83/63",250.0,1],["PV055","PVC Y RED 110°/40°",300.0,1],["PV056","PVC Y RED 110°/50°",300.0,1],["PV057","PVC Y RED 110°/63",320.0,1],["PV058","PVC Y RED 110°/83°",330.0,1],["PV059","PVC W 80°",430.0,1],["PV060","PVC W 110°",600.0,1],["PV061","PVC W RED 40/80/40",350.0,1],["PV062","PVC W RED 50/80/50",350.0,1],["PV063","PVC W 40/50/40",130.0,1],["PV064","PVC W RED 50/110/50",480.0,1],["PV065","PVC W RED 60/110/60",550.0,1],["PV066","PVC W RED 80/110/80",550.0,1],["PV067","PVC RED 40/32",30.0,1],["PV068","PVC RED 50/40",35.0,1],["PV069","PVC RED 63/40",60.0,1],["PV070","PVC RED 63/50",60.0,1],["PV071","PVC RED 83/40",90.0,1],["PV072","PVC RED 83/50",90.0,1],["PV073","PVC RED 83/63",85.0,1],["PV074","PVC RED 110/40",120.0,1],["PV075","PVC RED 110/50",120.0,1],["PV076","PVC RED 110/63",120.0,1],["PV077","PVC RED 110/80",130.0,1],["PV078","PVC RED 160/110",230.0,1],["PV079","PVC RED 160/125",250.0,1],["PV080","PVC RED 200/110",400.0,1],["PV081","PVC RED 200/125",320.0,1],["PV082","PVC RED 200/160",420.0,1],["PV083","PVC RED 125/110",150.0,1],["PV084","PVC RED 110/100",120.0,1],["PV0848","PVC RED 110/MILTIPLE",200.0,1],["PV085","PVC RED 110/90",0.0,1],["PV086","PVC Y 63°",170.0,1],["PV087","PVC MANCHO 40°",40.0,1],["PV088","PVC MANCHO 50°",45.0,1],["PV089","PVC MANCHO 63°",80.0,1],["PV090","PVC MANCHO 83°",100.0,1],["PV091","PVC MANCHO 110°",170.0,1],["PV092","PVC MANCHO 160°",300.0,1],["PV093","PVC MANCHO 200°",550.0,1],["PV094","PVC MANCHO RED 63°/50°",100.0,1],["PV0941","PVC MANCHO RED 63°/40°",90.0,1],["PV0942","PVC MANCHO RED 83°/50°",120.0,1],["PV0943","PVC MANCHO RED 83°/63°",120.0,1],["PV096","PVC BOUCHON 40° TES",70.0,1],["PV097","PVC BOUCHON 50° TES",90.0,1],["PV098","PVC BOUCHON 63° TES",120.0,1],["PV099","PVC BOUCHON 83° TES",150.0,1],["PV100","PVC BOUCHON 110° TES",200.0,1],["PV101","PVC BOUCHON 40° SIMPLE",35.0,1],["PV102","PVC BOUCHON 50° SIMPLE",40.0,1],["PV103","PVC BOUCHON 63 ° SIMPLE",60.0,1],["PV104","PVC BOUCHON 83° SIMPLE",70.0,1],["PV105","PVC BOUCHON 110° SIMPLE",100.0,1],["PV110","PVC COLLE 125G /USA",400.0,1],["PV1102","GÉNIRATEUR 3000 L",420000.0,77],["PV1108","PVC TUBE 160° /6 BAR",3200.0,1],["PV110S","PVC COLLE 125G /USA SPRAY",300.0,1],["PV111","PVC COLLE 250G USA",650.0,1],["PV112","PVC COLLE 500G /USA",1100.0,1],["PV113","PVC COLLE 1KG /USA",1900.0,1],["PV114","PVC COLLE POMED 25G /TALGITE",120.0,1],["PV115","PVC COLLE POMED 50G /TALGITE",170.0,1],["PV116","PVC COLLE POMED 60G /USA",200.0,1],["PV118","PVC TUBE 250 /10BAR STIF 1",12200.0,1],["PV1181","PVC TUBE 250 /10BAR ALGER",16500.0,1],["PV120","PVC CHITE /M 32°",150.0,1],["PV121","PVC CHITE/M 40  4BAR",80.0,1],["PV122","PVC CHITE/M 50° 4BAR",170.0,1],["PV123","PVC CHITE/M 63°  4BAR",170.0,1],["PV124","PVC CHITE/M 83°  4BAR",210.0,1],["PV125","PVC CHITE/M 110°  4BAR",255.0,1],["PV126","PVC CHITE/M 160°  4BAR",480.0,1],["PV128","PVC CHITE /M 40°  CHIALI",200.0,1],["PV129","PVC CHITE/M 63° CHIALI",340.0,1],["PV130","PVC CHITE/M 83°  CHIALI",380.0,1],["PV132","PVC CHITE/M 160°  CHIALI",600.0,1],["PV133","PVC CHITE /M 200° CHIALI",1400.0,1],["PV1331","PVC CHITE /M 200° 6BAR",800.0,1],["PV134","PVC CHITE/M 50°  CHIALI",250.0,1],["PV135","PVC CHITE/M 250° 4BAR",780.0,1],["PV138",".............",200.0,47],["PV139","JOIN QUIVETTE 45°",180.0,25],["PV1390","JOIN QUIVETTE + VISSE",200.0,25],["PV140","PVC SYPHON WC /ACRY",750.0,1],["PV141","PVC SYPHON WC /PLAT DROIT",650.0,1],["PV142","PVC SYPHON WC / 45°",850.0,1],["PV143","PVC SYPHON WC /JOIN VERT",600.0,1],["PV144","SYPHON MACHINA LAVI /EJIM",530.0,8],["PV145","PVC SYPHON WC /PLAT",500.0,1],["PV150","PVC TUBE BLAND 80°",2300.0,1],["PV152","CABLE ELEC 2*0.75",35.0,77],["PV155","PVC MANCHO RED 90/40",100.0,1],["PV1551","PVC MANCHO RED 110°/80°",150.0,1],["PV15510","PVC MANCHO RED 110°/50°",150.0,1],["PV1552","PVC MANCHO RED 50°/40°",70.0,1],["PV1553","PVC MANCHO RED 160°/110°",350.0,1],["PV158","PVC TES \"+\" 110",580.0,1],["PV159","PVC TES \"+\" 160",1100.0,1],["PV160","PVC RED 250/200",750.0,1],["PV161","PVC SYPHON MACHINA LAVI S /40",300.0,1],["PV162","PVC SYPHON MACHINA LAVI S /50",300.0,1],["PV1621","PVC SYPHON S / 50°",300.0,1],["PV163","PVC PICAGE 110/50",200.0,1],["PVC","PVC MANCHO RED  80/40",120.0,1],["PVC 01","PVC BOUCHON 160",300.0,1],["PVC 02","PVC BOUCHON 200",450.0,1],["PVC 07","TAMPON 70*70",9500.0,66],["PVC 14","PVC COUDE 250*45",2700.0,1],["PVC01","TAMPON+SYPH 50*50 /ITALY",4800.0,77],["PVC02","TAMPON 50*50",4600.0,66],["PVC03","TAMPON 40*40",2700.0,66],["PVC04","TAMPON 30*30",1700.0,66],["PVC05","TAMPON 60*60",7500.0,66],["PVC06","TAMPON 40*40 + SY./ITALY",2800.0,66],["PVC1","PVC CLAPI 110° ITALY",4800.0,1],["PVCH","PVC CHITE/M 110°  CHIALI",520.0,1],["PVH01","PVC CHIT 83° /HB TIGRE",190.0,1],["PVH02","PVC CHIT 110° /6BAR",350.0,1],["PVH1","...15700000000",1050.0,77],["PVH2","PPR COUDE 63*90",250.0,0],["PVH3","PVC TUBE 160° /HB TIGRE",3400.0,1],["PX","PEX MEC APLIQUE 20/15",400.0,2],["PX-26","PEX ROLO 26°",20000.0,2],["PX-260","PEX SERT RAC 26°/26  M",850.0,2],["PX-261","PEX SERT RAC 26°/20  M",850.0,2],["PX-262","PEX SERT RAC 26° F",750.0,2],["PX-263","PEX SERT RAC 26° CRUE 3/4",900.0,2],["PX-264","PEX SERT RAC 26° CRUE 26",1150.0,2],["PX-265","PEX SERT MANCHO  26°",750.0,2],["PX-266","PEX SERT COUDE 26 RACCORD",1500.0,2],["PX01","PEX ROLO 16° ITALY",12800.0,2],["PX01P","PEX ROLO 16° /CHIALI",6200.0,2],["PX02","PEX ROLO 20°  ITALY",17200.0,2],["PX021","PEX ROLO 20°  CHIALI",9200.0,2],["PX03","PEX ROLO 20° GAINÉ /ALLEMAND",10800.0,2],["PX031","PEX ROLO 16°GAINE /ITALY",6800.0,2],["PX032","PEX ROLO 16° GAINÉ  /ALMAND",8500.0,2],["PX033","PEX ROLO 16°GAINE /LOCAL",5600.0,2],["PX04","PEX ROLO 20° -50M /SANDUICH",9000.0,2],["PX040","PEX ROLO 20° GAINÉ",9800.0,2],["PX05","PEX TUYO/M 16°",130.0,2],["PX06","PEX TUYO/M 20°",190.0,2],["PX061","PEX TUYO/M 16° GAINÉ",150.0,2],["PX063","PEX TUYO/M 26°",420.0,2],["PX064","PEX TUYO/M 20° GAINÉ",220.0,2],["PX068","PEX COLLECTEUR 26 SORTI 20 A2",5200.0,2],["PX07","PEX FORO 16°",950.0,2],["PX071","PEX FORO-CHIT 16° /M",25.0,2],["PX08","PEX FORO 20°",1100.0,2],["PX081","PEX FORO 16° / 25M",450.0,2],["PX09","PEX MEC RED 20°/16°",680.0,2],["PX10","PEX JEUX TIG METEGEUR",450.0,2],["PX11","PEX MEC RACORD 16° M",250.0,2],["PX110","PEX MEC RACORD 16° F/ ITALY",250.0,2],["PX111","AGRAFE PEX /PM",18.0,76],["PX1111","ATTACHE + CHEVI",10.0,77],["PX112","AGRAFE PEX /GM",30.0,76],["PX1120","AGRAFE PEX / A2",25.0,76],["PX11201","AGRAFE PEX / A4",30.0,76],["PX1122","AGRAFE PEX / A1",15.0,76],["PX12","PEX MEC RACCORD 16 F",250.0,2],["PX120","PEX MEC RACCORD / 16 LIBRE",500.0,2],["PX13","PEX MEC RACCORD 20°/15 M",380.0,2],["PX14","PEX MEC RACCORD 20°/20 M",370.0,2],["PX140","PEX MEC RACCORD 16° M -ITALY",350.0,2],["PX15","PEX MEC MANCHO 16°",450.0,2],["PX150","PEX MEC MANCHO 16°/20",500.0,2],["PX16","PEX MEC MANCHO 20°",550.0,2],["PX17","PEX MEC TES 16°",750.0,2],["PX18","PEX MEC TES 16° /M",280.0,2],["PX19","PEX MEC TES 16° F",320.0,2],["PX20","PEX MEC TES 20°",800.0,2],["PX21","PEX MEC TES 20° F",800.0,2],["PX210","PEX MEC TES 20° F /TIEMME",780.0,2],["PX211","PEX MEC TES RED 20/16",800.0,2],["PX212","PEX ARMOIR INOX 40*45",7000.0,2],["PX213","PEX ARMOIR INOX 50*45",6800.0,2],["PX214","PEX ARMOIR INOX 60*45",7300.0,2],["PX215","PEX ARMOIR INOX 80*45",9500.0,2],["PX22","PEX MEC COUDE 16°",320.0,2],["PX23","PEX MEC COUDE 16° M",280.0,2],["PX24","PEX MEC COUDE 16° F",300.0,2],["PX240","PEX MEC COUDE 16° LIBRE",380.0,2],["PX25","PEX MEC COUDE 20°",350.0,2],["PX26","PEX MEC COUDE 20°/20 F",380.0,2],["PX260","PEX MEC COUDE 20°/15 F",280.0,2],["PX2600","PEX SERT COUDE 26°",1000.0,2],["PX2601","PEX SERT COUDE 26°/26 F",1500.0,2],["PX2601.","PEX SERT COUDE 26°/20 F",1200.0,2],["PX2602","PEX SERT T RED 26°/20",1300.0,2],["PX27","PEX MEC COUDE 20°/15 M",280.0,2],["PX271","PEX MEC COUDE 20°/20 M",400.0,2],["PX28","VANNE PPRC 50",1800.0,13],["PX29","PEX MEC APLIQUE 16°/20M",400.0,2],["PX30","PEX MEC APLIQUE 16°",500.0,2],["PX30.","PEX MEC APLIQUE 16°/TIEMME",350.0,2],["PX31","PEX MEC VANNE 16°",950.0,2],["PX311","PEX MEC VANNE 20°",1400.0,2],["PX313","PEX MEC VALVE 16°",550.0,2],["PX314","PEX MEC VALVE 20°",900.0,2],["PX32","PEX MEC VANNE 16° MF",900.0,2],["PX321","PEX MEC VANNE 20° MF",1200.0,2],["PX33","PEX SERT RACCORD 16° M",450.0,2],["PX34","PEX SERT RACCORD 16° F",260.0,2],["PX35","PEX SERT RACCORD 16° CRUE 15",480.0,2],["PX36","PEX SERT RACCORD 20°/20 M",360.0,2],["PX361","PEX SERT RACCORD 20°/15 M",320.0,2],["PX37","PEX SERT RACCORD 20°/20 F",370.0,2],["PX371","PEX SERT RACCORD 20°/15 F",320.0,2],["PX38","PEX SERT RACCORD 20° CRUE 20",920.0,2],["PX381","PEX SERT RACCORD 20° CRUE 15",480.0,2],["PX382","PEX SERT COUDE 20°- CRUE 20",1300.0,2],["PX39","PEX SERT MANCHO 16°",600.0,2],["PX40","PEX SERT MANCHO 20°",700.0,2],["PX41","PEX SERT TES 16°",850.0,2],["PX42","PEX SERT TES 16° M /ITALY",400.0,2],["PX43","PEX SERT TES 16° F",680.0,2],["PX44","PEX SERT TES 20°",950.0,2],["PX45","PEX SERT TES 20° F",750.0,2],["PX450","PEX SERT TES 26",1350.0,2],["PX49","PEX SERT TES RED  20°/16° /ITALY",950.0,2],["PX50","PEX SERT MANCHO RED  20°/16°",550.0,2],["PX501","PEX SERT MANCHO RED  26°/20°",800.0,2],["PX51","PEX SERT COUDE 16°",520.0,2],["PX52","PEX SERT COUDE 16°F",450.0,2],["PX53","PEX SERT COUDE 16°M",450.0,2],["PX54","PEX SERT COUDE 20°",750.0,2],["PX55","PEX SERT COUDE 20°/20M",550.0,2],["PX56","PEX SERT COUDE 20° /15F",700.0,2],["PX560","PEX SERT COUDE 20° /20F",700.0,2],["PX562","PEX SERT COUDE 20° /15M",500.0,2],["PX57","PEX COLLIER 16°",10.0,2],["PX5700","PEX COLLIER 16° FRAPI",15.0,2],["PX571","PEX COLLIER 16° DOBLI",20.0,2],["PX58","PEX COLLIER 20°",12.0,2],["PX59","PEX COLLIER + CHEVI 20°",15.0,2],["PX60","PEX ROLO TRANSPARANT 300M /ITALY",24000.0,2],["PX601","PEX ROLO JUMELÉ GAINÉ 50M /ITALY",16800.0,2],["PX61","PEX TUYO TRASPARANT \"TIEMME\" /ITALY",200.0,2],["PX610","PEX TUYO TRASPARANT  ITALY",200.0,2],["PX611","PEX ROLO \"AQUATHERM\" /ALMAND",160.0,2],["PX612","PEX TUYO /M \"AQUATHERM\" /ALMAND",200.0,2],["PX62","PEX MEC COUDE 20/15 F / TIEMME",460.0,2],["PX63","PEX  COLLÉ SÉRAGE PLS",350.0,2],["PX64","PEX COLLECTEUR 26° A \"2\"/TIEMME",3900.0,2],["PX65","PEX COLLECTEUR 26° A \"3\"/TIEMME",5900.0,2],["PX66","PEX COLLECTEUR 26° A \"4\"/TIEMME",6800.0,2],["PX67","PEX COLLECTEUR 26° A \"5\"/TIEMME",7000.0,2],["PX68","CISEAU PPRC 110 DU 32-110",1200.0,77],["PX69","PERGEUR RADIATEUR CLE",250.0,77],["PX6900","PEX COLLECTEUR  A \"2\"/ITALY-20°",3200.0,2],["PX6901","PEX COLLECTEUR  A \"3\"/ITALY-20°",4500.0,2],["PX691","PEX COLLECTEUR  A \"4\"/ITALY-20°",5600.0,2],["PX692","PEX COLLECTEUR  A \"5\"/ITALY-20°",7400.0,2],["PX70","PEX SUPORT COLLECTEUR",1000.0,2],["PX700","PEX SUPORT COLLECTEUR /PLST",550.0,2],["PX71","PEX ARMOIR COLLECTEUR 30CM",1600.0,2],["PX72","PEX ARMOIR COLLECTEUR 40CM",1800.0,2],["PX721","PEX ARMOIR COLLECTEUR 50CM",2000.0,2],["PX73","PEX ARMOIR COLLECTEUR 60CM /ITALY",2700.0,2],["PX731","PEX ARMOIR COLLECTEUR 70CM /ITALY",3200.0,2],["PX74","COLLECTEUR 26° A \"6\" /BRZ",2700.0,46],["PX75","COLLECTEUR 26° A \"10\"/BRZ",3800.0,46],["PX76","COLLECTEUR 40° A \"4\" /PPR",1450.0,46],["PX77","PEX MEC RACCORD 20° /15F",380.0,2],["PX771","PEX MEC RACCORD 20° /20F",350.0,2],["PX80","PEX CLAPI 16°/15",650.0,2],["PX81","PEX MEC APLIQUE MELANGEUR 16°",800.0,2],["PX82","PEX SERT APLIQUE MELANGEUR 16°",1400.0,2],["PX820","PEX SERT APLIQUE MELANGEUR 16°/TM",1950.0,2],["PX821","PEX ROLO 26° LOCAL",14300.0,2],["PX8211","PEX SERT APLIQUE 16°",600.0,2],["PX82110","PEX SERT APLIQUE 20/15°",950.0,2],["PX8212","PEX SERT APLIQUE 16°/9CM",2000.0,2],["PX822","PEX CODE FLIP /PLS",240.0,2],["PX90","PEX DISTRIBITEUR 26°/20° ITALY A\"2\"",1730.0,2],["PX91","PEX DISTRIBITEUR 26°/20° ITALY A\"3\"",3200.0,2],["PX92","PEX DISTRIBITEUR 26°/20° ITALY A\"4\"",3650.0,2],["PX93","PEX DISTRIBITEUR 26°/20° ITALY A\"5\"",4600.0,2],["R001","CANEAU AGRECOLE 30/50M  /TURK",5400.0,77],["RA01","RACCORD GAZ-ANP  40-28",2500.0,44],["RA02","RACHACHA AGRECOLE /BRZ ISPANE",950.0,77],["RA03","..........",260.0,54],["RA05","RACHACHA AGRECOLE",270.0,77],["RAC","BRZ RACCORD MIXT 20/15 CROME",100.0,3],["RACPP","RACCORDS INTERMÉDIAIRES FILT MALE DIA 90",650.0,77],["RACPPR","RACCORDS INTERMÉDIAIRES  FILT MALE DIA 50",0.0,77],["RB01","ROBINET JARDIN 15 /CHINOI",400.0,11],["RB011","ROBINET JARDIN 15 / BRAD",900.0,11],["RB02","ROBINET JARDIN 15 /FLR",900.0,11],["RB03","ROBINET CROMI COULEUR",500.0,11],["RB04","ROBINET JARDIN 15 /ACM ITALY",1300.0,11],["RB041","ROBINET JARDIN 15 ARCO ISPANE",900.0,11],["RB042","ROBINET PUISSAGE 15 /SLR",850.0,11],["RB06","ROBINET PUISSAGE 15 /BCR",950.0,11],["RB07","PPR MANCHO 63",200.0,0],["RB08",".......257....",500.0,77],["RB09","ROBINET JARDIN BEETRO",650.0,11],["RB10","ROBINET 15 /PLST",150.0,11],["RB101","ROBINET JARDIN 15 /BCR",1000.0,11],["RB102","ROBINET JARDIN 15 /PROTHERM",800.0,11],["RB103","ROBINET RADIATEUR  REN  -PEX-",2550.0,11],["RB1030","ROBINET RADIATEUR  FLR -PEX-",2200.0,11],["RB104","ROBINET DOCHET 15 /LINGS",750.0,11],["RB107","ROBINET DOCHET 15 /GMS",780.0,11],["RB108","ROBINET DOCHET 15 / BITRO",650.0,11],["RB11","ROBINET JERDIN 20 / XTR",550.0,11],["RB111","ROBINET GLASSIEUR",150.0,11],["RB1111","ROBINET GLASSIEUR 1",120.0,11],["RB13","ROBINET PUISSAGE 20 /BCR",1000.0,11],["RB14","ROBINET JARDEIN CROMI 20 /LOCAL",850.0,11],["RB15","ROBINET JARDIN 15 SMTOP-UVW",800.0,11],["RB151","ROBINET JARDIN 15 BNB",900.0,11],["RB152","............",780.0,59],["RB154","ROBINET JARDIN 20 /BNB",1000.0,11],["RB16","ROBINET 15 /PLST COLOR",250.0,11],["RB17","ROBINET 2 TETE / ETK",1900.0,11],["RB18","ROBINET 15 COSINA -BLAND /TGR",280.0,11],["RB19","BRZ RACCORD MIXT 15/10",100.0,3],["RB20","ROBINET MACHINE LAVI BEETRO",850.0,11],["RB21","ROBINET MACHINE LAVI /ACOL",850.0,11],["RB22","ROBINET MACHINE LAVI / CHINOI",500.0,11],["RB23","ROBINET MACHINE LAVI /GMS",850.0,11],["RB231","ROBINET MACHINE LAVI / DIMI",850.0,11],["RB232","ROBINET MACHINE LAVI  /FLR+SLR",1200.0,11],["RB233","ROBINET MACHINE LAVI  / COCTEL",850.0,11],["RB24","ROBINET DOCHETE 15 /CHINOI",500.0,11],["RB241","ROBINET DOCHETE 15/12 GMS",550.0,11],["RB25","ROBINET 2 TETE 15-MM",1200.0,11],["RB29","ROBINET LUX 15° /GMS",1450.0,11],["RB291","ROBINET LUX METEGEUR 15° /GMS",1200.0,11],["RB30","ROBINET LUX 15° /BRANZ",1950.0,11],["RB31","ROBINET JARDIN 15° / PM",600.0,11],["RB32","ROBINET LUX 15°  / COLEUR",1300.0,11],["RB321","ROBINET LUX 15° /MAIDHA GM",1200.0,11],["RB33","ROBINET LUX PROFEX",1200.0,11],["RB34","ROBINET LUX 15° /DOUBLE LIN",550.0,11],["RB35","ROBINET LUX 15° PM /POUSSOIR",650.0,11],["RB36","ROBINET PLS 15 /1ER",150.0,11],["RB37","ROBINET LUX 15° \"TETE CRISTAL\"",850.0,11],["RB38","ROBINET LUX 15° CROMI /ACOL",1300.0,11],["RB39","ROBINET DOCHETTE /SLR",950.0,11],["RB40","ROBINET.....",2250.0,77],["RB41","ROBINET 2 TETE /FANSKI 020",1150.0,11],["RB42","ROBINET 2 TETE / SLR",2000.0,11],["RB43","ROBINET 2 TETE / FLR PRESTIGE",2000.0,11],["RB44","ROBINET 2 TETE / TCW",1900.0,11],["RB45","ROBINET 2 TETE / GRP+LINGS",2600.0,11],["RB47","ROBINET LUX 15° /GLOBAL",850.0,11],["RB48","ROBINET LUX CROMI  / MAZA",1150.0,11],["RB50","............",2250.0,59],["RB52","ROBINET AVABO POUSSOIR REMER",4200.0,11],["RB60","ROBINET LUX 15° FLR AURES",2850.0,11],["RB61","ROBINET LUX CROMI / LONGEUR",1650.0,11],["RBO13","ROBINET PLS 2 TETE",500.0,11],["RES03","CANIVEAU INOX 30 CM /LOCAL",2300.0,20],["RES06","..........",2600.0,54],["RES07","..258",18000.0,77],["RES08","...852",22400.0,77],["RES081","....258",42000.0,77],["RES082","PPR RED 63/32",240.0,0],["RES083","RESERVOIR 3000H / (3 COUCH)",46000.0,34],["RES09","PEX MEC RAC 26F",700.0,2],["RES090","PPR TES 63°",340.0,0],["RES10","RESERVOIR \"3\" COUCH       - 800 V",12300.0,34],["RES11","RESERVOIR \"3\" COUCH       - 500 V",10000.0,34],["RES12","RESERVOIR \"3\" COUCH       -1000 V",14200.0,34],["RES13","RESERVOIR  2 COUCH /  500V",9000.0,34],["RES130","RESERVOIR VSSB 2 COUCH /  1000 L",12500.0,34],["RES131","RESERVOIR  2 COUCH /  800V",11500.0,34],["RES132","RESERVOIR  2 COUCH / 1000V",12500.0,34],["RES133","RESERVOIR VSSB 3 COUCH /  1000 L",14800.0,34],["RES134","RESERVOIR VSSB 3 COUCH /  2000 L ARWA",30000.0,34],["RES1340","RESERVOIR VSSB 3 COUCH /  2000 L",26500.0,34],["RES1341","RESERVOIR VSSB 3 COUCH /  1700",22500.0,34],["RES135","RESERVOIR VSSB 3 COUCH /  1500 L",24500.0,34],["RES20","SUPORT SERVIETTE /EJIM",750.0,21],["RES21","SUPORT RESERV 1ER /73 CM",1600.0,21],["RES22","SUPORT RESERV 1ER /62 CM",1500.0,21],["RES23","....25...",1200.0,77],["RES231","......456....",1250.0,77],["RES232","ROBINET AVABO BEK FLEXEBLE",1250.0,11],["ROB","ROBINET JARDEIN FO ARCO",650.0,11],["RS132","REESRVOIR 2 COUCH /1000V",1140.0,77],["SAY","SYPHO AVABO EJIM",650.0,35],["SAY0","SYPHO SOL 15C /ZIAMA",750.0,35],["SAY1","SYPHO SOL 15D /ZIAMA",750.0,35],["SER08","SERVEAU PROTHERM 4E1",4500.0,26],["SER09","SERVEAU TAIFU TPC-1D",4500.0,26],["SER10","SERVEAU PROFEX",5400.0,26],["SER11","SERVEAU VELENZIA ITALY",4100.0,26],["SER22","SERVEAU APOLO AD 055 APS",5700.0,26],["SER23","SERVEAU WASSER 2.2",6200.0,26],["SERV","SERVEAU MASTER DSK",3800.0,26],["SERVE","..............",0.0,70],["SY","CANIVEAU INOX 30 CM REKHAM",3500.0,20],["SY0","CANIVEAU INOX 40 CM /LOCAL",2900.0,20],["SY00","CANIVEAU INOX 50 CM",3600.0,20],["SY01","CANIVEAU INOX 40 CM /PROTHERM",3200.0,20],["SY0100","SYPHO SOL 15D  /NOVA",450.0,35],["SY0101","SYPHO SOL 15C /NOVA",450.0,35],["SY0211","TUYAU PPRC DIA 90",2000.0,77],["SY02111","SYPHON DE SOL 10C  /ANI",350.0,8],["SY02112","SYPHON DE SOL 10D INOX  /ANI",550.0,8],["SY0212","ROZACE 15°",100.0,77],["SY064","SYPHO SOL 15D INOX VALTEMO",1200.0,35],["SY14","SYPHON SOL 15C STIL ITALI INIX",750.0,8],["SY15","SYPHON SOL 15C STIL ITALI",350.0,8],["SY30","SYPHON DE SOL \"10D\" /ITALY",200.0,8],["SY31","SYPHON DE SOL \"10C\" /ITALY",280.0,8],["SY32","SYPHON DE SOL \"15D\" /ITALY",350.0,8],["SY321","BONDE AVABO /6 CM CHINOI",200.0,52],["SY322","BONDE AVABO /6 CM",230.0,52],["SY33","SYPHON DE SOL \"15C\" /ITALY",550.0,8],["SY34","SYPHON DE SOL \"20D\" / ITALY",600.0,8],["SY35","SYPHON DE SOL \"20C\" /ITALY",850.0,8],["SY36","SYPHON DE SOL \"25D\" /ITALY",700.0,8],["SY37","SYPHON DE SOL \"25C\" /ITALY",1200.0,8],["SY371","SYPHON DE SOL \"30C\" /ITALY",1500.0,8],["SY38","SYPHON DE SOL \"30D\" /ITALY",1000.0,8],["SY39","SYPHON DE SOL \"10D\" /BLAND",140.0,8],["SY391","SYPHON DE SOL \"10D\" /BRANZE",2300.0,8],["SY392","SYPHON DE SOL \"10D\" /CROMI",1750.0,8],["SY40","SYPHON DE SOL \"10D\" /SAIMA",80.0,8],["SY401","SYPHON DE SOL 12D /BLAND",180.0,8],["SY41","SYPHON DE SOL \"15D\" /BLAND",250.0,8],["SY42","SYPHON DE SOL \"15D\" /SAIMA",100.0,8],["SY43","SYPHON DE SOL \"20D\" /BLAND",380.0,8],["SY44","SYPHON DE SOL \"20D\" /SAIMA",850.0,8],["SY45","SYPHON DE SOL \"25D\" /SAIMA",280.0,8],["SY46","SYPHON DE SOL \"30D\" /SAIMA",350.0,8],["SY47","SYPHON DE SOL BLAND /110°",350.0,8],["SY48","SYPHON DE SOL \"15C\" /MILOZIA",300.0,8],["SY481","SYPHON DE SOL \"15C\" /CHANTI",100.0,8],["SY49","SYPHON DE SOL \"20C\" /SAIMA",800.0,8],["SY491","SYPHON DE SOL \"20C\" /SAIMA",200.0,8],["SY50","SYPHON DE SOL \"25C\" /SAIMA",0.0,8],["SY51","SYPHON DE SOL 10C /CHANTI",80.0,8],["SY511","SYPHON DE SOL \"10C\" /OZ BEST",550.0,8],["SY52","SYPHON DE SOL \"10C\" /TGR",450.0,8],["SY53","SYPHON DE SOL \"15D\" /CERAMIQUE",400.0,8],["SY531","SYPHON DE SOL \"20D\" /CERAMIQUE",450.0,8],["SY54","SYPHON DE SOL \"10C\" INOX VALTEMO",1100.0,8],["SY55","SYPHON DE SOL \"10C\" /CROMI TGR",900.0,8],["SY56","SYPHON DE SOL 10C / HB",300.0,8],["SY57","SYPHON DE SOL \"15C\" /CASA B-INOX",950.0,8],["SY58","SYPHON DE SOL  INOX 10D /PROFEX",1800.0,8],["SY5801","SYPHON DE SOL  INOX 15  PLAT /ITALY",2600.0,8],["SY59","SYPHON BALQAND 80°",500.0,8],["SY591","SYPHON BALQAND 110°",980.0,8],["SY592","SYPHON BALQAND 80° /1ER",650.0,8],["SY593","SYPHON BALQAND 80° /INOX",3800.0,8],["SY60","PEX SERT COUDE 16° RAC",700.0,2],["SY601","SYPHON DE SOL INOX 15C /PROFEX",2600.0,8],["SY604","SYPHON DE SOL \"10D\" /GRIS ALMINUM",480.0,8],["SY61","CHASSE D'EAU ENCASTRE ANI+ CUVETTE+ BOUTON +ABATON",38500.0,68],["SY611","SYPHON DE SOL INOX  10C  PROFEX",1700.0,8],["SY612","SYPHON DE SOL \"10C\" /PLST CAPT",700.0,8],["SY618","SYPHON DE SOL INOX  10D  /ITALY",1650.0,8],["SY62","FILTER GAZ",2200.0,29],["SY63","SYPHON DE SOL 10D INOX /10D VALTEMO",950.0,8],["SY64","POCHETTE RADIATEUR /SIM",250.0,77],["SY65","SYPHON DE SOL \"20C\" /INOX DRG",2250.0,8],["SY66","CANIVEAU PVC BOCHON /GM",250.0,20],["SY67","SYPHON DE SOL INOX NV 20D /",2700.0,8],["SY68","SYPHON DE SOL 10C BLAND TUNISS",400.0,8],["SY69","TEFLON LIQUIDE 15 ML",450.0,49],["SY70","SYPHON DE SOL INOX  /10C ITALY",1600.0,8],["SY71","SYPHON DE SOL INOX 15D /PROFEX",2600.0,8],["SY72","TEFLON APOLO-PROFEX",250.0,49],["SY73","RONDEL 8/40",20.0,77],["SY731","SYPHON DE SOL 15D /ANI",450.0,8],["SY732","SYPHON DE SOL 15D /ERA M",350.0,8],["SY733","SYPHON DE SOL 10D /ERA M",250.0,8],["SY74","SYPHON DE SOL \"10\" /PAUSSOIR DRG",750.0,8],["SY75","SYPHON 15 / TUNIS INOX S",1100.0,8],["SY751","SYPHON \"10\" /PAUSSOIR",550.0,8],["SY76","RONDEL 8/25",5.0,77],["SY77","SYPHON DE SOL \"15C\" /TUNISS-CAPTV",650.0,8],["SY798","SYPHON DE SOL 15D /ALEMINUIM",300.0,8],["SY7981","SYPHON DE SOL 20D /ALUMIN",400.0,8],["SY7982","SYPHON DE SOL 25D /ALUMIN",600.0,8],["SY80","CANIVEAU PVC 100*20CM TURCK",4500.0,20],["SY81","CANIVEAU INOX 40 CM /PROFEX",2800.0,20],["SY810","CANIVEAU INOX /20 CM REKHAM",3000.0,20],["SY811","CANIVEAU PVC GRILLE 50/13/10 PROFEX",1250.0,20],["SY8110","CANIVEAU PVC GRILLE 50/13/10 HB TGR",900.0,20],["SY812","CANIVEAU INOX PORPHEX 20C",2200.0,20],["SY813","CANIVEAU INOX /50*10 PROFEX",4800.0,20],["SY814","CANIVEAU PVC 10*40 CM",1050.0,20],["SY82","PEX RAC COLLECT TIEM",200.0,2],["SY83","FLEXIBLE MACHINE LAVI  /TGR BREZIL",500.0,16],["SY88","SYPHON DE SOL 15D /INOX PLAT",1200.0,8],["SY881","SYPHON DE SOL 15D /MILOZIA",250.0,8],["SY89","SYPHON DE SOL 20C /BATNA",400.0,8],["SY90","METEGEUR  AVABO  / NOVA",3500.0,10],["SY91","SYPHON DE SOL 15C *50 /JOIN INOX ANI",1100.0,8],["SY92","VANNE PPRC 90",3000.0,13],["SY921","SYPHON DE SOL 10D /ANI",350.0,8],["SY922","SYPHON DE SOL 15C  / ANI",450.0,8],["SY94","SYPHON DE SOL 12C /TUNIS +RED",850.0,8],["SY95","SYPHON DE SOL 10C / TGR \"OPEN\"",550.0,8],["SY951","SYPHON DE SOL \"10C\" /PAUSSOIR B-INOX TURK",750.0,8],["SY96","SYPHON DE SOL 20D /BATNA",400.0,8],["SYPH01","SYPHON DOBLI INOX +TROPLEIN /ITALY",1650.0,8],["SYPH02","SYPHON DOBLI  6 CM / ANI",1050.0,8],["SYPH04","SYPHON DOBLI KENZA  BCR",800.0,8],["SYPH07","SYPHON DOBLI CIRAMIQUE +TROPL / TEDA 6 CM",900.0,8],["SYPH08","SYPHON DOBLI \"GGM\" 9 CM",2000.0,8],["SYPH09","SYPHON DOBLI CERAMIQUE  /ITALY 6 CM",1300.0,8],["SYPH10","SYPHON DOBLI INOX / TEDA",800.0,8],["SYPH11","SYPHON DOBLI CERAMIQUE + TROP O ITALY 6 CM",1450.0,8],["SYPH15","SYPHON AVABO RESSEUR /ITALY",600.0,8],["SYPH150","SYPHON AVABO RESSEUR / MECALPINE",480.0,8],["SYPH16","SYPHON AVABO RESSSEUR   / ANI 33°",350.0,8],["SYPH171","SYPHON  AVABO RESSEUR   /TEDA",350.0,8],["SYPH20","SYPHON  AVABO C5500 /RUSS PLS",250.0,8],["SYPH201","SYPHON  AVABO BOTEIL  +",850.0,8],["SYPH212","SYPHON  AVABO /IMARET",350.0,8],["SYPH22","SYPHON  COSINA DOBLI / IMARAT 6 CM",1200.0,8],["SYPH23","SYPHON DOBLI CORDEON + TROPLEIN / LOCAL",550.0,8],["SYPH230","SYPHON DOBLI CORDEON / LOCAL",550.0,8],["SYPH25","SYPHON COSINA FLEXIBLE ITALY",450.0,8],["SYPH26","SYPHON COSINA RESSEUR /MECALPINE",550.0,8],["SYPH27","SYPHON COSINA A8100  /RUSS",480.0,8],["SYPH28","SYPHON COSINA BOTEIL /ITALY",500.0,8],["SYPH29","SYPHON COSINA BOTEIL /ARTHERMO",250.0,8],["SYPH31","SYPHON COSINA \"BOTEIL +TROPL\"/ITALY",550.0,8],["SYPH40","SYPHON BIGNOIR CABLE /TUNIS",1050.0,8],["SYPH401","SYPHON BIGNOIR CABLE /ANI-RUSS",1500.0,8],["SYPH41","SYPHON BINOIR ESSEBI /ITALY",950.0,8],["SYPH42","SYPHON BINOIR E250 /ANI",1000.0,8],["SYPH45","SYPHON BINOIR /TEDA",650.0,8],["SYPH46","TUYAU RESSEUR 40",320.0,77],["SYPH47","BRULEUR A GAZ 100 BTG11",69500.0,77],["SYPH50","SYPHON BEDI",350.0,8],["SYPH51","SYPHON RECEVEUR \"C\" /MECALPINE",650.0,8],["SYPH52","SYPHON MACHINE LAVI  GRIPI",400.0,8],["SYPH53","SYPHON RECEVEUR  /INOX",1550.0,8],["SYPH54","SYPHON RECEVEUR C /ARTHERMO",400.0,8],["SYPH55","SYPHON RECEVEUR C /SIMAPLAST",450.0,8],["SYPH56","SYPHON RECEVEUR / 1ER",2300.0,8],["SYPH57","SYPHON RECEVEUR  D /ARTHERMO",250.0,8],["SYPH58","SYPHON RECEVEUR \"C\" /PAUSSOIR",400.0,8],["SYPH59","SYPHON RECEVEUR \"D\" / EJIM",500.0,8],["SYPH60","PIP SYPHON  AVABO",180.0,50],["SYPH601","PIP SYPHON  AVABO /DOBL RACOR",280.0,50],["SYPH62","............",200.0,59],["SYPH63","FLEXIBLE MACHIN LAVI SORTÉ",250.0,16],["SYPH631","FLEXIBLE MACHIN LAVI ENTRÉ",530.0,16],["SYPH632","FLEXIBLE MACHIN LAVI ENTRÉ BLUE",600.0,16],["SYPH70","............",650.0,59],["SYPH71","PIP WC /ANI GM + CODE",950.0,50],["SYPH72","PIP WC JOIN  /ANI CODI",450.0,50],["SYPH721","PIP WC / ITALY",900.0,50],["SYPH73","PIP WC \"JOIN\" CUVETTE",400.0,50],["SYPH75","PIP WC QUVETTE COUDE 45/ TGR",200.0,50],["SYPH77","PIP WC RESSEURT PROFEX GM",950.0,50],["SYPH771","PIP WC RESSEURT PM",850.0,50],["SYPH78","DEBOUCHEUR",300.0,77],["SYPH79","PVC SYPHON WC /MONO-BLOK",500.0,1],["SYPH82","SYPHO MECANISME WC DROIT /ANI",880.0,35],["SYPH83","SYPHON MECANIZME CHASSE D'EAU\"COUDI\" /FRANCE",750.0,8],["SYPH87","SYPHO AVABO PLST",230.0,35],["SYPH88","BONDE AVABO /LOCAL",150.0,52],["SYPH89","BONDE AVABO /ITALY",200.0,52],["SYPH890","VERTISSEUR MAILL",1200.0,77],["SYPH891","TROPLEIN AVABO",150.0,77],["SYPH892","BONDE / 9 CM",7500.0,52],["TAMO","TAMBO 80/80",9500.0,77],["TE","TETE POMPE DOCH INOX 25CM",2200.0,24],["TE71","TETE POMPE DOCH INOX 20CM",2050.0,24],["TET","TET POMPE DOCH INOX 10CM",0.0,77],["TET1","TET POMPE DOCH INOX 15CM",900.0,77],["TG001","TGR TUBE 15°",850.0,6],["TG002","TGR TUBE 20°",1250.0,6],["TG003","TGR TUBE 26°",1900.0,6],["TG004","TGR TUBE 33°",2500.0,6],["TG005","TGR TUBE 40/49°",3000.0,6],["TG006","TGR TUBE 50/60°",4100.0,6],["TG007","TGR CHITE/M 15°",160.0,6],["TG008","TGR CHITE/M 20°",190.0,6],["TG009","TGR CHITE/M 26°",370.0,6],["TG010","TGR CHITE/M 33°",480.0,6],["TG011","TGR CHITE/M 40°",540.0,6],["TG012","TGR CHITE/M 50°",650.0,6],["TG013","TGR COUDE 15°",50.0,6],["TG014","TGR COUDE 20°",70.0,6],["TG015","TGR COUDE 26°",100.0,6],["TG016","TGR COUDE 33°",230.0,6],["TG017","TGR COUDE 40/49°",230.0,6],["TG018","TGR COUDE 50/60°",350.0,6],["TG019","TGR COUDE 66/75°",700.0,6],["TG020","TGR COUDE 80/90°",800.0,6],["TG021","TGR COUDE 15° MF",50.0,6],["TG022","TGR COUDE 20° MF",65.0,6],["TG023","TGR COUDE 26° MF",90.0,6],["TG024","TGR TES 15°",60.0,6],["TG025","TGR TES 20°",95.0,6],["TG026","TGR TES 26°",150.0,6],["TG027","TGR TES 33°",280.0,6],["TG028","TGR TES 40/49°",300.0,6],["TG029","TGR TES 50/60",450.0,6],["TG030","TGR TES 66/75",780.0,6],["TG031","TGR TES 80/90°",950.0,6],["TG032","TGR APLIQUE 15°",70.0,6],["TG033","TGR MANCHO 15°",40.0,6],["TG034","TGR MANCHO 20°",50.0,6],["TG035","TGR MANCHO 26°",85.0,6],["TG036","TGR MANCHO 33°",150.0,6],["TG037","TGR MANCHO 40/49°",150.0,6],["TG038","TGR MANCHO 50/60°",250.0,6],["TG039","TGR MANCHO 66/75°",450.0,6],["TG040","TGR MANCHO 80/90°",600.0,6],["TG0401","CONTACTEUR POMPE MARQUIS",500.0,77],["TG0402","CONTACTEUR BALON 1ER",1450.0,77],["TG0403","CONTACTEUR BALON 220",2450.0,77],["TG0404","CONTACTEUR BALON 380 V",1700.0,77],["TG041","TGR MANCHO RED 20°/15°",60.0,6],["TG042","TGR MANCHO  RED 26/15",60.0,6],["TG043","TGR MANCHO RED 26/20",65.0,6],["TG044","TGR MAMLO 15°",30.0,6],["TG045","TGR MAMLON 20°",35.0,6],["TG046","TGR MAMLON 26°",70.0,6],["TG047","TGR MAMLON 33°",100.0,6],["TG048","TGR MAMLON 40/49°",120.0,6],["TG049","TGR MAMLON 50/60°",200.0,6],["TG050","TGR MAMLON 66/75°",300.0,6],["TG051","TGR MAMALON 80/90°",450.0,6],["TG052","TGR MAMLONG RED 20°/15°",40.0,6],["TG053","TGR MAMLONG RED 26°/20°",50.0,6],["TG054","TGR MAMLONG RED 26°/15°",50.0,6],["TG055","TGR RACCORIGNOM 50/60° MF",450.0,6],["TG056","TGR RACCORIGNOM 15° MF",120.0,6],["TG057","BRZ TITINE DOBLI",100.0,3],["TG058","TGR RACCORIGNOM 26° MF",250.0,6],["TG059","TGR RACCORIGNOM 33° MF",330.0,6],["TG060","TGR RACCORIGNOM 15° FF",90.0,6],["TG061","TGR RACCORIGNOM 20° FF",160.0,6],["TG062","TGR RACCORIGNOM 26° FF",170.0,6],["TG063","TGR RACCORIGNOM 33° FF",400.0,6],["TG064","TGR RACCORIGNOM 40/49° FF",550.0,6],["TG065","TGR RACCORIGNOM 50/60° FF",680.0,6],["TG066","TGR RACCORIGNOM 20° MF",160.0,6],["TG067","TGR BOUCHON 15° M",20.0,6],["TG068","TGR BOUCHONE 20° M",35.0,6],["TG069","TGR BOUCHON 26° M",45.0,6],["TG070","TGR BOUCHON 33° M",70.0,6],["TG071","TGR BOUCHON 40/49° M",75.0,6],["TG0711","TGR BOUCHON 40/49° F",80.0,6],["TG072","TGR BOUCHON 50/60° M",120.0,6],["TG0721","TGR BOUCHON 50/60° F",130.0,6],["TG073","TUYAU ROZEJ 20° /25M",450.0,77],["TG074","TGR BOUCHON 20° F",40.0,6],["TG0740","TGR BOUCHON 15° F",25.0,6],["TG075","TGR BOUCHON 26° F",65.0,6],["TG076","TGR BOUCHON 33° F",90.0,6],["TG077","TGR RED 80/66°",380.0,6],["TG078","TGR RED 80/50°",380.0,6],["TG079","TGR RED 66/50°",280.0,6],["TG0790","TGR RED 66/40°",280.0,6],["TG080","TGR RED 50/40°",130.0,6],["TG081","TGR RED 50/33",150.0,6],["TG082","TGR RED 40/33°",120.0,6],["TG083","TGR RED 40/26",70.0,6],["TG084","TGR RED 33/26°",100.0,6],["TG085","TGR RED 33/20",60.0,6],["TG086","TGR RED 26/20",50.0,6],["TG087","TGR RED 26/15",40.0,6],["TG088","TGR RED 20/15",30.0,6],["TG089","TGR COUDIGNOM 15M",100.0,6],["TG090","TGR COUDEGNOM 20 M",120.0,6],["TG091","TGR COUDEGNOM 26 M",160.0,6],["TG092","TGR COUDEGNOM 33° M",0.0,6],["TG093","TGR COUDYGNOM 15° F",95.0,6],["TG094","TGR COUDYGNOM 20°F",120.0,6],["TG095","TGR COUDIGNOM 26° F",200.0,6],["TG096","TGR COUDIGNOM 33° F",0.0,6],["TG097","TGR COUDE 33° /MF",150.0,6],["TG100","TGR PERJEUR RESERVOIR 15°",200.0,6],["TG101","TGR PERJEUR RESERVOIR 20°",230.0,6],["TG102","TGR PERJEUR RESERVOIR 26°",280.0,6],["TG103","TGR PERJEUR RESERVOIR 33°",400.0,6],["TG104","TGR PERJEUR RESERVOIR 40°",380.0,6],["TG105","TGR PERJEUR RESERVOIR 50°",550.0,6],["TG106","TGR  RACCORD RESERVOIR 26°",140.0,6],["TG110","CLAPIGNOM TGR 20°",480.0,77],["TG111","CREPINE TGR 26°",350.0,37],["TG112","CREPINE PVC 26°",350.0,37],["TG113","CREPINE TGR 40/50°",730.0,37],["TG114","CREPINE PVC 20°",280.0,37],["TG115","CREPINE PVC 33/42",750.0,37],["TG116","CREPINE TGR 80/90°",3950.0,37],["TG117","CREPINE TGR 20°",350.0,37],["TG1171","CREPINE PVC 26°/2 EM",250.0,37],["TG118","CREPINE PVC ROUGE 40/50°",650.0,37],["TG119","CREPINE PVC ROUGE 50/60°",650.0,37],["TG120","TGR MANCHETE 15 /1V",35.0,6],["TG121","TGR MANCHETE 20 /1V",35.0,6],["TG122","TGR MANCHETE 26 /1V",45.0,6],["TG123","TGR MANCHETE 33° /1V",75.0,6],["TG124","TGR MANCHETE 40-50° /1V",80.0,6],["TG125","TGR MANCHETE 50-60° /1V",150.0,6],["TG126","TGR MANCHETE 66-75° /1V",200.0,6],["TG1260","TGR MANCHETE 66-75° /1V *GM",450.0,6],["TG1261","TGR MANCHETE 80_90° /1V *GM",550.0,6],["TG127","TGR MANCHETE 15 /2V",50.0,6],["TG128","TGR MANCHETE 20 /2V",60.0,6],["TG129","TGR MANCHETE 26 /2V",100.0,6],["TG130","TGR MANCHETE 33 /2V",120.0,6],["TG131","TGR MANCHETE 40-50° /2V",150.0,6],["TG132","TGR MANCHETE 50-60° /2V",200.0,6],["TG133","TGR MANCHETE 66/75° /2V",280.0,6],["TG134","TGR MANCHETE POMPE 26-15",90.0,6],["TG135","TGR MANCHO 102°",550.0,6],["TG140","CLAPI TGR 26 BLAND /ERA",480.0,62],["TG141","CLAPI TGR 50 BLAND /ERA",880.0,62],["TG23","CREPINE PVC 66/75",3800.0,37],["TGR","TGR CHIT 60CM 20°",80.0,6],["TGR.","TGR COLLIER 15°",25.0,6],["TGR..","TGR COLLIER 20°",28.0,6],["TGR1140","CREPINE PVC 50/60°  1ER",900.0,37],["TY","TYOU DOU COLOUR",0.0,77],["V","TGR RED 50/26",120.0,6],["V001",".............",4200.0,47],["V005","..........",290.0,54],["V0055","METRA",200.0,77],["V0056","PEX COLLECTEUR 26 A6",8800.0,2],["V006","............",300.0,59],["V007","..............",440.0,70],["V0071","PPR TES RED 63/50",390.0,0],["V0072","PPR TES RED 63°/40",340.0,0],["V0073","PPR TES RED 63/32",400.0,0],["V0074","PPR TES RED 63/25",380.0,0],["V008","PEX COLLECTEUR 20 A6",7850.0,2],["V0080","PPR RED 63/50",240.0,0],["V0081","............",150.0,59],["V00814","......0012....",10000.0,77],["V0085","PPR RED 63/40",240.0,0],["V0087","PPR CHIT 63/M",1100.0,0],["V009","PPR MANCHO 63°/50 RED",180.0,0],["V0091","PPR RACCORIGNOM 63°F",2800.0,0],["V0092",".....................",1900.0,55],["V0093",".............",1950.0,47],["V0095","............",2650.0,59],["V0098","PPR VANNE 63°",3400.0,0],["VA006","ECRUE METEJEUR",250.0,77],["VA01","VANNE PVC 50/60° /NOVA",850.0,13],["VA011","VANNE PVC 50/60° /BRIZIL",780.0,13],["VA02","VANNE PVC 40/49° /NOVA",550.0,13],["VA03","VANNE PVC 33/42° /NOVA",430.0,13],["VA04","VANNE PVC 26° /NOVA",380.0,13],["VA05","VANNE PVC 20° /NOVA",250.0,13],["VA06","VANNE PVC 15° /NOVA",150.0,13],["VA10","VANNE 15 /TGR",150.0,13],["VA101","VANNE RACCORD 15 /TGR",230.0,13],["VA106","VANE TGR 40/49",600.0,67],["VA107","VANE TGR 50/60",700.0,67],["VA11","VANNE 20 /ECRUE",880.0,13],["VA110","VANNE 15 /ECRUE",800.0,13],["VA12","VANNE TGR 26",220.0,13],["VA13","BRZ BOUCHON 10° M",70.0,3],["VA14","..........2500.....",380.0,77],["VA20","VANNE SFIRIQUE 66° /VALANTINE",3000.0,13],["VA21","VANNE SFIRIQUE 80° /DORI",7500.0,13],["VA22","VANNE SFIRIQUE 40/50° /VALANTINE",1200.0,13],["VA23","VANNE SFIRIQUE 50/60° DORI",2500.0,13],["VA24","VANE PVC 3 VOIS 75°",1200.0,67],["VA241","VANINIOM PVC 26°",300.0,77],["VA30","VANNE REMPLISSAGE / GRANFAR",3900.0,13],["VA31","VANNE VOLAND 26° /BREZIL",980.0,13],["VA32","VANNE VOLAND 32° /BREZIL",1480.0,13],["VA33","VANNE SFIRIQ 40/49° ENER",4800.0,13],["VA34","VANNE SFIRIQUE 50/60° / SAFER",2900.0,13],["VERT01","VERT CHIT 20°",130.0,7],["VERT02","VERT CHIT 25°",220.0,7],["VERT03","VERT CHIT 32°",380.0,7],["VERT04","VERT CHIT 40°",500.0,7],["VERT05","VERT CHIT 50°",820.0,7],["VR.","VERT CHAPO 25°",100.0,7],["VR..","VERT CHAPO 32°",150.0,7],["VR.0","VERT CHAPO 20°",70.0,7],["VR001","VERT COUDE 20*90",20.0,7],["VR002","VERT COUDE 20*45",20.0,7],["VR003","VERT COUDE 25*45",30.0,7],["VR004","VERT COUDE 25*90",27.0,7],["VR005","VERT COUDE 32*45",60.0,7],["VR006","VERT COUDE 32*90",60.0,7],["VR007","VERT COUDE 40*45",100.0,7],["VR008","VERT COUDE 40*90",100.0,7],["VR009","VERT COUDE 50*45",190.0,7],["VR010","VERT COUDE 50*90",190.0,7],["VR015","VERT T 20",35.0,7],["VR016","VERT T 25",45.0,7],["VR017","VERT T 32",85.0,7],["VR018","VERT T 40",140.0,7],["VR019","VERT T 50",240.0,7],["VR020","VERT MANCHO 20",18.0,7],["VR021","VERT MANCHO 25",30.0,7],["VR022","VERT MANCHO 32",50.0,7],["VR023","VERT MANCHO 40",65.0,7],["VR024","VERT MANCHO 50",130.0,7],["VR035","VERT T RED 25/20",42.0,7],["VR036","VERT T RED 32/25",85.0,7],["VR037","VERT T RED 32/20",75.0,7],["VR038","VERT T RED 40/32",130.0,7],["VR039","VERT T RED 40/25",130.0,7],["VR040","VERT T RED 40/20",130.0,7],["VR041","VERT T RED 50/40",280.0,7],["VR042","VERT T RED 50/32",280.0,7],["VR043","VERT T RED 50/25",250.0,7],["VR044","VERT T RED 50/20",240.0,7],["VR050","VERT BOUCHON 20",30.0,7],["VR051","VERT BOUCHON 25",35.0,7],["VR052","VERT BOUCHON 32",50.0,7],["VR053","VERT BOUCHON 40",110.0,7],["VR054","VERT BOUCHON 50",140.0,7],["VR055","VERT ADABT 20 M",160.0,7],["VR056","VERT ADABT 20 F",140.0,7],["VR057","VERT ADABT 25 /20M",220.0,7],["VR0571","VERT ADABT 25 /15M",190.0,7],["VR058","VERT ADABT 25 /20F",190.0,7],["VR0580","VERT ADABT 25 /15F",160.0,7],["VR0581","VERT APLIQUE 25/15",190.0,7],["VR0582","VERT APLIQUE 20/15",160.0,7],["VR0583","VERT APLIQUE 25/20",180.0,7],["VR059","VERT ADABT 32 F",390.0,7],["VR060","VERT ADABT 40 F",650.0,7],["VR061","VERT ADABT 40 M",850.0,7],["VR065","VERT VANNE 20",400.0,7],["VR066","VERT VANNE 25",480.0,7],["VR067","VERT VANNE 32",850.0,7],["VR068","VERT VANNE 40",1400.0,7],["VR069","VERT VANNE 50",1850.0,7],["VR072","VERT DODOANE 20",80.0,7],["VR073","VERT DODOANE 25",130.0,7],["VR074","VERT DODOANE 32",170.0,7],["VR080","VERT TUBE 20 FIBRE",550.0,7],["VR0800","VERT TUBE 20 ALM",550.0,7],["VR081","VERT TUBE 25 FIBRE",650.0,7],["VR0810","VERT TUBE 25 ALM",740.0,7],["VR082","VERT TUBE 32 FIBRE",1450.0,7],["VR0820","VERT TUBE 32 ALM",1450.0,7],["VR083","VERT TUBE 40 FIBRE",1850.0,7],["VR0830","VERT TUBE 40 ALM",2300.0,7],["VR084","VERT TUBE 50 FIBRE",3500.0,7],["VR0840","VERT TUBE 50 ALM",3200.0,7],["VR085","VERT TUBE 63",5000.0,7],["VR086","VERT TUBE 75 FIBRE",4400.0,7],["VRR1","VERT RED 50/40",90.0,7],["VRR10","VERT RED 25/20",38.0,7],["VRR11","VERT RED 40/32",60.0,7],["VRR12","VERT RED 40/25",60.0,7],["VRR13","VERT RED 40/20",60.0,7],["VRR14","VERT RED 32/25",40.0,7],["VRR15","VERT RED 32/20",35.0,7],["VRR1L","VERT RED 50/32",90.0,7]];          // [ref, name, price, catIndex]
+const CAT_NAMES = ["PPR", "PVC", "PEX", "BRZ", "PHD", "NOIR", "TGR", "VERT", "SYPHON", "CVR", "METEGEUR", "ROBINET", "CHEMINI", "VANNE", "POMPE", "AQUAT", "FLEXIBLE", "CHAUDIERE", "COLLIER", "PORTE", "CANIVEAU", "SUPORT", "GOTE", "POIGNET", "TETE", "JOIN", "SERVEAU", "CERAMIQUE", "MELANGEUR", "FILTER", "FLOTEUR", "TABLETE", "EVIER", "KIT", "RESERVOIR", "SYPHO", "MEROIRE", "CREPINE", "CUMULUS", "BALON", "SECHE", "DOCHETE", "COLONE", "BEK", "RACCORD", "RADIATEUR", "COLLECTEUR", ".............", "VISE", "TEFLON", "PIP", "VALVE", "BONDE", "CHAUFFE", "..........", ".....................", "SOUPAPE", "CHEVI", "CHERTETAND", "............", "MECANIZME", "VANINIGNOM", "CLAPI", "BOTEIL", "SUPOR", "SERVICE", "TAMPON", "VANE", "CHASSE", "MANOMETRE", "..............", "ROZESS", "ARMOIR", "ABATON", "BANDA", "MACHINE", "AGRAFE", "أخرى"];     // category index -> name
+
+/* ---------- storage shim: works inside Claude artifacts AND standalone on phone ---------- */
+const localStore = {
+  async get(key){
+    try{ const v = localStorage.getItem(key); return v ? {value:v} : null; }catch(e){ return null; }
+  },
+  async set(key, value){
+    try{ localStorage.setItem(key, value); return {value}; }catch(e){ return null; }
+  }
+};
+const storage = (typeof window.storage !== 'undefined') ? window.storage : localStore;
+
+let paidMap = {};
+let currentCat = 'all';
+let currentPrice = 'all';
+let currentStatus = 'all';
+let searchTerm = '';
+let pendingRef = null;
+
+const listEl = document.getElementById('list');
+const searchEl = document.getElementById('search');
+const statTotal = document.getElementById('statTotal');
+const statPaid = document.getElementById('statPaid');
+const statLeft = document.getElementById('statLeft');
+const alertOverlay = document.getElementById('alertOverlay');
+const alertName = document.getElementById('alertName');
+const alertSub = document.getElementById('alertSub');
+const confirmOverlay = document.getElementById('confirmOverlay');
+const toastEl = document.getElementById('toast');
+const catChips = document.getElementById('catChips');
+const priceFilter = document.getElementById('priceFilter');
+const statusFilter = document.getElementById('statusFilter');
+
+/* ---------- category chips ---------- */
+function buildChips(){
+  const counts = {};
+  ARTICLES.forEach(a => counts[a[3]] = (counts[a[3]]||0) + 1);
+  let html = `<button class="chip active" data-cat="all">الكل <span class="cnt">${ARTICLES.length}</span></button>`;
+  CAT_NAMES.forEach((name, i)=>{
+    html += `<button class="chip" data-cat="${i}">${name} <span class="cnt">${counts[i]||0}</span></button>`;
+  });
+  catChips.innerHTML = html;
+  catChips.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      catChips.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      currentCat = chip.dataset.cat;
+      render();
+    });
+  });
+}
+
+function priceTier(p){
+  if(p < 500) return 0;
+  if(p < 2000) return 1;
+  if(p < 8000) return 2;
+  return 3;
+}
+
+async function loadPaid(){
+  try{
+    const r = await storage.get('paid-map', true);
+    paidMap = r && r.value ? JSON.parse(r.value) : {};
+  }catch(e){ paidMap = {}; }
+  renderStats();
+  render();
+}
+async function savePaid(){
+  try{ await storage.set('paid-map', JSON.stringify(paidMap), true); }
+  catch(e){ console.error('storage error', e); }
+}
+
+function fmtPrice(p){ return Number(p).toLocaleString('en-US'); }
+
+function showToast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastEl._t);
+  toastEl._t = setTimeout(()=>toastEl.classList.remove('show'), 1400);
+}
+
+function renderStats(){
+  const total = ARTICLES.length;
+  const paid = Object.keys(paidMap).length;
+  statTotal.textContent = total;
+  statPaid.textContent = paid;
+  statLeft.textContent = total - paid;
+}
+
+function getFiltered(){
+  let items = ARTICLES;
+  const q = searchTerm.trim().toLowerCase();
+  if(q){
+    items = items.filter(a => a[0].toLowerCase().includes(q) || a[1].toLowerCase().includes(q));
+  }
+  if(currentCat !== 'all'){
+    const ci = parseInt(currentCat,10);
+    items = items.filter(a => a[3] === ci);
+  }
+  if(currentPrice !== 'all'){
+    const pt = parseInt(currentPrice,10);
+    items = items.filter(a => priceTier(a[2]) === pt);
+  }
+  if(currentStatus === 'paid'){
+    items = items.filter(a => paidMap[a[0]]);
+  } else if(currentStatus === 'unpaid'){
+    items = items.filter(a => !paidMap[a[0]]);
+  }
+  return items;
+}
+
+const RENDER_LIMIT = 150;
+
+function render(){
+  const items = getFiltered();
+  listEl.innerHTML = '';
+
+  if(items.length === 0){
+    const hint = document.createElement('div');
+    hint.className = 'empty-hint';
+    hint.innerHTML = searchTerm.trim()
+      ? 'لا توجد نتائج لـ <b>"' + escapeHtml(searchTerm) + '"</b>'
+      : 'لا توجد سلع مطابقة لهذا الفلتر';
+    listEl.appendChild(hint);
+    return;
+  }
+
+  const showItems = items.slice(0, RENDER_LIMIT);
+  const frag = document.createDocumentFragment();
+
+  showItems.forEach(([ref, name, price, cat])=>{
+    const info = paidMap[ref];
+    const isPaid = !!info;
+    const byName = info && info.by ? info.by : null;
+    const row = document.createElement('div');
+    row.className = 'row' + (isPaid ? ' is-paid' : '');
+    row.innerHTML = `
+      <div class="check">${isPaid ? '✓' : ''}</div>
+      <div class="info">
+        <div class="name">${escapeHtml(name)}</div>
+        <div class="ref">${escapeHtml(ref)} &nbsp;·&nbsp; <span class="catbadge">${CAT_NAMES[cat]}</span>${byName ? ' &nbsp;·&nbsp; <span class="catbadge">✓ '+escapeHtml(byName)+'</span>' : ''}</div>
+      </div>
+      <div class="price">${fmtPrice(price)}</div>
+    `;
+    row.addEventListener('click', ()=> onRowClick(ref, name));
+    frag.appendChild(row);
+  });
+  listEl.appendChild(frag);
+
+  if(items.length > RENDER_LIMIT){
+    const more = document.createElement('div');
+    more.className = 'more-hint';
+    more.textContent = `+ ${items.length - RENDER_LIMIT} سلعة أخرى — دقق البحث أو الفلتر لإظهارها`;
+    listEl.appendChild(more);
+  }
+}
+
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function onRowClick(ref, name){
+  if(paidMap[ref]){
+    pendingRef = ref;
+    alertName.textContent = name;
+    const info = paidMap[ref];
+    const who = info && info.by ? info.by : null;
+    alertSub.textContent = who ? `هذه السلعة خلّصها ${who} من قبل` : 'هذه السلعة مسجلة كمخلصة من قبل';
+    alertOverlay.classList.add('show');
+  } else {
+    paidMap[ref] = { t: Date.now(), by: currentUser };
+    savePaid();
+    renderStats();
+    render();
+    showToast('تم تخليص السلعة ✓');
+    addToCartFromStock(ref, name);
+  }
+}
+
+document.getElementById('alertOk').addEventListener('click', ()=>{
+  alertOverlay.classList.remove('show');
+  pendingRef = null;
+});
+document.getElementById('alertUndo').addEventListener('click', ()=>{
+  if(pendingRef){
+    delete paidMap[pendingRef];
+    savePaid();
+    renderStats();
+    render();
+    showToast('تم إلغاء التخليص');
+  }
+  alertOverlay.classList.remove('show');
+  pendingRef = null;
+});
+
+let searchDebounce;
+searchEl.addEventListener('input', (e)=>{
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(()=>{ searchTerm = e.target.value; render(); }, 120);
+});
+
+priceFilter.addEventListener('change', e=>{ currentPrice = e.target.value; render(); });
+statusFilter.addEventListener('change', e=>{ currentStatus = e.target.value; render(); });
+
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  confirmOverlay.classList.add('show');
+});
+document.getElementById('confirmCancel').addEventListener('click', ()=>{
+  confirmOverlay.classList.remove('show');
+});
+document.getElementById('confirmYes').addEventListener('click', async ()=>{
+  paidMap = {};
+  await savePaid();
+  renderStats();
+  render();
+  confirmOverlay.classList.remove('show');
+  showToast('تم التصفير لبدء يوم جديد');
+});
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
+const APP_PASSWORD = '1988';
+let currentUser = '';
+
+const loginScreen = document.getElementById('loginScreen');
+const loginName = document.getElementById('loginName');
+const loginPass = document.getElementById('loginPass');
+const loginBtn = document.getElementById('loginBtn');
+const loginErr = document.getElementById('loginErr');
+const whoName = document.getElementById('whoName');
+const logoutBtn = document.getElementById('logoutBtn');
+
+function tryLogin(){
+  const name = loginName.value.trim();
+  const pass = loginPass.value.trim();
+  if(!name){
+    loginErr.textContent = 'دخل اسمك من فضلك';
+    loginName.focus();
+    return;
+  }
+  if(pass !== APP_PASSWORD){
+    loginErr.textContent = 'كلمة السر غالطة';
+    loginPass.value = '';
+    loginPass.focus();
+    return;
+  }
+  loginErr.textContent = '';
+  currentUser = name;
+  try{ sessionStorage.setItem('khalil-user', name); }catch(e){}
+  whoName.textContent = currentUser;
+  loginScreen.classList.add('hidden');
+  startAppAfterLogin();
+}
+
+loginBtn.addEventListener('click', tryLogin);
+loginPass.addEventListener('keydown', e=>{ if(e.key === 'Enter') tryLogin(); });
+loginName.addEventListener('keydown', e=>{ if(e.key === 'Enter') loginPass.focus(); });
+
+logoutBtn.addEventListener('click', ()=>{
+  try{ sessionStorage.removeItem('khalil-user'); }catch(e){}
+  currentUser = '';
+  loginName.value = '';
+  loginPass.value = '';
+  loginScreen.classList.remove('hidden');
+});
+
+function startAppAfterLogin(){
+  buildChips();
+  loadPaid();
+  loadCart();
+}
+
+/* try to restore session within this tab */
+(function restoreSession(){
+  let saved = null;
+  try{ saved = sessionStorage.getItem('khalil-user'); }catch(e){}
+  if(saved){
+    currentUser = saved;
+    whoName.textContent = currentUser;
+    loginScreen.classList.add('hidden');
+    startAppAfterLogin();
+  }
+})();
+
+/* ============================================================
+   TABS
+   ============================================================ */
+const tabStock = document.getElementById('tabStock');
+const tabInvoice = document.getElementById('tabInvoice');
+const stockHeaderExtra = document.getElementById('stockHeaderExtra');
+const invoiceView = document.getElementById('invoiceView');
+
+tabStock.addEventListener('click', ()=>{
+  tabStock.classList.add('active');
+  tabInvoice.classList.remove('active');
+  stockHeaderExtra.style.display = '';
+  listEl.style.display = '';
+  invoiceView.classList.remove('show');
+});
+tabInvoice.addEventListener('click', ()=>{
+  tabInvoice.classList.add('active');
+  tabStock.classList.remove('active');
+  stockHeaderExtra.style.display = 'none';
+  listEl.style.display = 'none';
+  invoiceView.classList.add('show');
+  invSearch.focus();
+});
+
+/* ============================================================
+   ORDER (COMMANDE) — linked from stock check-off
+   ============================================================ */
+const invSearch = document.getElementById('invSearch');
+const invResults = document.getElementById('invResults');
+const cartList = document.getElementById('cartList');
+const cartCount = document.getElementById('cartCount');
+const orderNote = document.getElementById('orderNote');
+const cartClearBtn = document.getElementById('cartClearBtn');
+const genInvoiceBtn = document.getElementById('genInvoiceBtn');
+
+let cart = {}; // ref -> {name, qty}
+
+async function loadCart(){
+  try{
+    const r = await storage.get('order-cart', true);
+    cart = r && r.value ? JSON.parse(r.value) : {};
+  }catch(e){ cart = {}; }
+  renderCart();
+}
+async function saveCart(){
+  try{ await storage.set('order-cart', JSON.stringify(cart), true); }
+  catch(e){ console.error('storage error', e); }
+}
+
+/* called automatically when a stock item gets checked off as paid */
+function addToCartFromStock(ref, name){
+  if(cart[ref]){
+    cart[ref].qty += 1;
+  } else {
+    cart[ref] = { name, qty: 1 };
+  }
+  saveCart();
+  renderCart();
+}
+
+function renderInvSearch(){
+  const q = invSearch.value.trim().toLowerCase();
+  if(!q){
+    invResults.innerHTML = '<div class="inv-empty">دقق إسم أو مرجع السلعة...</div>';
+    return;
+  }
+  const matches = ARTICLES.filter(a => a[0].toLowerCase().includes(q) || a[1].toLowerCase().includes(q)).slice(0, 40);
+  if(matches.length === 0){
+    invResults.innerHTML = '<div class="inv-empty">لا توجد نتائج</div>';
+    return;
+  }
+  invResults.innerHTML = matches.map(([ref, name])=>`
+    <div class="inv-result-row" data-ref="${escapeHtml(ref)}">
+      <span class="nm">${escapeHtml(name)}</span>
+    </div>
+  `).join('');
+  invResults.querySelectorAll('.inv-result-row').forEach(rowEl=>{
+    rowEl.addEventListener('click', ()=>{
+      const ref = rowEl.dataset.ref;
+      const article = ARTICLES.find(a => a[0] === ref);
+      if(!article) return;
+      addToCart(article[0], article[1]);
+    });
+  });
+}
+
+function addToCart(ref, name){
+  if(cart[ref]){
+    cart[ref].qty += 1;
+  } else {
+    cart[ref] = { name, qty: 1 };
+  }
+  saveCart();
+  renderCart();
+  showToast('أُضيفت للطلبية');
+}
+
+function renderCart(){
+  const refs = Object.keys(cart);
+  cartCount.textContent = refs.length ? `(${refs.length})` : '';
+  if(refs.length === 0){
+    cartList.innerHTML = '<div class="cart-empty">لم تختار أي سلعة بعد</div>';
+    return;
+  }
+  cartList.innerHTML = refs.map(ref=>{
+    const item = cart[ref];
+    return `
+      <div class="cart-row" data-ref="${escapeHtml(ref)}">
+        <span class="cnm">${escapeHtml(item.name)}</span>
+        <div class="cqty">
+          <button class="cqty-minus">−</button>
+          <span>${item.qty}</span>
+          <button class="cqty-plus">+</button>
+        </div>
+        <button class="crm">✕</button>
+      </div>
+    `;
+  }).join('');
+
+  cartList.querySelectorAll('.cart-row').forEach(rowEl=>{
+    const ref = rowEl.dataset.ref;
+    rowEl.querySelector('.cqty-plus').addEventListener('click', ()=>{
+      cart[ref].qty += 1;
+      saveCart();
+      renderCart();
+    });
+    rowEl.querySelector('.cqty-minus').addEventListener('click', ()=>{
+      cart[ref].qty -= 1;
+      if(cart[ref].qty <= 0) delete cart[ref];
+      saveCart();
+      renderCart();
+    });
+    rowEl.querySelector('.crm').addEventListener('click', ()=>{
+      delete cart[ref];
+      saveCart();
+      renderCart();
+    });
+  });
+}
+
+let invSearchDebounce;
+invSearch.addEventListener('input', ()=>{
+  clearTimeout(invSearchDebounce);
+  invSearchDebounce = setTimeout(renderInvSearch, 120);
+});
+
+cartClearBtn.addEventListener('click', ()=>{
+  cart = {};
+  orderNote.value = '';
+  saveCart();
+  renderCart();
+});
+
+/* ---------- generate + preview order (commande) ---------- */
+const invPreviewOverlay = document.getElementById('invPreviewOverlay');
+const invDocContent = document.getElementById('invDocContent');
+const closeInvPreview = document.getElementById('closeInvPreview');
+const sendWhatsapp = document.getElementById('sendWhatsapp');
+const sendTelegram = document.getElementById('sendTelegram');
+const printInvoice = document.getElementById('printInvoice');
+
+let lastInvoiceText = '';
+
+function buildInvoiceText(){
+  const refs = Object.keys(cart);
+  const lines = [];
+  lines.push('📋 محلات خليل للتدفئة والترصيص');
+  lines.push('طلبية كوموند — سلع نفذت من المحل');
+  lines.push('—'.repeat(18));
+  const now = new Date();
+  lines.push('التاريخ: ' + now.toLocaleDateString('ar-DZ'));
+  lines.push('الطالب: ' + currentUser);
+  lines.push('—'.repeat(18));
+  refs.forEach(ref=>{
+    const item = cart[ref];
+    lines.push(`- ${item.name}  ×  ${item.qty}`);
+  });
+  lines.push('—'.repeat(18));
+  if(orderNote.value.trim()) lines.push('ملاحظة: ' + orderNote.value.trim());
+  return lines.join('\n');
+}
+
+function buildInvoiceHtml(){
+  const refs = Object.keys(cart);
+  const now = new Date();
+  const rows = refs.map(ref=>{
+    const item = cart[ref];
+    return `<tr><td>${escapeHtml(item.name)}</td><td class="num">${item.qty}</td></tr>`;
+  }).join('');
+
+  return `
+    <div class="inv-doc-head">
+      <h2>محلات خليل للتدفئة والترصيص</h2>
+      <div class="d">طلبية كوموند — سلع نفذت من المحل</div>
+    </div>
+    <div class="inv-doc-meta">
+      <span>التاريخ: ${now.toLocaleDateString('ar-DZ')}</span>
+      <span>الطالب: ${escapeHtml(currentUser)}</span>
+    </div>
+    <table>
+      <thead><tr><th>السلعة</th><th>الكمية المطلوبة</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    ${orderNote.value.trim() ? `<div class="inv-doc-foot" style="text-align:right;color:#444;">ملاحظة: ${escapeHtml(orderNote.value.trim())}</div>` : ''}
+    <div class="inv-doc-foot">محلات خليل للتدفئة والترصيص</div>
+  `;
+}
+
+genInvoiceBtn.addEventListener('click', ()=>{
+  if(Object.keys(cart).length === 0){
+    showToast('زيد سلعة قبل إنشاء الطلبية');
+    return;
+  }
+  invDocContent.innerHTML = buildInvoiceHtml();
+  lastInvoiceText = buildInvoiceText();
+  invPreviewOverlay.classList.add('show');
+});
+
+closeInvPreview.addEventListener('click', ()=>{
+  invPreviewOverlay.classList.remove('show');
+});
+
+sendWhatsapp.addEventListener('click', ()=>{
+  const text = encodeURIComponent(lastInvoiceText);
+  const url = `https://wa.me/?text=${text}`;
+  window.open(url, '_blank');
+});
+
+sendTelegram.addEventListener('click', ()=>{
+  const text = encodeURIComponent(lastInvoiceText);
+  const url = `https://t.me/share/url?url=&text=${text}`;
+  window.open(url, '_blank');
+});
+
+printInvoice.addEventListener('click', ()=>{
+  window.print();
+});
+
+renderInvSearch();
+renderCart();
+
+/* ---------- PWA install prompt (only works when opened standalone, not inside Claude) ---------- */
+let deferredInstall = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredInstall = e;
+  document.getElementById('installBanner').classList.add('show');
+});
+document.getElementById('installBtn').addEventListener('click', async ()=>{
+  if(deferredInstall){ deferredInstall.prompt(); }
+});
+</script>
+
+
+</body></html>
